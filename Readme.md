@@ -105,3 +105,7 @@ Crie este arquivo na raiz para automatizar as rotas e o Swagger, eliminando erro
  - ` npm run dev `: Inicia o servidor em modo de desenvolvimento usando o tsx watch, que reinicia a API a cada alteração no código.
 
  - `npx prisma generate`: Atualiza o cliente do Prisma com base no seu arquivo schema.prisma.
+
+
+
+ 

@@ -1,0 +1,137 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IMicrosoftProfile": {
+				"properties": {
+					"oid": {
+						"type": "string"
+					},
+					"userName": {
+						"type": "string"
+					},
+					"email": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"preferreed_username": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"oid",
+					"userName",
+					"email",
+					"preferreed_username"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "backend_pi_4_semestre",
+		"version": "1.0.0",
+		"description": "1. Inicialização e Estrutura de Pastas\r Abra o terminal na pasta do projeto e execute:",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/Auth/login": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/Auth/callback": {
+			"post": {
+				"operationId": "HandleCallback",
+				"responses": {
+					"200": {
+						"description": "Autenticado",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"500": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"error"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IMicrosoftProfile"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

@@ -21,7 +21,7 @@ Abra o terminal na pasta do projeto e execute:
 instalar tudo o que é necessário para o TypeScript, TSOA e Prisma com o adapter do Neon Tech.
 
 Dependências de Produção: 
- - ` npm install express tsoa swagger-ui-express bcrypt dotenv morgan pg @prisma/client @prisma/adapter-pg `
+ - ` npm install express tsoa swagger-ui-express bcrypt dotenv morgan pg @prisma/client @prisma/adapter-pg passport-azure-ad express-session dotenv `
 ou pode ser feito pacote por pacote:
  - `npm install express`
  - `npm install tsoa` 
@@ -36,9 +36,14 @@ ou pode ser feito pacote por pacote:
 Dependências de Desenvolvimento
  - ` npm install -D typescript @types/node @types/express @types/bcrypt @types/morgan @types/pg @types/swagger-ui-express tsx ` 
 
+Dependencias do Azure:
+ - ` npm install --save-dev @types/passport @types/passport-azure-ad @types/express-session @types/node ` 
+
+
 3. Aplicação com typescript:
  - ` npx tsc init `: inicia o typescript para aplicação e cria um arquivo tsconfig.json 
  - ` npm install -D @types/node `:Instala a tipagem do node e habilita os métodos do ambiente.
+ - ` npm install --save-dev ts-node nodemon `
 
  - Recomendado colocar os valores necessários/preferível ou use a recomendação:
     {

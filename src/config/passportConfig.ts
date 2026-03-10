@@ -13,7 +13,16 @@ passport.use(new OIDCStrategy({
     passReqToCallback: true
   },
   (req:any,iss: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
-    return done(null, profile);
+    const normalizedProfile = {
+        oid: profile.oid,
+        userName: profile.displayName || profile.name || "Usuário Sem Nome",
+        email: profile.emails || [profile._json.email],
+        preferred_username: profile._json.preferred_username
+    };
+    console.log(`\n\n\n ${normalizedProfile.email} \n${normalizedProfile.userName}\n${normalizedProfile.preferred_username}\n${normalizedProfile.oid}\n\n\n`)
+    return done(null, normalizedProfile);
+    // return done(null, profile);
+    
   }
 ));
 

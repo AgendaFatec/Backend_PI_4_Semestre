@@ -17,7 +17,7 @@ export class AuthService{
                 data:{
                     microsoft_sub:microsoftProfile.oid,
                     userEmail: email,
-                    userNome: microsoftProfile.userName,
+                    userNome: microsoftProfile.userName || "Seu nome",
                     userSenha: 'oauth_managed'
                 }
             })

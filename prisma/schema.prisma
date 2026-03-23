@@ -14,6 +14,44 @@ datasource db {
 }
 
 
+//Definição de enums
+
+//SALA
+enum TipoSala{
+  COMUN
+  LAB
+  ARMAZEM
+}
+//AGENDAMENTO
+enum AgendamentoStatus{
+  AGENDADO
+  CANCELADO
+  EM_ESPERA
+}
+//USUARIO
+enum TipoUser{
+  DOCENTE
+  TI
+  ADM
+}
+//ChamadaTecnica
+enum ChamadaStatus{
+  ABERTO
+  EM_ATENDIMENTO
+  RESOLVIDO
+}
+//dispositivos
+enum DispositvoTipo{
+  TV
+  NOTEBOOK
+  DESKTOP
+  PROJETOR
+}
+
+
+
+
+
 model Usuario {
   userID Int @id @default(autoincrement())
   microsoft_sub String @unique
@@ -40,5 +78,17 @@ model ADM {
   admID Int @id @default(autoincrement())
   fk_userID Int @unique
   usuario Usuario @relation(fields: [fk_userID], references: [userID])
+}
+
+
+
+
+model Sala{
+  idSala Int @id @default(autoincrement())
+  nomeSala String @db.VarChar(255)
+  tipoSala TipoSala @default(COMUN)
+  disponibilidadeSala Boolean
+  fotoSala String @db.VarChar(255)
+  qtdeSala Int 
 }
 

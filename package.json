@@ -2,27 +2,27 @@
   "name": "backend_pi_4_semestre",
   "version": "1.0.0",
   "description": "1. Inicialização e Estrutura de Pastas\r Abra o terminal na pasta do projeto e execute:",
+  "keywords": [],
+  "homepage": "https://github.com/AgendaFatec/Backend_PI_4_Semestre#readme",
+  "bugs": {
+    "url": "https://github.com/AgendaFatec/Backend_PI_4_Semestre/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgendaFatec/Backend_PI_4_Semestre.git"
+  },
+  "license": "ISC",
+  "author": "Jhon",
+  "type": "typescript",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node src/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AgendaFatec/Backend_PI_4_Semestre.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/AgendaFatec/Backend_PI_4_Semestre/issues"
-  },
-  "homepage": "https://github.com/AgendaFatec/Backend_PI_4_Semestre#readme",
   "dependencies": {
-    "@prisma/adapter-pg": "^7.4.2",
-    "@prisma/client": "^7.4.2",
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
     "bcrypt": "^6.0.0",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
@@ -38,13 +38,15 @@
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.18.2",
     "@types/morgan": "^1.9.10",
-    "@types/node": "^25.4.0",
+    "@types/node": "^25.5.0",
     "@types/passport": "^1.0.17",
     "@types/passport-azure-ad": "^4.3.6",
-    "@types/pg": "^8.18.0",
+    "@types/pg": "^8.20.0",
     "@types/swagger-ui-express": "^4.1.8",
     "dotenv": "^17.3.1",
+    "nodemon": "^3.1.14",
     "prisma": "^7.4.2",
+    "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

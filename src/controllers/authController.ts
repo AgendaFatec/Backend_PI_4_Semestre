@@ -5,6 +5,7 @@ import { IMicrosoftProfile } from "../interfaces/microsoft/IMicrosoftProfile.js"
 
 export class AuthController extends Controller{
     private authService = new AuthService();
+    
     async handleCallBack(profile: IMicrosoftProfile){
         return await this.authService.findOrCreateuser(profile)
     }

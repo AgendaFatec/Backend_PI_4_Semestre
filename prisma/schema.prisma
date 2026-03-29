@@ -56,12 +56,18 @@ model Usuario {
   userID Int @id @default(autoincrement())
   microsoft_sub String @unique
   userNome String @db.VarChar(255)
-  userEmail String @db.VarChar(255)
+  userEmail String @db.VarChar(255) @unique
   userSenha String @db.VarChar(255)
   criadoDate DateTime @default(now())
+  tipoUser TipoUser @default(DOCENTE)
+
   adm     ADM?
   docente Docente?
   ti      TI?
+
+  @@index([userID])
+  @@index([userNome])
+  @@index([tipoUser])
 }
 
 model TI {
@@ -88,7 +94,11 @@ model Sala{
   nomeSala String @db.VarChar(255)
   tipoSala TipoSala @default(COMUN)
   disponibilidadeSala Boolean
-  fotoSala String @db.VarChar(255)
+  fotoSala String? @db.VarChar(255)
   qtdeSala Int 
+
+  @@index([tipoSala])
+  @@index([idSala])
+  @@index([disponibilidadeSala])
 }
 

@@ -6,13 +6,15 @@ export class AuthService{
     async findOrCreateuser (microsoftProfile:IMicrosoftProfile){
         console.log("Perfil recebido da Microsoft:", JSON.stringify(microsoftProfile, null, 2));
         // const email:string = microsoftProfile.email[0] ?? "";
+
         const email:string = (Array.isArray(microsoftProfile.email) ? microsoftProfile.email[0] : microsoftProfile.email) || 
-  microsoftProfile.preferreed_username || 
-  "email-nao-fornecido@fatec.sp.gov.br";
+        microsoftProfile.preferreed_username || 
+        "email-nao-fornecido@fatec.sp.gov.br";
         let user = await prisma.usuario.findUnique({
             where: {microsoft_sub: microsoftProfile.oid}
         });
-        if (!user){
+        // console.log("Grupos do usuário:", microsoftProfile._json.groups);
+        if (!user){ 
             user = await prisma.usuario.create({
                 data:{
                     microsoft_sub:microsoftProfile.oid,

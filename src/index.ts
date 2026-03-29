@@ -51,13 +51,6 @@ app.get('/Auth/callback',
             res.status(500).send("Erro interno ao processar login.");
         }
     }
-    // passport.authenticate('azuread-openidconnect', { 
-    //     failureRedirect: '/login-error',
-    //     successRedirect: '/api-docs'
-    // }),
-    // (req, res)=>{
-    //     res.redirect('/Auth/callback')
-    // }
 );
 
 

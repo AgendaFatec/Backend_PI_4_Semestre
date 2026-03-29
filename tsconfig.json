@@ -29,5 +29,6 @@
 
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+
   }
 }

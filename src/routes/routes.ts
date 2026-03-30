@@ -33,6 +33,16 @@ const models: TsoaRoute.Models = {
         "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "_36_Enums.StatusConta": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DESATIVADA"]},{"dataType":"enum","enums":["ATIVA"]},{"dataType":"enum","enums":["CONVIDADA"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "StatusConta": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.StatusConta","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"ignore","bodyCoercion":true});
 
@@ -75,6 +85,38 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 201,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCoordeandorRouter_handleFindUsers: Record<string, TsoaRoute.ParameterSchema> = {
+                errorRes: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},
+                tipoUser: {"in":"query","name":"tipoUser","ref":"TipoUser"},
+                statusConta: {"in":"query","name":"statusConta","ref":"StatusConta"},
+        };
+        app.get('/Coordenacao/listar',
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter)),
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter.prototype.handleFindUsers)),
+
+            async function CoordeandorRouter_handleFindUsers(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCoordeandorRouter_handleFindUsers, request, response });
+
+                const controller = new CoordeandorRouter();
+
+              await templateService.apiHandler({
+                methodName: 'handleFindUsers',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
               });
             } catch (err) {
                 return next(err);

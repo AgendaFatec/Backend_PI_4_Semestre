@@ -33,6 +33,17 @@
 				],
 				"type": "object",
 				"additionalProperties": true
+			},
+			"_36_Enums.StatusConta": {
+				"type": "string",
+				"enum": [
+					"DESATIVADA",
+					"ATIVA",
+					"CONVIDADA"
+				]
+			},
+			"StatusConta": {
+				"$ref": "#/components/schemas/_36_Enums.StatusConta"
 			}
 		},
 		"securitySchemes": {}
@@ -80,6 +91,61 @@
 						}
 					}
 				}
+			}
+		},
+		"/Coordenacao/listar": {
+			"get": {
+				"operationId": "HandleFindUsers",
+				"responses": {
+					"200": {
+						"description": "Search Completed",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"coordenador"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "tipoUser",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/TipoUser"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statusConta",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatusConta"
+						}
+					}
+				]
 			}
 		},
 		"/Auth/login": {

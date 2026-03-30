@@ -14,6 +14,20 @@ export interface CreateUser {
     tipoUser: TipoUser;
 }
 
+
+export interface ValuesToFind{
+    nome:string,
+    email:string
+    tipoUser:string
+    statusConta: string
+    dataCriacao:Date
+}
+export interface FindUsers{
+    tipoUser?: TipoUser,
+    statusConta?: StatusConta
+}
+
+
 // export const NewUserSchema = z.object({
 //   email: z.string().email("Formato de e-mail inválido"),
 //   tipoUser: z.enum(TipoNewUser), // Garante que o valor venha do Enum do Prisma

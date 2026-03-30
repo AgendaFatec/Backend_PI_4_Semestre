@@ -5,5 +5,7 @@ export interface IMicrosoftProfile{
     oid: string,
     userName:string,
     email:string[],
-    preferreed_username: string
+    preferred_username: string
+    accessToken?:string
+    photoUser?: string
 }

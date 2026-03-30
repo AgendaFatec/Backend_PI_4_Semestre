@@ -4,8 +4,10 @@ import { profile } from 'node:console';
 import { PrismaService } from '@/database/database.js';
 import type { IMicrosoftProfile } from '../interfaces/microsoft/IMicrosoftProfile.js';
 import { Prisma } from '@prisma/client';
+import { msGraphClient, getUserPhoto } from './external/microsoftGraph.js';
 
-
+import { StatusConta } from '@prisma/client';
+import { Axios } from 'axios';
 
 export class AuthService{
     constructor(private prisma: PrismaService){}
@@ -15,13 +17,15 @@ export class AuthService{
         // const email:string = microsoftProfile.email[0] ?? "";
 
         const email:string = (Array.isArray(microsoftProfile.email) ? microsoftProfile.email[0] : microsoftProfile.email) || 
-        microsoftProfile.preferreed_username || 
+        microsoftProfile.preferred_username || 
         "email-nao-fornecido@fatec.sp.gov.br";
 
         // let user = await prisma.usuario.findUnique({
         //     where: {microsoft_sub: microsoftProfile.oid}
         // });
-
+        // console.log(`\n\n\n${microsoftProfile.photoUser}\n\n ${microsoftProfile}\n\n`)
+        
+        // const photoTest:string = microsoftProfile.photoUser
         let [userBySub, userByEmail] = await Promise.all([
             
             this.prisma.usuario.findUnique({
@@ -34,17 +38,23 @@ export class AuthService{
         // console.log("Grupos do usuário:", microsoftProfile._json.groups);
         let user = userBySub || userByEmail;
         if (!user){ 
-            console.log(`Tentativa de acesso negada: email: ${email} não existe na whitelist`)
+            console.log(`Tentativa de acesso negada: email: ${email} não existe não foi registrado para ter acesso`)
             throw new Error("Acesso negado: E-mail não pré-cadastrado pela coordenação.");
 
         }else if(!user.microsoft_sub){ // valida que se o usuário não tiver uma microsof_sub (oid identificação da conta) registrado no sistema
             // o usuário que recebeu o convite ou tem acesso ao serviço dos sitema possa, no primeiro login alterar o valor
             // do oid para seu priemeiro login
+
+            // console.log("Token para o Graph:", microsoftProfile.accessToken);
+            const photo = await getUserPhoto((microsoftProfile as any).accessToken);
             user = await this.prisma.usuario.update({
                 where:{userEmail: email},
                 data:{
+                    userNome: microsoftProfile.userName,
                     microsoft_sub:microsoftProfile.oid,
-                    userSenha: microsoftProfile.userName
+                    userSenha: microsoftProfile.preferred_username || "microsoft_login",
+                    statusUser: StatusConta.ATIVA,
+                    fotoUrl: photo
                 }
             })
             
@@ -69,4 +79,5 @@ export class AuthService{
         return user
 
     }
+
 }

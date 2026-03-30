@@ -9,7 +9,7 @@ passport.use(new OIDCStrategy({
     responseMode: 'query',
     redirectUrl: 'http://localhost:3000/Auth/callback',
     clientSecret: process.env.CLIENT_SECRET,
-    scope: ['profile', 'email', 'openid'],
+    scope: ['profile', 'email', 'openid', 'User.Read'],
     allowHttpForRedirectUrl: true,
     passReqToCallback: true,
     validateIssuer: false, 
@@ -20,8 +20,9 @@ passport.use(new OIDCStrategy({
         oid: profile.oid,
         userName: profile.displayName || profile.name || "Usuário Sem Nome",
         email: profile.emails || [profile._json.email],
-        preferred_username: profile._json.preferred_username
-    }; 
+        preferred_username: profile._json.preferred_username,
+        accessToken: accessToken
+      }; 
     // console.log(profile)
     // console.log(`\n\n\n ${normalizedProfile.email} \n${normalizedProfile.userName}\n${normalizedProfile.preferred_username}\n${normalizedProfile.oid}\n\n\n`)
     return done(null, normalizedProfile);

@@ -22,3 +22,4 @@ export const NewUserSchema = z.object({
 
 
 export type NewUserRequest = z.infer<typeof NewUserSchema>;
+

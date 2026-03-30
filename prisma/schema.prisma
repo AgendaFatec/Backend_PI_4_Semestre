@@ -66,7 +66,7 @@ model Usuario {
   criadoDate DateTime @default(now())
   tipoUser TipoUser @default(DOCENTE)
   statusUser StatusConta @default(CONVIDADA)
-
+  fotoUrl String? 
 
   adm     ADM?
   docente Docente?

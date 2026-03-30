@@ -1,4 +1,4 @@
-import { Delete, Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get, Patch, Request as TsoaRequest, Request, Response} from "tsoa";
+import {Query, Delete, Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get, Patch, Request as TsoaRequest, Request, Response} from "tsoa";
 
 import type { TsoaResponse } from "tsoa";
 import type { Request as ExRequest, Response as ExResponse  } from "express";
@@ -11,8 +11,12 @@ import { CoordenacaoController } from "@/controllers/coordenadorController.js";
 import { PrismaService } from "@/database/database.js";
 import type { CreateUser } from "../interfaces/coordenacao/Coordenacao.js";
 
+import type { FindUsers } from "../interfaces/coordenacao/Coordenacao.js";
 
 import { NewUserSchema} from "@/schemas/UserSchemas.js";
+import { any } from "zod";
+import { error } from "node:console";
+import { StatusConta, TipoUser } from "@prisma/client";
 
 
 const prismaService = new PrismaService()
@@ -46,7 +50,20 @@ export class CoordeandorRouter extends Controller{
         return result
     }
 
-    // @Get("listar")
-    // public async listar_usuarios()
+    @Get("listar")
+    @SuccessResponse("200", "Search Completed")
+    @Response("400", "Bad Request")
+    public async handleFindUsers(
+        @Res() errorRes: TsoaResponse<400, { msg: string }>,
+        @Query() tipoUser?: TipoUser,   
+        @Query() statusConta?: StatusConta
+    ){
+
+        try {
+            return await coordenacaoController.handleFindUsers(tipoUser, statusConta);
+        } catch (error) {
+            return errorRes(400, { msg: "Erro ao listar usuários" });
+        }
+    }
 
 }

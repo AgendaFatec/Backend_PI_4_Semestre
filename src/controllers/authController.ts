@@ -4,7 +4,13 @@ import { IMicrosoftProfile } from "../interfaces/microsoft/IMicrosoftProfile.js"
 
 
 export class AuthController extends Controller{
-    private authService = new AuthService();
+
+    constructor(private authService:AuthService){
+        //força a inicialização do construtor do service
+        //basicamente esta classe, em seu construtor diz para ao objeto instanciado: authService para instanciar seu objeto de qualquer maneira
+        super();
+    }
+    // private authService = new AuthService();
     
     async handleCallBack(profile: IMicrosoftProfile){
         return await this.authService.findAndValidate(profile)

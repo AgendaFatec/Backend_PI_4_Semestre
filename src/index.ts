@@ -7,11 +7,12 @@ import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from './routes/routes.js'; 
 import './config/passportConfig.js'; 
 import { IMicrosoftProfile } from './interfaces/microsoft/IMicrosoftProfile.js';
-import { AuthController } from './controllers/authController.js';
+// import { AuthController } from './controllers/authController.js';
+import { PrismaService } from './database/database.js';
 
 
-const authController = new AuthController()
-
+const prismaService = new PrismaService();
+prismaService.connect();
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+//PARTE DO SWEGGER:
 app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
   try {
     const swaggerDocument = await import("./docs/swagger.json", { with: { type: "json" } });
@@ -36,22 +39,24 @@ app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) =
   }
 });
 
-app.get('/Auth/login', passport.authenticate('azuread-openidconnect'));
 
-app.get('/Auth/callback', 
-    passport.authenticate('azuread-openidconnect', { session: false }),
-    async (req, res) => {
-        try {
-            const profile = req.user as IMicrosoftProfile;
-            await authController.handleCallBack(profile);
+
+// app.get('/Auth/login', passport.authenticate('azuread-openidconnect'));
+
+// app.get('/Auth/callback', 
+//     passport.authenticate('azuread-openidconnect', { session: false }),
+//     async (req, res) => {
+//         try {
+//             const profile = req.user as IMicrosoftProfile;
+//             await authController.handleCallBack(profile);
             
-            res.redirect('/dashboard');
-        } catch (error) {
-            console.error("Erro ao salvar no banco:", error);
-            res.status(500).send("Erro interno ao processar login.");
-        }
-    }
-);
+//             res.redirect('/dashboard');
+//         } catch (error) {
+//             console.error("Erro ao salvar no banco:", error);
+//             res.status(500).send("Erro interno ao processar login.");
+//         }
+//     }
+// );
 
 
 RegisterRoutes(app);

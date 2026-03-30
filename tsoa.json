@@ -4,7 +4,8 @@
   "controllerPathGlobs": ["src/routes/*Router.ts"],
   "routes": {
     "routesDir": "src/routes",
-    "entryPoint": "src/index.ts"
+    "entryPoint": "src/index.ts",
+    "esm":true
   },
   "spec": {
     "outputDirectory": "src/docs",

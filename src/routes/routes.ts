@@ -4,6 +4,8 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { CoordeandorRouter } from './coordenadorRouter.js';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { AuthRouter } from './authRouter.js';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
@@ -12,13 +14,21 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "IMicrosoftProfile": {
+    "_36_Enums.TipoUser": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DOCENTE"]},{"dataType":"enum","enums":["TI"]},{"dataType":"enum","enums":["ADM"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TipoUser": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.TipoUser","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateUser": {
         "dataType": "refObject",
         "properties": {
-            "oid": {"dataType":"string","required":true},
-            "userName": {"dataType":"string","required":true},
-            "email": {"dataType":"array","array":{"dataType":"string"},"required":true},
-            "preferreed_username": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "tipoUser": {"ref":"TipoUser","required":true},
         },
         "additionalProperties": true,
     },
@@ -40,9 +50,39 @@ export function RegisterRoutes(app: Router) {
 
 
     
+        const argsCoordeandorRouter_handleCreateUser: Record<string, TsoaRoute.ParameterSchema> = {
+                valuesUser: {"in":"body","name":"valuesUser","required":true,"ref":"CreateUser"},
+                badRequest: {"in":"request","name":"badRequest","required":true,"dataType":"object"},
+        };
+        app.post('/Coordenacao/Criar_Usuario',
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter)),
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter.prototype.handleCreateUser)),
+
+            async function CoordeandorRouter_handleCreateUser(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCoordeandorRouter_handleCreateUser, request, response });
+
+                const controller = new CoordeandorRouter();
+
+              await templateService.apiHandler({
+                methodName: 'handleCreateUser',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAuthRouter_login: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                res: {"in":"res","name":"201","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},
         };
         app.get('/Auth/login',
             ...(fetchMiddlewares<RequestHandler>(AuthRouter)),
@@ -72,10 +112,10 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAuthRouter_handleCallback: Record<string, TsoaRoute.ParameterSchema> = {
-                profile: {"in":"body","name":"profile","required":true,"ref":"IMicrosoftProfile"},
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 errorRes: {"in":"res","name":"500","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"error":{"dataType":"string","required":true}}},
         };
-        app.post('/Auth/callback',
+        app.get('/Auth/callback',
             ...(fetchMiddlewares<RequestHandler>(AuthRouter)),
             ...(fetchMiddlewares<RequestHandler>(AuthRouter.prototype.handleCallback)),
 

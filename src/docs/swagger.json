@@ -7,29 +7,29 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"IMicrosoftProfile": {
+			"_36_Enums.TipoUser": {
+				"type": "string",
+				"enum": [
+					"DOCENTE",
+					"TI",
+					"ADM"
+				]
+			},
+			"TipoUser": {
+				"$ref": "#/components/schemas/_36_Enums.TipoUser"
+			},
+			"CreateUser": {
 				"properties": {
-					"oid": {
-						"type": "string"
-					},
-					"userName": {
-						"type": "string"
-					},
 					"email": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"preferreed_username": {
 						"type": "string"
+					},
+					"tipoUser": {
+						"$ref": "#/components/schemas/TipoUser"
 					}
 				},
 				"required": [
-					"oid",
-					"userName",
 					"email",
-					"preferreed_username"
+					"tipoUser"
 				],
 				"type": "object",
 				"additionalProperties": true
@@ -44,31 +44,48 @@
 		"license": {
 			"name": "ISC"
 		},
-		"contact": {}
+		"contact": {
+			"name": "Jhon"
+		}
 	},
 	"paths": {
+		"/Coordenacao/Criar_Usuario": {
+			"post": {
+				"operationId": "HandleCreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"400": {
+						"description": "Validation Failed"
+					}
+				},
+				"tags": [
+					"coordenador"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUser"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/Auth/login": {
 			"get": {
 				"operationId": "Login",
 				"responses": {
-					"201": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"msg": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"msg"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
 					"204": {
 						"description": "No content"
 					}
@@ -81,7 +98,7 @@
 			}
 		},
 		"/Auth/callback": {
-			"post": {
+			"get": {
 				"operationId": "HandleCallback",
 				"responses": {
 					"200": {
@@ -115,17 +132,7 @@
 					"autenticacao"
 				],
 				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/IMicrosoftProfile"
-							}
-						}
-					}
-				}
+				"parameters": []
 			}
 		}
 	},

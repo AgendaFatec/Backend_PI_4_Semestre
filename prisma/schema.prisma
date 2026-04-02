@@ -1,76 +1,25 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
-
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-
-//Definição de enums
-
-//SALA
-enum TipoSala{
-  COMUN
-  LAB
-  ARMAZEM
-}
-//AGENDAMENTO
-enum AgendamentoStatus{
-  AGENDADO
-  CANCELADO
-  EM_ESPERA
-}
-//USUARIO
-enum TipoUser{
-  DOCENTE
-  TI
-  ADM
-}
-//ChamadaTecnica
-enum ChamadaStatus{
-  ABERTO
-  EM_ATENDIMENTO
-  RESOLVIDO
-}
-//dispositivos
-enum DispositvoTipo{
-  TV
-  NOTEBOOK
-  DESKTOP
-  PROJETOR
-}
-enum StatusConta{
-  DESATIVADA
-  ATIVA
-  CONVIDADA 
-}
-
-
-
-
 model Usuario {
-  userID Int @id @default(autoincrement())
-  microsoft_sub String? @unique
-  userNome String? @db.VarChar(255)
-  userEmail String @db.VarChar(255) @unique
-  userSenha String? @db.VarChar(255)
-  criadoDate DateTime @default(now())
-  tipoUser TipoUser @default(DOCENTE)
-  statusUser StatusConta @default(CONVIDADA)
-  fotoUrl String? 
-
-  adm     ADM?
-  docente Docente?
-  ti      TI?
+  userID        Int         @id @default(autoincrement())
+  microsoft_sub String?     @unique
+  userNome      String?     @db.VarChar(255)
+  userEmail     String      @unique @db.VarChar(255)
+  userSenha     String?     @db.VarChar(255)
+  criadoDate    DateTime    @default(now())
+  tipoUser      TipoUser    @default(DOCENTE)
+  statusUser    StatusConta @default(CONVIDADA)
+  fotoUrl       String?
+  adm           ADM?
+  docente       Docente?
+  ti            TI?
 
   @@index([userID])
   @@index([userNome])
@@ -78,34 +27,69 @@ model Usuario {
 }
 
 model TI {
-  tiID Int @id @default(autoincrement())
-  fk_userID Int @unique
-  usuario Usuario @relation(fields: [fk_userID], references: [userID])
+  tiID      Int     @id @default(autoincrement())
+  fk_userID Int     @unique
+  usuario   Usuario @relation(fields: [fk_userID], references: [userID])
 }
+
 model Docente {
-  decenteID Int @id @default(autoincrement())
-  fk_userID Int @unique
-  usuario Usuario @relation(fields: [fk_userID], references: [userID])
+  decenteID Int     @id @default(autoincrement())
+  fk_userID Int     @unique
+  usuario   Usuario @relation(fields: [fk_userID], references: [userID])
 }
+
 model ADM {
-  admID Int @id @default(autoincrement())
-  fk_userID Int @unique
-  usuario Usuario @relation(fields: [fk_userID], references: [userID])
+  admID     Int     @id @default(autoincrement())
+  fk_userID Int     @unique
+  usuario   Usuario @relation(fields: [fk_userID], references: [userID])
 }
 
-
-
-
-model Sala{
-  idSala Int @id @default(autoincrement())
-  nomeSala String @db.VarChar(255)
-  tipoSala TipoSala @default(COMUN)
+model Sala {
+  idSala              Int      @id @default(autoincrement())
+  nomeSala            String   @db.VarChar(255)
+  tipoSala            TipoSala @default(COMUN)
   disponibilidadeSala Boolean
-  fotoSala String? @db.VarChar(255)
-  qtdeSala Int 
+  fotoSala            String?  @db.VarChar(255)
+  qtdeSala            Int
 
   @@index([tipoSala])
   @@index([idSala])
   @@index([disponibilidadeSala])
 }
 
+enum TipoSala {
+  COMUN
+  LAB
+  ARMAZEM
+}
+
+enum AgendamentoStatus {
+  AGENDADO
+  CANCELADO
+  EM_ESPERA
+}
+
+enum TipoUser {
+  DOCENTE
+  TI
+  ADM
+}
+
+enum ChamadaStatus {
+  ABERTO
+  EM_ATENDIMENTO
+  RESOLVIDO
+}
+
+enum DispositvoTipo {
+  TV
+  NOTEBOOK
+  DESKTOP
+  PROJETOR
+}
+
+enum StatusConta {
+  DESATIVADA
+  ATIVA
+  CONVIDADA
+}

@@ -67,9 +67,10 @@ export class AuthRouter extends Controller{
             }
 
             try {
-                await authController.handleCallBack(profile);
+
+                const result =await authController.handleCallBack(profile);
                 
-                return req.res.redirect('/api-docs');
+                return req.res.redirect(`/api-docs?token=${result}`);
             } catch (error: any) {
                 return reject(errorRes(500, { error: error.message }));
             }

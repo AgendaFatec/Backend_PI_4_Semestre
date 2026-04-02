@@ -13,7 +13,8 @@ export class AuthController extends Controller{
     // private authService = new AuthService();
     
     async handleCallBack(profile: IMicrosoftProfile){
-        return await this.authService.findAndValidate(profile)
+        return await this.authService.loginGenerateToken(profile)
+        // return await this.authService.findAndValidate(profile)
     }
     
 }

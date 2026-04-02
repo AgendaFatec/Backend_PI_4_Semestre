@@ -9,23 +9,21 @@ import { msGraphClient, getUserPhoto } from './external/microsoftGraph.js';
 import { StatusConta } from '@prisma/client';
 import { Axios } from 'axios';
 
+import { Security } from '@/utils/jtwUtils.js';
+import { stat } from 'node:fs';
+
+
 export class AuthService{
     constructor(private prisma: PrismaService){}
 
     async findAndValidate (microsoftProfile:IMicrosoftProfile){
-        console.log("Perfil recebido da Microsoft:", JSON.stringify(microsoftProfile, null, 2));
+        // console.log("Perfil recebido da Microsoft:", JSON.stringify(microsoftProfile, null, 2));
         // const email:string = microsoftProfile.email[0] ?? "";
 
         const email:string = (Array.isArray(microsoftProfile.email) ? microsoftProfile.email[0] : microsoftProfile.email) || 
         microsoftProfile.preferred_username || 
-        "email-nao-fornecido@fatec.sp.gov.br";
+        "email-nao-fornecido@fatec.sp.gov.br";        
 
-        // let user = await prisma.usuario.findUnique({
-        //     where: {microsoft_sub: microsoftProfile.oid}
-        // });
-        // console.log(`\n\n\n${microsoftProfile.photoUser}\n\n ${microsoftProfile}\n\n`)
-        
-        // const photoTest:string = microsoftProfile.photoUser
         let [userBySub, userByEmail] = await Promise.all([
             
             this.prisma.usuario.findUnique({
@@ -35,7 +33,9 @@ export class AuthService{
                 where:{userEmail: email}
             })
         ])
-        // console.log("Grupos do usuário:", microsoftProfile._json.groups);
+
+
+
         let user = userBySub || userByEmail;
         if (!user){ 
             console.log(`Tentativa de acesso negada: email: ${email} não existe não foi registrado para ter acesso`)
@@ -68,16 +68,22 @@ export class AuthService{
                 data:{userEmail:email}
             })
         }
-            // }else{
-        //     if (user.userEmail !== email){
-        //         await prisma.usuario.update({
-        //             where:{microsoft_sub:microsoftProfile.oid},
-        //             data: {userEmail: email}
-        //         })
-        //     }
-        // }
+
+
         return user
 
     }
+    async loginGenerateToken(profile: IMicrosoftProfile){
+        const user = await this.findAndValidate(profile)
 
+
+        const payload = {
+            sub:user.userID,
+            email:user.userEmail,
+            role:user.tipoUser,
+            status:user.statusUser
+        }
+        const token_jwt = Security.generateToken(payload)
+        return {user, token_jwt}
+    }
 }

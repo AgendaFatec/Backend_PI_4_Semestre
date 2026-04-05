@@ -10,11 +10,23 @@ import { IMicrosoftProfile } from './interfaces/microsoft/IMicrosoftProfile.js';
 // import { AuthController } from './controllers/authController.js';
 import { PrismaService } from './database/database.js';
 
+import cors from "cors"
 
-const prismaService = new PrismaService();
-prismaService.connect();
+
+
+// const prismaService = new PrismaService();
+// prismaService.connect();
 
 const app = express();
+
+const allowedOrigins = [
+  'http://localhost:5173'
+
+]
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}))
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -22,14 +34,17 @@ app.use(morgan('dev'));
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret_fatec',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie:{
+      secure: process.env.NODE_ENV ==='production',
+      httpOnly:true
+    }
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-//PARTE DO SWEGGER:
 app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
   try {
     const swaggerDocument = await import("./docs/swagger.json", { with: { type: "json" } });
@@ -38,6 +53,23 @@ app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) =
     return res.status(500).send("O arquivo swagger.json ainda não foi gerado.");
   }
 });
+
+
+
+
+RegisterRoutes(app);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(` Servidor de Catalogação FATEC ativo!`);
+  console.log(` API: http://localhost:${PORT}`);
+  console.log(` LOgin: http://localhost:${PORT}/Auth/login`);
+  console.log(` Documentação: http://localhost:${PORT}/api-docs`);
+});
+
+
+
 
 
 
@@ -57,15 +89,3 @@ app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) =
 //         }
 //     }
 // );
-
-
-RegisterRoutes(app);
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(` Servidor de Catalogação FATEC ativo!`);
-  console.log(` API: http://localhost:${PORT}`);
-  console.log(` LOgin: http://localhost:${PORT}/Auth/login`);
-  console.log(` Documentação: http://localhost:${PORT}/api-docs`);
-});

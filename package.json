@@ -16,6 +16,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "prisma:init": "npx prisma generate && npx prisma migrate dev",
     "tsoa": "tsoa routes && tsoa spec",
     "dev": "npm run tsoa && tsx watch src/index.ts",
     "build": "npm run tsoa && tsc && tsc-alias && prisma generate",
@@ -26,6 +27,7 @@
     "@prisma/client": "^7.5.0",
     "axios": "^1.14.0",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "jsonwebtoken": "^9.0.3",
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.10",

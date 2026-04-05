@@ -33,7 +33,7 @@ model TI {
 }
 
 model Docente {
-  decenteID Int     @id @default(autoincrement())
+  docenteID Int     @id @default(autoincrement())
   fk_userID Int     @unique
   usuario   Usuario @relation(fields: [fk_userID], references: [userID])
 }

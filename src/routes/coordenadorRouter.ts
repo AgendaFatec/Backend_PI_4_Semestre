@@ -1,4 +1,4 @@
-import {Query, Delete, Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get, Patch, Request as TsoaRequest, Request, Response} from "tsoa";
+import {Query, Delete, Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get, Patch, Request as TsoaRequest, Request, Response, Security} from "tsoa";
 
 import type { TsoaResponse } from "tsoa";
 import type { Request as ExRequest, Response as ExResponse  } from "express";
@@ -14,22 +14,23 @@ import type { CreateUser } from "../interfaces/coordenacao/Coordenacao.js";
 import type { FindUsers } from "../interfaces/coordenacao/Coordenacao.js";
 
 import { NewUserSchema} from "@/schemas/UserSchemas.js";
-import { any } from "zod";
+import { any, jwt } from "zod";
 import { error } from "node:console";
 import { StatusConta, TipoUser } from "@prisma/client";
+
+import { expressAuthentication } from "@/auth/authentication.js";
+
 
 
 const prismaService = new PrismaService()
 const coordenacaoService = new CoordenadorService(prismaService)
 const coordenacaoController = new CoordenacaoController(coordenacaoService)
 
-
-
 @Route("Coordenacao")
 @Tags("coordenador")
 export class CoordeandorRouter extends Controller{
 
-
+    @Security("jwt", ["ADM"])
     @Post("Criar_Usuario")
     @SuccessResponse("201", "Created")
     @Response("400", "Validation Failed")
@@ -50,6 +51,7 @@ export class CoordeandorRouter extends Controller{
         return result
     }
 
+    @Security("jwt", ["ADM"])
     @Get("listar")
     @SuccessResponse("200", "Search Completed")
     @Response("400", "Bad Request")

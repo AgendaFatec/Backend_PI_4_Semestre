@@ -76,7 +76,6 @@ export class AuthService{
     async loginGenerateToken(profile: IMicrosoftProfile){
         const user = await this.findAndValidate(profile)
 
-
         const payload = {
             sub:user.userID,
             email:user.userEmail,

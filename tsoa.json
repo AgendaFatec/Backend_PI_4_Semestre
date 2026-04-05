@@ -5,10 +5,18 @@
   "routes": {
     "routesDir": "src/routes",
     "entryPoint": "src/index.ts",
-    "esm":true
+    "esm":true,
+    "authenticationModule": "src/auth/authentication.ts" 
   },
   "spec": {
     "outputDirectory": "src/docs",
-    "specVersion": 3
+    "specVersion": 3,
+    "securityDefinitions": {
+      "jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
   }
 }

@@ -46,7 +46,13 @@
 				"$ref": "#/components/schemas/_36_Enums.StatusConta"
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"jwt": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header"
+			}
+		}
 	},
 	"info": {
 		"title": "backend_pi_4_semestre",
@@ -79,7 +85,13 @@
 				"tags": [
 					"coordenador"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -127,7 +139,13 @@
 				"tags": [
 					"coordenador"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "query",

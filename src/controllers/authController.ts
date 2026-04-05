@@ -16,5 +16,8 @@ export class AuthController extends Controller{
         return await this.authService.loginGenerateToken(profile)
         // return await this.authService.findAndValidate(profile)
     }
+    async handleRefreshToken(userId:number){
+        return await this.authService.refresUserToken(userId)
+    }
     
 }

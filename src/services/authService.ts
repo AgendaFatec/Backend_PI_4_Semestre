@@ -11,6 +11,10 @@ import { Axios } from 'axios';
 
 import { Security } from '@/utils/jtwUtils.js';
 import { stat } from 'node:fs';
+import { use } from 'passport';
+import { email } from 'zod';
+import { TokenPayload } from '@/interfaces/auth/TokenPayload.js';
+import { Token } from 'typescript';
 
 
 export class AuthService{
@@ -76,7 +80,7 @@ export class AuthService{
     async loginGenerateToken(profile: IMicrosoftProfile){
         const user = await this.findAndValidate(profile)
 
-        const payload = {
+        const payload:TokenPayload = {
             sub:user.userID,
             email:user.userEmail,
             role:user.tipoUser,
@@ -84,5 +88,23 @@ export class AuthService{
         }
         const token_jwt = Security.generateToken(payload)
         return {user, token_jwt}
+    }
+
+
+    async refresUserToken(userId:number){
+        const user = await this.prisma.usuario.findUnique({
+            where:{userID:userId}
+        });
+        if (!user||user.statusUser !== StatusConta.ATIVA){
+            throw new Error("Usuário não encontrado ou inativo")
+        }
+        const payload:TokenPayload={
+            sub:user.userID,
+            email:user.userEmail,
+            role:user.tipoUser,
+            status:user.statusUser
+        }
+        const token_jwt = Security.generateToken(payload)
+        return {token_jwt}
     }
 }

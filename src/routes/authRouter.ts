@@ -12,6 +12,9 @@ import { AuthService } from "@/services/authService.js";
 import { PrismaService } from "@/database/database.js";
 import { resolve } from "node:dns";
 import { any, regex } from "zod";
+import { get, request } from "node:http";
+import { tr } from "zod/locales";
+import { Result } from "pg";
 
 
 const prismaService = new PrismaService();
@@ -69,8 +72,15 @@ export class AuthRouter extends Controller{
             try {
 
                 const result =await authController.handleCallBack(profile);
-                // console.log(`\n\n\n${result.token_jwt}\n\n`)
-                return req.res.redirect(`/api-docs?token=${result.token_jwt}`);
+                
+                req.session.userId = result.user.userID;
+                console.log(`\n\n\n${result.token_jwt}\n\n`)
+                
+                
+                // return req.res.redirect(`/api-docs?token=${result.token_jwt}`);
+                const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+                return req.res.redirect(`${frontendUrl}/?token=${result.token_jwt}`);
+
             } catch (error: any) {
                 return reject(errorRes(500, { error: error.message }));
             }
@@ -90,5 +100,25 @@ export class AuthRouter extends Controller{
         //     // return req.res.redirect('/login?error=access_denied')
 
         // }
+    }
+
+    @Get("refresh")
+    @SuccessResponse("200", "TokenRenovado")
+    public async refresh(
+        @Request() req:any,
+        @Res() unauthorizedRes: TsoaResponse<401, {error: string}>
+    ):Promise<{accessToken:string}>{
+        const userId =req.session?.userId;
+
+        if(!userId){
+            return unauthorizedRes(401, {error:"Sessão expirada ou invalida"})
+        }
+        try{
+            const newToken = await authController.handleRefreshToken(userId);
+            console.log(newToken.token_jwt)
+            return {accessToken: newToken.token_jwt}
+        }catch(error:any){
+            return unauthorizedRes(401, {error:"Não foi possivel renovar o token"})
+        }
     }
 }

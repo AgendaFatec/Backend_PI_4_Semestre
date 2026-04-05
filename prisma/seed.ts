@@ -28,7 +28,7 @@ async function main() {
     },
   })
 
-  console.log(`✅ Seed finalizado! Admin configurado: ${admin.userEmail}`)
+  console.log(` Seed finalizado! Admin configurado: ${admin.userEmail}`)
 }
 
 main()

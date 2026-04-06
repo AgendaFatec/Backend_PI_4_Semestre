@@ -1,11 +1,12 @@
 import { Profile } from "passport";
 import { PrismaService } from "@/database/database.js";
-import {TipoUser as PrismaTipoUser, StatusConta, TipoUser} from "@prisma/client"
+import {TipoUser as PrismaTipoUser, StatusConta, TipoSala, TipoUser} from "@prisma/client"
 import { omit } from "zod/mini";
 import { NewUser, ValuesToFind } from "@/interfaces/coordenacao/Coordenacao.js"; 
 import { create } from "node:domain";
 import { tr } from "zod/locales";
 import { all } from "axios";
+import { userInfo } from "node:os";
 
 
 export class CoordenadorService{
@@ -136,6 +137,40 @@ export class CoordenadorService{
         // }
 
     }
-    
+    async findUserById(id_user:number, statusConta?:StatusConta, tipoUser?:TipoUser){
+        const filter: any = {};
+        if (tipoUser) filter.tipoUser = tipoUser;
+        if (statusConta) filter.statusUser = statusConta;
+        return await this.prisma.usuario.findUnique(
+            {
+                where: {userID:id_user},
+                select: {
+                    userID: true,
+                    userNome: true,
+                    userEmail: true,
+                    criadoDate: true,
+                    fotoUrl: true,
+                    statusUser: true,
+                    tipoUser: true,
+                    ti: true,
+                    docente: true,
+                    adm: true
+                }
+            }
+        )
+
+    }    
+    async updateStatusConta(id_user:number, statusConta:StatusConta, tipoUser?:TipoUser){
+        const filter:any ={}
+        if(tipoUser) filter.tipoUser = tipoUser
+        return await this.prisma.usuario.update({
+            where:{userID: id_user},
+            data:{
+                statusUser: statusConta,
+                tipoUser: tipoUser
+            }
+        })
+
+    }
 
 }

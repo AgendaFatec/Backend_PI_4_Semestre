@@ -45,16 +45,134 @@ model ADM {
 }
 
 model Sala {
-  idSala              Int      @id @default(autoincrement())
-  nomeSala            String   @db.VarChar(255)
-  tipoSala            TipoSala @default(COMUN)
+  idSala              Int                  @id @default(autoincrement())
+  nomeSala            String               @db.VarChar(255)
+  tipoSala            TipoSala             @default(COMUN)
   disponibilidadeSala Boolean
-  fotoSala            String?  @db.VarChar(255)
+  fotoSala            String?              @db.VarChar(255)
   qtdeSala            Int
+  capacidadeAlunos    Int?
+  inventario          Inventario?
+  agendamentos        Agendamento[]
+  historicos          HistoricoInventario[]
 
   @@index([tipoSala])
   @@index([idSala])
   @@index([disponibilidadeSala])
+}
+
+model Inventario {
+  idInventario     Int                      @id @default(autoincrement())
+  salaId           Int                      @unique
+  sala             Sala                     @relation(fields: [salaId], references: [idSala], onDelete: Cascade)
+  dispositivos     InventarioDispositivo[]
+  tecnologias      InventarioTecnologia[]
+  statusInventario StatusInventario         @default(ATIVO)
+  criadoEm         DateTime                 @default(now())
+  atualizadoEm     DateTime                 @updatedAt
+  historicos       HistoricoInventario[]
+
+  @@index([salaId])
+  @@index([statusInventario])
+}
+
+model Dispositivo {
+  idDispositivo         Int                      @id @default(autoincrement())
+  nomeDispositivo       String                   @db.VarChar(255)
+  tipoDispositivo       DispositvoTipo
+  numeroSerie           String?                  @unique @db.VarChar(255)
+  statusDispositivo     StatusDispositivo        @default(ATIVO)
+  dataCriacao           DateTime                 @default(now())
+  dataAtualizacao       DateTime                 @updatedAt
+  inventarios           InventarioDispositivo[]
+  historicos            DispositivoHistorico[]
+
+  @@index([tipoDispositivo])
+  @@index([statusDispositivo])
+  @@index([numeroSerie])
+}
+
+model InventarioDispositivo {
+  id          Int         @id @default(autoincrement())
+  inventarioId Int
+  dispositivoId Int
+  inventario  Inventario  @relation(fields: [inventarioId], references: [idInventario], onDelete: Cascade)
+  dispositivo Dispositivo @relation(fields: [dispositivoId], references: [idDispositivo], onDelete: Cascade)
+  quantidade  Int         @default(1)
+
+  @@unique([inventarioId, dispositivoId])
+  @@index([inventarioId])
+  @@index([dispositivoId])
+}
+
+model Tecnologia {
+  idTecnologia      Int                      @id @default(autoincrement())
+  nomeTecnologia    String                   @unique @db.VarChar(255)
+  descricao         String?                  @db.VarChar(500)
+  dataCriacao       DateTime                 @default(now())
+  inventarios       InventarioTecnologia[]
+
+  @@index([nomeTecnologia])
+}
+
+model InventarioTecnologia {
+  id            Int          @id @default(autoincrement())
+  inventarioId  Int
+  tecnologiaId  Int
+  inventario    Inventario   @relation(fields: [inventarioId], references: [idInventario], onDelete: Cascade)
+  tecnologia    Tecnologia   @relation(fields: [tecnologiaId], references: [idTecnologia], onDelete: Cascade)
+
+  @@unique([inventarioId, tecnologiaId])
+  @@index([inventarioId])
+  @@index([tecnologiaId])
+}
+
+model HistoricoInventario {
+  idHistorico       Int          @id @default(autoincrement())
+  inventarioId      Int
+  salaId            Int
+  tipoAlteracao     TipoAlteracao
+  descricaoAlteracao String?      @db.VarChar(500)
+  usuarioId         Int?
+  dataCriacao       DateTime     @default(now())
+  inventario        Inventario   @relation(fields: [inventarioId], references: [idInventario], onDelete: Cascade)
+  sala              Sala         @relation(fields: [salaId], references: [idSala], onDelete: Cascade)
+
+  @@index([inventarioId])
+  @@index([salaId])
+  @@index([tipoAlteracao])
+  @@index([dataCriacao])
+}
+
+model DispositivoHistorico {
+  idHistorico       Int               @id @default(autoincrement())
+  dispositivoId     Int
+  tipoAlteracao     TipoAlteracao
+  descricaoAlteracao String?           @db.VarChar(500)
+  dataCriacao       DateTime          @default(now())
+  dispositivo       Dispositivo       @relation(fields: [dispositivoId], references: [idDispositivo], onDelete: Cascade)
+
+  @@index([dispositivoId])
+  @@index([tipoAlteracao])
+  @@index([dataCriacao])
+}
+
+model Agendamento {
+  idAgendamento      Int                  @id @default(autoincrement())
+  salaId             Int
+  usuarioId          Int?
+  dataAgendamento    DateTime
+  horaInicio         String               @db.VarChar(5)
+  horaFim            String               @db.VarChar(5)
+  descricao          String?              @db.VarChar(500)
+  statusAgendamento  AgendamentoStatus    @default(EM_ESPERA)
+  criadoEm           DateTime             @default(now())
+  atualizadoEm       DateTime             @updatedAt
+  sala               Sala                 @relation(fields: [salaId], references: [idSala], onDelete: Cascade)
+
+  @@index([salaId])
+  @@index([dataAgendamento])
+  @@index([statusAgendamento])
 }
 
 enum TipoSala {
@@ -92,4 +210,28 @@ enum StatusConta {
   DESATIVADA
   ATIVA
   CONVIDADA
+}
+
+enum StatusInventario {
+  ATIVO
+  INATIVO
+  MANUTENCAO
+}
+
+enum StatusDispositivo {
+  ATIVO
+  INATIVO
+  DANIFICADO
+  MANUTENCAO
+}
+
+enum TipoAlteracao {
+  CRIACAO
+  EDICAO
+  DELECAO
+  ADICIONAR_DISPOSITIVO
+  REMOVER_DISPOSITIVO
+  ADICIONAR_TECNOLOGIA
+  REMOVER_TECNOLOGIA
+  ALTERACAO_STATUS
 }

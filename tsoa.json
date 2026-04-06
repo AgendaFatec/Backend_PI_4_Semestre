@@ -1,12 +1,12 @@
 {
   "entryFile": "src/index.ts",
   "noImplicitAdditionalProperties": "throw-if-extra",
-  "controllerPathGlobs": ["src/routes/*Router.ts"],
+  "controllerPathGlobs": ["src/routes/*Router.ts", "src/controllers/*.ts"],
   "routes": {
     "routesDir": "src/routes",
     "entryPoint": "src/index.ts",
-    "esm":true,
-    "authenticationModule": "src/auth/authentication.ts" 
+    "esm": true,
+    "authenticationModule": "src/auth/authentication.ts"
   },
   "spec": {
     "outputDirectory": "src/docs",

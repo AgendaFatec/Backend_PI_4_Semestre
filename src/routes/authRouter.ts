@@ -79,7 +79,7 @@ export class AuthRouter extends Controller{
                 
                 // return req.res.redirect(`/api-docs?token=${result.token_jwt}`);
                 const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
-                return req.res.redirect(`${frontendUrl}/?token=${result.token_jwt}`);
+                return req.res.redirect(`${frontendUrl}/login?token=${result.token_jwt}`);
 
             } catch (error: any) {
                 return reject(errorRes(500, { error: error.message }));

@@ -4,17 +4,17 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { TecnologiaRouter } from './tecnologiaRouter.js';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { InventarioRouter } from './inventarioRouter.js';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DispositivoRouter } from './dispositivoRouter.js';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CoordeandorRouter } from './coordenadorRouter.js';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { AuthRouter } from './authRouter.js';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { TecnologiaController } from './../controllers/tecnologiaController.js';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { InventarioController } from './../controllers/inventarioController.js';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { DispositivoController } from './../controllers/dispositivoController.js';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { AgendamentoController } from './../controllers/agendamentoController.js';
+import { AgendamentoRouter } from './agendamentoRouter.js';
 import { expressAuthentication } from './../auth/authentication.js';
 // @ts-ignore - no great way to install types from subpackage
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
@@ -25,35 +25,6 @@ const expressAuthenticationRecasted = expressAuthentication as (req: ExRequest, 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "_36_Enums.TipoUser": {
-        "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DOCENTE"]},{"dataType":"enum","enums":["TI"]},{"dataType":"enum","enums":["ADM"]}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "TipoUser": {
-        "dataType": "refAlias",
-        "type": {"ref":"_36_Enums.TipoUser","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CreateUser": {
-        "dataType": "refObject",
-        "properties": {
-            "email": {"dataType":"string","required":true},
-            "tipoUser": {"ref":"TipoUser","required":true},
-        },
-        "additionalProperties": true,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "_36_Enums.StatusConta": {
-        "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DESATIVADA"]},{"dataType":"enum","enums":["ATIVA"]},{"dataType":"enum","enums":["CONVIDADA"]}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "StatusConta": {
-        "dataType": "refAlias",
-        "type": {"ref":"_36_Enums.StatusConta","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Tecnologia": {
         "dataType": "refObject",
         "properties": {
@@ -169,6 +140,35 @@ const models: TsoaRoute.Models = {
         "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "_36_Enums.TipoUser": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DOCENTE"]},{"dataType":"enum","enums":["TI"]},{"dataType":"enum","enums":["ADM"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TipoUser": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.TipoUser","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateUser": {
+        "dataType": "refObject",
+        "properties": {
+            "email": {"dataType":"string","required":true},
+            "tipoUser": {"ref":"TipoUser","required":true},
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "_36_Enums.StatusConta": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DESATIVADA"]},{"dataType":"enum","enums":["ATIVA"]},{"dataType":"enum","enums":["CONVIDADA"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "StatusConta": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.StatusConta","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Agendamento": {
         "dataType": "refObject",
         "properties": {
@@ -241,6 +241,530 @@ export function RegisterRoutes(app: Router) {
 
 
     
+        const argsTecnologiaRouter_criarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
+                tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"CreateTecnologia"},
+        };
+        app.post('/tecnologias',
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.criarTecnologia)),
+
+            async function TecnologiaRouter_criarTecnologia(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaRouter_criarTecnologia, request, response });
+
+                const controller = new TecnologiaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'criarTecnologia',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsTecnologiaRouter_listarTecnologias: Record<string, TsoaRoute.ParameterSchema> = {
+                pagina: {"in":"query","name":"pagina","dataType":"double"},
+                limite: {"in":"query","name":"limite","dataType":"double"},
+                busca: {"in":"query","name":"busca","dataType":"string"},
+        };
+        app.get('/tecnologias',
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.listarTecnologias)),
+
+            async function TecnologiaRouter_listarTecnologias(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaRouter_listarTecnologias, request, response });
+
+                const controller = new TecnologiaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'listarTecnologias',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsTecnologiaRouter_obterTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.get('/tecnologias/:id',
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.obterTecnologia)),
+
+            async function TecnologiaRouter_obterTecnologia(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaRouter_obterTecnologia, request, response });
+
+                const controller = new TecnologiaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'obterTecnologia',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsTecnologiaRouter_atualizarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"UpdateTecnologia"},
+        };
+        app.put('/tecnologias/:id',
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.atualizarTecnologia)),
+
+            async function TecnologiaRouter_atualizarTecnologia(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaRouter_atualizarTecnologia, request, response });
+
+                const controller = new TecnologiaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'atualizarTecnologia',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsTecnologiaRouter_deletarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.delete('/tecnologias/:id',
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.deletarTecnologia)),
+
+            async function TecnologiaRouter_deletarTecnologia(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaRouter_deletarTecnologia, request, response });
+
+                const controller = new TecnologiaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'deletarTecnologia',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_criarInventario: Record<string, TsoaRoute.ParameterSchema> = {
+                inventario: {"in":"body","name":"inventario","required":true,"ref":"CreateInventario"},
+        };
+        app.post('/inventarios',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.criarInventario)),
+
+            async function InventarioRouter_criarInventario(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_criarInventario, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'criarInventario',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_listarInventarios: Record<string, TsoaRoute.ParameterSchema> = {
+                pagina: {"in":"query","name":"pagina","dataType":"double"},
+                limite: {"in":"query","name":"limite","dataType":"double"},
+                status: {"in":"query","name":"status","dataType":"string"},
+                Search_Sala: {"in":"query","name":"Search_Sala","dataType":"string"},
+        };
+        app.get('/inventarios',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.listarInventarios)),
+
+            async function InventarioRouter_listarInventarios(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_listarInventarios, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'listarInventarios',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_buscaPorPalavraChave: Record<string, TsoaRoute.ParameterSchema> = {
+                busca: {"in":"query","name":"busca","required":true,"dataType":"string"},
+                pagina: {"in":"query","name":"pagina","dataType":"double"},
+                limite: {"in":"query","name":"limite","dataType":"double"},
+        };
+        app.get('/inventarios/busca/palavraChave',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.buscaPorPalavraChave)),
+
+            async function InventarioRouter_buscaPorPalavraChave(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_buscaPorPalavraChave, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'buscaPorPalavraChave',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_obterInventarioPorSala: Record<string, TsoaRoute.ParameterSchema> = {
+                salaId: {"in":"path","name":"salaId","required":true,"dataType":"double"},
+        };
+        app.get('/inventarios/sala/:salaId',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.obterInventarioPorSala)),
+
+            async function InventarioRouter_obterInventarioPorSala(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_obterInventarioPorSala, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'obterInventarioPorSala',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_obterInventario: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.get('/inventarios/:id',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.obterInventario)),
+
+            async function InventarioRouter_obterInventario(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_obterInventario, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'obterInventario',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_atualizarInventario: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                inventario: {"in":"body","name":"inventario","required":true,"ref":"UpdateInventario"},
+        };
+        app.put('/inventarios/:id',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.atualizarInventario)),
+
+            async function InventarioRouter_atualizarInventario(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_atualizarInventario, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'atualizarInventario',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_deletarInventario: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.delete('/inventarios/:id',
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.deletarInventario)),
+
+            async function InventarioRouter_deletarInventario(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_deletarInventario, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'deletarInventario',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsDispositivoRouter_criarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
+                dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"CreateDispositivo"},
+        };
+        app.post('/dispositivos',
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.criarDispositivo)),
+
+            async function DispositivoRouter_criarDispositivo(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoRouter_criarDispositivo, request, response });
+
+                const controller = new DispositivoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'criarDispositivo',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsDispositivoRouter_listarDispositivos: Record<string, TsoaRoute.ParameterSchema> = {
+                pagina: {"in":"query","name":"pagina","dataType":"double"},
+                limite: {"in":"query","name":"limite","dataType":"double"},
+                tipo: {"in":"query","name":"tipo","dataType":"string"},
+                status: {"in":"query","name":"status","dataType":"string"},
+                busca: {"in":"query","name":"busca","dataType":"string"},
+        };
+        app.get('/dispositivos',
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.listarDispositivos)),
+
+            async function DispositivoRouter_listarDispositivos(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoRouter_listarDispositivos, request, response });
+
+                const controller = new DispositivoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'listarDispositivos',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsDispositivoRouter_obterDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.get('/dispositivos/:id',
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.obterDispositivo)),
+
+            async function DispositivoRouter_obterDispositivo(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoRouter_obterDispositivo, request, response });
+
+                const controller = new DispositivoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'obterDispositivo',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsDispositivoRouter_atualizarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"UpdateDispositivo"},
+        };
+        app.put('/dispositivos/:id',
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.atualizarDispositivo)),
+
+            async function DispositivoRouter_atualizarDispositivo(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoRouter_atualizarDispositivo, request, response });
+
+                const controller = new DispositivoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'atualizarDispositivo',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsDispositivoRouter_deletarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.delete('/dispositivos/:id',
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.deletarDispositivo)),
+
+            async function DispositivoRouter_deletarDispositivo(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoRouter_deletarDispositivo, request, response });
+
+                const controller = new DispositivoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'deletarDispositivo',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCoordeandorRouter_handleCreateUser: Record<string, TsoaRoute.ParameterSchema> = {
                 valuesUser: {"in":"body","name":"valuesUser","required":true,"ref":"CreateUser"},
                 badRequest: {"in":"request","name":"badRequest","required":true,"dataType":"object"},
@@ -398,546 +922,22 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsTecnologiaController_criarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
-                tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"CreateTecnologia"},
-        };
-        app.post('/tecnologias',
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController)),
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController.prototype.criarTecnologia)),
-
-            async function TecnologiaController_criarTecnologia(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaController_criarTecnologia, request, response });
-
-                const controller = new TecnologiaController();
-
-              await templateService.apiHandler({
-                methodName: 'criarTecnologia',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsTecnologiaController_listarTecnologias: Record<string, TsoaRoute.ParameterSchema> = {
-                pagina: {"in":"query","name":"pagina","dataType":"double"},
-                limite: {"in":"query","name":"limite","dataType":"double"},
-                busca: {"in":"query","name":"busca","dataType":"string"},
-        };
-        app.get('/tecnologias',
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController)),
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController.prototype.listarTecnologias)),
-
-            async function TecnologiaController_listarTecnologias(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaController_listarTecnologias, request, response });
-
-                const controller = new TecnologiaController();
-
-              await templateService.apiHandler({
-                methodName: 'listarTecnologias',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsTecnologiaController_obterTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.get('/tecnologias/:id',
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController)),
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController.prototype.obterTecnologia)),
-
-            async function TecnologiaController_obterTecnologia(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaController_obterTecnologia, request, response });
-
-                const controller = new TecnologiaController();
-
-              await templateService.apiHandler({
-                methodName: 'obterTecnologia',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsTecnologiaController_atualizarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"UpdateTecnologia"},
-        };
-        app.put('/tecnologias/:id',
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController)),
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController.prototype.atualizarTecnologia)),
-
-            async function TecnologiaController_atualizarTecnologia(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaController_atualizarTecnologia, request, response });
-
-                const controller = new TecnologiaController();
-
-              await templateService.apiHandler({
-                methodName: 'atualizarTecnologia',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsTecnologiaController_deletarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.delete('/tecnologias/:id',
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController)),
-            ...(fetchMiddlewares<RequestHandler>(TecnologiaController.prototype.deletarTecnologia)),
-
-            async function TecnologiaController_deletarTecnologia(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsTecnologiaController_deletarTecnologia, request, response });
-
-                const controller = new TecnologiaController();
-
-              await templateService.apiHandler({
-                methodName: 'deletarTecnologia',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_criarInventario: Record<string, TsoaRoute.ParameterSchema> = {
-                inventario: {"in":"body","name":"inventario","required":true,"ref":"CreateInventario"},
-        };
-        app.post('/inventarios',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.criarInventario)),
-
-            async function InventarioController_criarInventario(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_criarInventario, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'criarInventario',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_listarInventarios: Record<string, TsoaRoute.ParameterSchema> = {
-                pagina: {"in":"query","name":"pagina","dataType":"double"},
-                limite: {"in":"query","name":"limite","dataType":"double"},
-                status: {"in":"query","name":"status","dataType":"string"},
-                Search_Sala: {"in":"query","name":"Search_Sala","dataType":"string"},
-        };
-        app.get('/inventarios',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.listarInventarios)),
-
-            async function InventarioController_listarInventarios(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_listarInventarios, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'listarInventarios',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_buscaPorPalavraChave: Record<string, TsoaRoute.ParameterSchema> = {
-                busca: {"in":"query","name":"busca","required":true,"dataType":"string"},
-                pagina: {"in":"query","name":"pagina","dataType":"double"},
-                limite: {"in":"query","name":"limite","dataType":"double"},
-        };
-        app.get('/inventarios/busca/palavraChave',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.buscaPorPalavraChave)),
-
-            async function InventarioController_buscaPorPalavraChave(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_buscaPorPalavraChave, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'buscaPorPalavraChave',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_obterInventarioPorSala: Record<string, TsoaRoute.ParameterSchema> = {
-                salaId: {"in":"path","name":"salaId","required":true,"dataType":"double"},
-        };
-        app.get('/inventarios/sala/:salaId',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.obterInventarioPorSala)),
-
-            async function InventarioController_obterInventarioPorSala(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_obterInventarioPorSala, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'obterInventarioPorSala',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_obterInventario: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.get('/inventarios/:id',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.obterInventario)),
-
-            async function InventarioController_obterInventario(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_obterInventario, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'obterInventario',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_atualizarInventario: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                inventario: {"in":"body","name":"inventario","required":true,"ref":"UpdateInventario"},
-        };
-        app.put('/inventarios/:id',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.atualizarInventario)),
-
-            async function InventarioController_atualizarInventario(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_atualizarInventario, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'atualizarInventario',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsInventarioController_deletarInventario: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.delete('/inventarios/:id',
-            ...(fetchMiddlewares<RequestHandler>(InventarioController)),
-            ...(fetchMiddlewares<RequestHandler>(InventarioController.prototype.deletarInventario)),
-
-            async function InventarioController_deletarInventario(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioController_deletarInventario, request, response });
-
-                const controller = new InventarioController();
-
-              await templateService.apiHandler({
-                methodName: 'deletarInventario',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsDispositivoController_criarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
-                dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"CreateDispositivo"},
-        };
-        app.post('/dispositivos',
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController)),
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController.prototype.criarDispositivo)),
-
-            async function DispositivoController_criarDispositivo(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoController_criarDispositivo, request, response });
-
-                const controller = new DispositivoController();
-
-              await templateService.apiHandler({
-                methodName: 'criarDispositivo',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsDispositivoController_listarDispositivos: Record<string, TsoaRoute.ParameterSchema> = {
-                pagina: {"in":"query","name":"pagina","dataType":"double"},
-                limite: {"in":"query","name":"limite","dataType":"double"},
-                tipo: {"in":"query","name":"tipo","dataType":"string"},
-                status: {"in":"query","name":"status","dataType":"string"},
-                busca: {"in":"query","name":"busca","dataType":"string"},
-        };
-        app.get('/dispositivos',
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController)),
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController.prototype.listarDispositivos)),
-
-            async function DispositivoController_listarDispositivos(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoController_listarDispositivos, request, response });
-
-                const controller = new DispositivoController();
-
-              await templateService.apiHandler({
-                methodName: 'listarDispositivos',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsDispositivoController_obterDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.get('/dispositivos/:id',
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController)),
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController.prototype.obterDispositivo)),
-
-            async function DispositivoController_obterDispositivo(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoController_obterDispositivo, request, response });
-
-                const controller = new DispositivoController();
-
-              await templateService.apiHandler({
-                methodName: 'obterDispositivo',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsDispositivoController_atualizarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"UpdateDispositivo"},
-        };
-        app.put('/dispositivos/:id',
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController)),
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController.prototype.atualizarDispositivo)),
-
-            async function DispositivoController_atualizarDispositivo(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoController_atualizarDispositivo, request, response });
-
-                const controller = new DispositivoController();
-
-              await templateService.apiHandler({
-                methodName: 'atualizarDispositivo',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsDispositivoController_deletarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.delete('/dispositivos/:id',
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController)),
-            ...(fetchMiddlewares<RequestHandler>(DispositivoController.prototype.deletarDispositivo)),
-
-            async function DispositivoController_deletarDispositivo(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoController_deletarDispositivo, request, response });
-
-                const controller = new DispositivoController();
-
-              await templateService.apiHandler({
-                methodName: 'deletarDispositivo',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_criarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_criarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 agendamento: {"in":"body","name":"agendamento","required":true,"ref":"CreateAgendamento"},
         };
         app.post('/agendamentos',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.criarAgendamento)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.criarAgendamento)),
 
-            async function AgendamentoController_criarAgendamento(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_criarAgendamento(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_criarAgendamento, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_criarAgendamento, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'criarAgendamento',
@@ -952,22 +952,22 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_solicitarReserva: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_solicitarReserva: Record<string, TsoaRoute.ParameterSchema> = {
                 reserva: {"in":"body","name":"reserva","required":true,"ref":"SolicitarReserva"},
         };
         app.post('/agendamentos/solicitar-reserva',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.solicitarReserva)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.solicitarReserva)),
 
-            async function AgendamentoController_solicitarReserva(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_solicitarReserva(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_solicitarReserva, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_solicitarReserva, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'solicitarReserva',
@@ -982,7 +982,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_listarAgendamentos: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_listarAgendamentos: Record<string, TsoaRoute.ParameterSchema> = {
                 pagina: {"in":"query","name":"pagina","dataType":"double"},
                 limite: {"in":"query","name":"limite","dataType":"double"},
                 salaId: {"in":"query","name":"salaId","dataType":"double"},
@@ -991,18 +991,18 @@ export function RegisterRoutes(app: Router) {
                 dataFim: {"in":"query","name":"dataFim","dataType":"string"},
         };
         app.get('/agendamentos',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.listarAgendamentos)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarAgendamentos)),
 
-            async function AgendamentoController_listarAgendamentos(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_listarAgendamentos(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_listarAgendamentos, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_listarAgendamentos, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'listarAgendamentos',
@@ -1017,24 +1017,24 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_listarAgendamentosPorSala: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_listarAgendamentosPorSala: Record<string, TsoaRoute.ParameterSchema> = {
                 salaId: {"in":"path","name":"salaId","required":true,"dataType":"double"},
                 dataInicio: {"in":"query","name":"dataInicio","dataType":"string"},
                 dataFim: {"in":"query","name":"dataFim","dataType":"string"},
         };
         app.get('/agendamentos/sala/:salaId',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.listarAgendamentosPorSala)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarAgendamentosPorSala)),
 
-            async function AgendamentoController_listarAgendamentosPorSala(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_listarAgendamentosPorSala(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_listarAgendamentosPorSala, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_listarAgendamentosPorSala, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'listarAgendamentosPorSala',
@@ -1049,22 +1049,22 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_obterAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_obterAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.get('/agendamentos/:id',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.obterAgendamento)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.obterAgendamento)),
 
-            async function AgendamentoController_obterAgendamento(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_obterAgendamento(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_obterAgendamento, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_obterAgendamento, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'obterAgendamento',
@@ -1079,23 +1079,23 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_atualizarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_atualizarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 agendamento: {"in":"body","name":"agendamento","required":true,"ref":"UpdateAgendamento"},
         };
         app.put('/agendamentos/:id',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.atualizarAgendamento)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.atualizarAgendamento)),
 
-            async function AgendamentoController_atualizarAgendamento(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_atualizarAgendamento(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_atualizarAgendamento, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_atualizarAgendamento, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'atualizarAgendamento',
@@ -1110,22 +1110,22 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_aprovarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_aprovarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.post('/agendamentos/:id/aprovar',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.aprovarAgendamento)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.aprovarAgendamento)),
 
-            async function AgendamentoController_aprovarAgendamento(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_aprovarAgendamento(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_aprovarAgendamento, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_aprovarAgendamento, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'aprovarAgendamento',
@@ -1140,22 +1140,22 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_cancelarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_cancelarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.post('/agendamentos/:id/cancelar',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.cancelarAgendamento)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.cancelarAgendamento)),
 
-            async function AgendamentoController_cancelarAgendamento(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_cancelarAgendamento(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_cancelarAgendamento, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_cancelarAgendamento, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'cancelarAgendamento',
@@ -1170,22 +1170,22 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsAgendamentoController_deletarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsAgendamentoRouter_deletarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
         app.delete('/agendamentos/:id',
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController)),
-            ...(fetchMiddlewares<RequestHandler>(AgendamentoController.prototype.deletarAgendamento)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.deletarAgendamento)),
 
-            async function AgendamentoController_deletarAgendamento(request: ExRequest, response: ExResponse, next: any) {
+            async function AgendamentoRouter_deletarAgendamento(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoController_deletarAgendamento, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_deletarAgendamento, request, response });
 
-                const controller = new AgendamentoController();
+                const controller = new AgendamentoRouter();
 
               await templateService.apiHandler({
                 methodName: 'deletarAgendamento',

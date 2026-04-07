@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 export class Security {
   private static readonly SECRET = process.env.JWT_SECRET || 'secret_fatec_2026';
-  private static readonly EXPIRES_IN = '1m';
+  private static readonly EXPIRES_IN = '1h';
 
   public static generateToken(payload: object): string {
     return jwt.sign(payload, this.SECRET, {

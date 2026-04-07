@@ -14,7 +14,7 @@ export class DispositivoService {
       data: {
         nomeDispositivo: data.nomeDispositivo,
         tipoDispositivo: data.tipoDispositivo as any,
-        numeroSerie: data.numeroSerie,
+        patrimonio: data.patrimonio,
         statusDispositivo: (data.statusDispositivo as any) || "ATIVO",
       },
     });
@@ -67,7 +67,7 @@ export class DispositivoService {
     const updateData: any = {};
     if (data.nomeDispositivo) updateData.nomeDispositivo = data.nomeDispositivo;
     if (data.tipoDispositivo) updateData.tipoDispositivo = data.tipoDispositivo;
-    if (data.numeroSerie) updateData.numeroSerie = data.numeroSerie;
+    if (data.patrimonio) updateData.patrimonio = data.patrimonio;
     if (data.statusDispositivo)
       updateData.statusDispositivo = data.statusDispositivo;
 
@@ -98,7 +98,7 @@ export class DispositivoService {
       idDispositivo: dispositivo.idDispositivo,
       nomeDispositivo: dispositivo.nomeDispositivo,
       tipoDispositivo: dispositivo.tipoDispositivo,
-      numeroSerie: dispositivo.numeroSerie,
+      patrimonio: dispositivo.patrimonio,
       statusDispositivo: dispositivo.statusDispositivo,
       dataCriacao: dispositivo.dataCriacao,
       dataAtualizacao: dispositivo.dataAtualizacao,

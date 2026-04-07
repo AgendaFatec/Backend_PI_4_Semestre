@@ -80,7 +80,7 @@ model Dispositivo {
   idDispositivo         Int                      @id @default(autoincrement())
   nomeDispositivo       String                   @db.VarChar(255)
   tipoDispositivo       DispositvoTipo
-  numeroSerie           String?                  @unique @db.VarChar(255)
+  patrimonio            String?                  @unique @db.VarChar(7)
   statusDispositivo     StatusDispositivo        @default(ATIVO)
   dataCriacao           DateTime                 @default(now())
   dataAtualizacao       DateTime                 @updatedAt
@@ -89,7 +89,6 @@ model Dispositivo {
 
   @@index([tipoDispositivo])
   @@index([statusDispositivo])
-  @@index([numeroSerie])
 }
 
 model InventarioDispositivo {

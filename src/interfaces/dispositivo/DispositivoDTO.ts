@@ -2,7 +2,7 @@ export interface Dispositivo {
   idDispositivo: number;
   nomeDispositivo: string;
   tipoDispositivo: string;
-  numeroSerie?: string;
+  patrimonio?: string;
   statusDispositivo: string;
   dataCriacao: Date;
   dataAtualizacao: Date;
@@ -11,14 +11,14 @@ export interface Dispositivo {
 export interface CreateDispositivo {
   nomeDispositivo: string;
   tipoDispositivo: string;
-  numeroSerie?: string;
+  patrimonio?: string;
   statusDispositivo?: string;
 }
 
 export interface UpdateDispositivo {
   nomeDispositivo?: string;
   tipoDispositivo?: string;
-  numeroSerie?: string;
+  patrimonio?: string;
   statusDispositivo?: string;
 }
 

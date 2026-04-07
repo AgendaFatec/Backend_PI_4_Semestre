@@ -110,7 +110,7 @@ const models: TsoaRoute.Models = {
             "idDispositivo": {"dataType":"double","required":true},
             "nomeDispositivo": {"dataType":"string","required":true},
             "tipoDispositivo": {"dataType":"string","required":true},
-            "numeroSerie": {"dataType":"string"},
+            "patrimonio": {"dataType":"string"},
             "statusDispositivo": {"dataType":"string","required":true},
             "dataCriacao": {"dataType":"datetime","required":true},
             "dataAtualizacao": {"dataType":"datetime","required":true},
@@ -123,7 +123,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "nomeDispositivo": {"dataType":"string","required":true},
             "tipoDispositivo": {"dataType":"string","required":true},
-            "numeroSerie": {"dataType":"string"},
+            "patrimonio": {"dataType":"string"},
             "statusDispositivo": {"dataType":"string"},
         },
         "additionalProperties": true,
@@ -134,7 +134,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "nomeDispositivo": {"dataType":"string"},
             "tipoDispositivo": {"dataType":"string"},
-            "numeroSerie": {"dataType":"string"},
+            "patrimonio": {"dataType":"string"},
             "statusDispositivo": {"dataType":"string"},
         },
         "additionalProperties": true,

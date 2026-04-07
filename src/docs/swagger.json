@@ -303,7 +303,7 @@
 					"tipoDispositivo": {
 						"type": "string"
 					},
-					"numeroSerie": {
+					"patrimonio": {
 						"type": "string"
 					},
 					"statusDispositivo": {
@@ -337,7 +337,7 @@
 					"tipoDispositivo": {
 						"type": "string"
 					},
-					"numeroSerie": {
+					"patrimonio": {
 						"type": "string"
 					},
 					"statusDispositivo": {
@@ -359,7 +359,7 @@
 					"tipoDispositivo": {
 						"type": "string"
 					},
-					"numeroSerie": {
+					"patrimonio": {
 						"type": "string"
 					},
 					"statusDispositivo": {

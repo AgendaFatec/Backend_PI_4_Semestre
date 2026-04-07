@@ -5,8 +5,8 @@
   "routes": {
     "routesDir": "src/routes",
     "entryPoint": "src/index.ts",
-    "esm":true,
-    "authenticationModule": "src/auth/authentication.ts" 
+    "esm": true,
+    "authenticationModule": "src/auth/authentication.ts"
   },
   "spec": {
     "outputDirectory": "src/docs",

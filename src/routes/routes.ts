@@ -243,8 +243,10 @@ export function RegisterRoutes(app: Router) {
     
         const argsTecnologiaRouter_criarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
                 tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"CreateTecnologia"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/tecnologias',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
             ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.criarTecnologia)),
 
@@ -336,8 +338,10 @@ export function RegisterRoutes(app: Router) {
         const argsTecnologiaRouter_atualizarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"UpdateTecnologia"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.put('/tecnologias/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
             ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.atualizarTecnologia)),
 
@@ -366,8 +370,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsTecnologiaRouter_deletarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.delete('/tecnologias/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter)),
             ...(fetchMiddlewares<RequestHandler>(TecnologiaRouter.prototype.deletarTecnologia)),
 
@@ -396,8 +402,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsInventarioRouter_criarInventario: Record<string, TsoaRoute.ParameterSchema> = {
                 inventario: {"in":"body","name":"inventario","required":true,"ref":"CreateInventario"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/inventarios',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
             ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.criarInventario)),
 
@@ -552,8 +560,10 @@ export function RegisterRoutes(app: Router) {
         const argsInventarioRouter_atualizarInventario: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 inventario: {"in":"body","name":"inventario","required":true,"ref":"UpdateInventario"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.put('/inventarios/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
             ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.atualizarInventario)),
 
@@ -582,8 +592,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsInventarioRouter_deletarInventario: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.delete('/inventarios/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
             ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.deletarInventario)),
 
@@ -612,8 +624,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsDispositivoRouter_criarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
                 dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"CreateDispositivo"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/dispositivos',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.criarDispositivo)),
 
@@ -707,8 +721,10 @@ export function RegisterRoutes(app: Router) {
         const argsDispositivoRouter_atualizarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"UpdateDispositivo"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.put('/dispositivos/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.atualizarDispositivo)),
 
@@ -737,8 +753,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsDispositivoRouter_deletarDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.delete('/dispositivos/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.deletarDispositivo)),
 
@@ -924,8 +942,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_criarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 agendamento: {"in":"body","name":"agendamento","required":true,"ref":"CreateAgendamento"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.criarAgendamento)),
 
@@ -954,8 +974,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_solicitarReserva: Record<string, TsoaRoute.ParameterSchema> = {
                 reserva: {"in":"body","name":"reserva","required":true,"ref":"SolicitarReserva"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/solicitar-reserva',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.solicitarReserva)),
 
@@ -1082,8 +1104,10 @@ export function RegisterRoutes(app: Router) {
         const argsAgendamentoRouter_atualizarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 agendamento: {"in":"body","name":"agendamento","required":true,"ref":"UpdateAgendamento"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.put('/agendamentos/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.atualizarAgendamento)),
 
@@ -1112,8 +1136,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_aprovarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/:id/aprovar',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.aprovarAgendamento)),
 
@@ -1142,8 +1168,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_cancelarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/:id/cancelar',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.cancelarAgendamento)),
 
@@ -1172,8 +1200,10 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_deletarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.delete('/agendamentos/:id',
+            authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.deletarAgendamento)),
 

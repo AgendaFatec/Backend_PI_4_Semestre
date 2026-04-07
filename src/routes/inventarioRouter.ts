@@ -9,7 +9,10 @@ import {
   Path,
   Query,
   Tags,
+  Security,
+  Request,
 } from "tsoa";
+import * as express from "express";
 import { InventarioController } from "../controllers/inventarioController.js";
 import type {
   Inventario,
@@ -24,8 +27,10 @@ export class InventarioRouter extends Controller {
   private controller = new InventarioController();
 
   @Post()
+  @Security("jwt")
   async criarInventario(
     @Body() inventario: CreateInventario,
+    @Request() request: express.Request,
   ): Promise<Inventario> {
     return this.controller.criarInventario(inventario);
   }
@@ -67,15 +72,21 @@ export class InventarioRouter extends Controller {
   }
 
   @Put("{id}")
+  @Security("jwt")
   async atualizarInventario(
     @Path() id: number,
     @Body() inventario: UpdateInventario,
+    @Request() request: express.Request,
   ): Promise<Inventario> {
     return this.controller.atualizarInventario(id, inventario);
   }
 
   @Delete("{id}")
-  async deletarInventario(@Path() id: number): Promise<void> {
+  @Security("jwt")
+  async deletarInventario(
+    @Path() id: number,
+    @Request() request: express.Request,
+  ): Promise<void> {
     return this.controller.deletarInventario(id);
   }
 }

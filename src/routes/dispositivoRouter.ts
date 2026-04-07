@@ -9,7 +9,10 @@ import {
   Path,
   Query,
   Tags,
+  Security,
+  Request,
 } from "tsoa";
+import * as express from "express";
 import { DispositivoController } from "../controllers/dispositivoController.js";
 import type {
   CreateDispositivo,
@@ -23,8 +26,10 @@ export class DispositivoRouter extends Controller {
   private controller = new DispositivoController();
 
   @Post()
+  @Security("jwt")
   async criarDispositivo(
     @Body() dispositivo: CreateDispositivo,
+    @Request() request: express.Request,
   ): Promise<Dispositivo> {
     return this.controller.criarDispositivo(dispositivo);
   }
@@ -52,15 +57,21 @@ export class DispositivoRouter extends Controller {
   }
 
   @Put("{id}")
+  @Security("jwt")
   async atualizarDispositivo(
     @Path() id: number,
     @Body() dispositivo: UpdateDispositivo,
+    @Request() request: express.Request,
   ): Promise<Dispositivo> {
     return this.controller.atualizarDispositivo(id, dispositivo);
   }
 
   @Delete("{id}")
-  async deletarDispositivo(@Path() id: number): Promise<void> {
+  @Security("jwt")
+  async deletarDispositivo(
+    @Path() id: number,
+    @Request() request: express.Request,
+  ): Promise<void> {
     return this.controller.deletarDispositivo(id);
   }
 }

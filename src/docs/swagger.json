@@ -7,44 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"_36_Enums.TipoUser": {
-				"type": "string",
-				"enum": [
-					"DOCENTE",
-					"TI",
-					"ADM"
-				]
-			},
-			"TipoUser": {
-				"$ref": "#/components/schemas/_36_Enums.TipoUser"
-			},
-			"CreateUser": {
-				"properties": {
-					"email": {
-						"type": "string"
-					},
-					"tipoUser": {
-						"$ref": "#/components/schemas/TipoUser"
-					}
-				},
-				"required": [
-					"email",
-					"tipoUser"
-				],
-				"type": "object",
-				"additionalProperties": true
-			},
-			"_36_Enums.StatusConta": {
-				"type": "string",
-				"enum": [
-					"DESATIVADA",
-					"ATIVA",
-					"CONVIDADA"
-				]
-			},
-			"StatusConta": {
-				"$ref": "#/components/schemas/_36_Enums.StatusConta"
-			},
 			"Tecnologia": {
 				"properties": {
 					"idTecnologia": {
@@ -407,6 +369,44 @@
 				"type": "object",
 				"additionalProperties": true
 			},
+			"_36_Enums.TipoUser": {
+				"type": "string",
+				"enum": [
+					"DOCENTE",
+					"TI",
+					"ADM"
+				]
+			},
+			"TipoUser": {
+				"$ref": "#/components/schemas/_36_Enums.TipoUser"
+			},
+			"CreateUser": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"tipoUser": {
+						"$ref": "#/components/schemas/TipoUser"
+					}
+				},
+				"required": [
+					"email",
+					"tipoUser"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"_36_Enums.StatusConta": {
+				"type": "string",
+				"enum": [
+					"DESATIVADA",
+					"ATIVA",
+					"CONVIDADA"
+				]
+			},
+			"StatusConta": {
+				"$ref": "#/components/schemas/_36_Enums.StatusConta"
+			},
 			"Agendamento": {
 				"properties": {
 					"idAgendamento": {
@@ -567,207 +567,6 @@
 		}
 	},
 	"paths": {
-		"/Coordenacao/Criar_Usuario": {
-			"post": {
-				"operationId": "HandleCreateUser",
-				"responses": {
-					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					},
-					"400": {
-						"description": "Validation Failed"
-					}
-				},
-				"tags": [
-					"coordenador"
-				],
-				"security": [
-					{
-						"jwt": [
-							"ADM"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateUser"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Coordenacao/listar": {
-			"get": {
-				"operationId": "HandleFindUsers",
-				"responses": {
-					"200": {
-						"description": "Search Completed",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					},
-					"400": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"msg": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"msg"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"coordenador"
-				],
-				"security": [
-					{
-						"jwt": [
-							"ADM"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "tipoUser",
-						"required": false,
-						"schema": {
-							"$ref": "#/components/schemas/TipoUser"
-						}
-					},
-					{
-						"in": "query",
-						"name": "statusConta",
-						"required": false,
-						"schema": {
-							"$ref": "#/components/schemas/StatusConta"
-						}
-					}
-				]
-			}
-		},
-		"/Auth/login": {
-			"get": {
-				"operationId": "Login",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"autenticacao"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/Auth/callback": {
-			"get": {
-				"operationId": "HandleCallback",
-				"responses": {
-					"200": {
-						"description": "Autenticado",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					},
-					"500": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"error"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"autenticacao"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/Auth/refresh": {
-			"get": {
-				"operationId": "Refresh",
-				"responses": {
-					"200": {
-						"description": "TokenRenovado",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"accessToken": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"accessToken"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"error"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"autenticacao"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
 		"/tecnologias": {
 			"post": {
 				"operationId": "CriarTecnologia",
@@ -786,7 +585,11 @@
 				"tags": [
 					"Tecnologias"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -916,7 +719,11 @@
 				"tags": [
 					"Tecnologias"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -949,7 +756,11 @@
 				"tags": [
 					"Tecnologias"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -981,7 +792,11 @@
 				"tags": [
 					"Inventários"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1221,7 +1036,11 @@
 				"tags": [
 					"Inventários"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1254,7 +1073,11 @@
 				"tags": [
 					"Inventários"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1286,7 +1109,11 @@
 				"tags": [
 					"Dispositivos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1432,7 +1259,11 @@
 				"tags": [
 					"Dispositivos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1465,7 +1296,11 @@
 				"tags": [
 					"Dispositivos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1477,6 +1312,207 @@
 						}
 					}
 				]
+			}
+		},
+		"/Coordenacao/Criar_Usuario": {
+			"post": {
+				"operationId": "HandleCreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"400": {
+						"description": "Validation Failed"
+					}
+				},
+				"tags": [
+					"coordenador"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUser"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/Coordenacao/listar": {
+			"get": {
+				"operationId": "HandleFindUsers",
+				"responses": {
+					"200": {
+						"description": "Search Completed",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"coordenador"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "tipoUser",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/TipoUser"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statusConta",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatusConta"
+						}
+					}
+				]
+			}
+		},
+		"/Auth/login": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/Auth/callback": {
+			"get": {
+				"operationId": "HandleCallback",
+				"responses": {
+					"200": {
+						"description": "Autenticado",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"500": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"error"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/Auth/refresh": {
+			"get": {
+				"operationId": "Refresh",
+				"responses": {
+					"200": {
+						"description": "TokenRenovado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"accessToken": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"accessToken"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"error"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
 		"/agendamentos": {
@@ -1497,7 +1533,11 @@
 				"tags": [
 					"Agendamentos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1617,7 +1657,11 @@
 				"tags": [
 					"Agendamentos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1735,7 +1779,11 @@
 				"tags": [
 					"Agendamentos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1768,7 +1816,11 @@
 				"tags": [
 					"Agendamentos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1800,7 +1852,11 @@
 				"tags": [
 					"Agendamentos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -1832,7 +1888,11 @@
 				"tags": [
 					"Agendamentos"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",

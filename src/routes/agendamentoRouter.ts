@@ -9,7 +9,10 @@ import {
   Path,
   Query,
   Tags,
+  Security,
+  Request,
 } from "tsoa";
+import * as express from "express";
 import { AgendamentoController } from "../controllers/agendamentoController.js";
 import type {
   Agendamento,
@@ -24,15 +27,19 @@ export class AgendamentoRouter extends Controller {
   private controller = new AgendamentoController();
 
   @Post()
+  @Security("jwt")
   async criarAgendamento(
     @Body() agendamento: CreateAgendamento,
+    @Request() request: express.Request,
   ): Promise<Agendamento> {
     return this.controller.criarAgendamento(agendamento);
   }
 
   @Post("solicitar-reserva")
+  @Security("jwt")
   async solicitarReserva(
     @Body() reserva: SolicitarReserva,
+    @Request() request: express.Request,
   ): Promise<Agendamento> {
     return this.controller.solicitarReserva(reserva);
   }
@@ -75,25 +82,39 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Put("{id}")
+  @Security("jwt")
   async atualizarAgendamento(
     @Path() id: number,
     @Body() agendamento: UpdateAgendamento,
+    @Request() request: express.Request,
   ): Promise<Agendamento> {
     return this.controller.atualizarAgendamento(id, agendamento);
   }
 
   @Post("{id}/aprovar")
-  async aprovarAgendamento(@Path() id: number): Promise<Agendamento> {
+  @Security("jwt")
+  async aprovarAgendamento(
+    @Path() id: number,
+    @Request() request: express.Request,
+  ): Promise<Agendamento> {
     return this.controller.aprovarAgendamento(id);
   }
 
   @Post("{id}/cancelar")
-  async cancelarAgendamento(@Path() id: number): Promise<Agendamento> {
+  @Security("jwt")
+  async cancelarAgendamento(
+    @Path() id: number,
+    @Request() request: express.Request,
+  ): Promise<Agendamento> {
     return this.controller.cancelarAgendamento(id);
   }
 
   @Delete("{id}")
-  async deletarAgendamento(@Path() id: number): Promise<void> {
+  @Security("jwt")
+  async deletarAgendamento(
+    @Path() id: number,
+    @Request() request: express.Request,
+  ): Promise<void> {
     return this.controller.deletarAgendamento(id);
   }
 }

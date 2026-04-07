@@ -9,7 +9,10 @@ import {
   Path,
   Query,
   Tags,
+  Security,
+  Request,
 } from "tsoa";
+import * as express from "express";
 import { TecnologiaController } from "../controllers/tecnologiaController.js";
 import * as TecnologiaDTOs from "../interfaces/tecnologia/TecnologiaDTO.js";
 
@@ -19,8 +22,10 @@ export class TecnologiaRouter extends Controller {
   private controller = new TecnologiaController();
 
   @Post()
+  @Security("jwt")
   async criarTecnologia(
     @Body() tecnologia: TecnologiaDTOs.CreateTecnologia,
+    @Request() request: express.Request,
   ): Promise<TecnologiaDTOs.Tecnologia> {
     return this.controller.criarTecnologia(tecnologia);
   }
@@ -42,15 +47,21 @@ export class TecnologiaRouter extends Controller {
   }
 
   @Put("{id}")
+  @Security("jwt")
   async atualizarTecnologia(
     @Path() id: number,
     @Body() tecnologia: TecnologiaDTOs.UpdateTecnologia,
+    @Request() request: express.Request,
   ): Promise<TecnologiaDTOs.Tecnologia> {
     return this.controller.atualizarTecnologia(id, tecnologia);
   }
 
   @Delete("{id}")
-  async deletarTecnologia(@Path() id: number): Promise<void> {
+  @Security("jwt")
+  async deletarTecnologia(
+    @Path() id: number,
+    @Request() request: express.Request,
+  ): Promise<void> {
     return this.controller.deletarTecnologia(id);
   }
 }

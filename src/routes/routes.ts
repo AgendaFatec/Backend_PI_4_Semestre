@@ -692,7 +692,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/dispositivos',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["TI"]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.criarDispositivo)),
 
@@ -726,7 +726,8 @@ export function RegisterRoutes(app: Router) {
                 status: {"in":"query","name":"status","dataType":"string"},
                 busca: {"in":"query","name":"busca","dataType":"string"},
         };
-        app.get('/dispositivos',
+        app.get('/dispositivos/list-devices',
+            authenticateMiddleware([{"jwt":["TI"]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.listarDispositivos)),
 
@@ -756,7 +757,8 @@ export function RegisterRoutes(app: Router) {
         const argsDispositivoRouter_obterDispositivo: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.get('/dispositivos/:id',
+        app.get('/dispositivos/get-device/:id',
+            authenticateMiddleware([{"jwt":["TI"]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.obterDispositivo)),
 
@@ -788,8 +790,8 @@ export function RegisterRoutes(app: Router) {
                 dispositivo: {"in":"body","name":"dispositivo","required":true,"ref":"UpdateDispositivo"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
-        app.put('/dispositivos/:id',
-            authenticateMiddleware([{"jwt":[]}]),
+        app.put('/dispositivos/update-device/:id',
+            authenticateMiddleware([{"jwt":["TI"]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.atualizarDispositivo)),
 
@@ -820,8 +822,8 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
-        app.delete('/dispositivos/:id',
-            authenticateMiddleware([{"jwt":[]}]),
+        app.delete('/dispositivos/delete-device/:id',
+            authenticateMiddleware([{"jwt":["TI"]}]),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
             ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.deletarDispositivo)),
 

@@ -26,15 +26,16 @@ export class DispositivoRouter extends Controller {
   private controller = new DispositivoController();
 
   @Post()
-  @Security("jwt")
+  @Security("jwt", ["TI"])
   async criarDispositivo(
     @Body() dispositivo: CreateDispositivo,
     @Request() request: express.Request,
   ): Promise<Dispositivo> {
     return this.controller.criarDispositivo(dispositivo);
   }
-
-  @Get()
+  
+  @Get('list-devices')
+  @Security("jwt", ["TI"])
   async listarDispositivos(
     @Query() pagina?: number,
     @Query() limite?: number,
@@ -51,13 +52,14 @@ export class DispositivoRouter extends Controller {
     );
   }
 
-  @Get("{id}")
+  @Get("get-device/{id}")
+  @Security("jwt", ["TI"])
   async obterDispositivo(@Path() id: number): Promise<Dispositivo | null> {
     return this.controller.obterDispositivo(id);
   }
 
-  @Put("{id}")
-  @Security("jwt")
+  @Put("update-device/{id}")
+  @Security("jwt", ["TI"])
   async atualizarDispositivo(
     @Path() id: number,
     @Body() dispositivo: UpdateDispositivo,
@@ -66,8 +68,8 @@ export class DispositivoRouter extends Controller {
     return this.controller.atualizarDispositivo(id, dispositivo);
   }
 
-  @Delete("{id}")
-  @Security("jwt")
+  @Delete("delete-device/{id}")
+  @Security("jwt", ["TI"])
   async deletarDispositivo(
     @Path() id: number,
     @Request() request: express.Request,

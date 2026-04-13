@@ -73,7 +73,7 @@ export class CoordeandorRouter extends Controller{
     public async handleDesativarUser(
         @Query() idUser: number,
         @Res() errorRes: TsoaResponse<400, { msg: string }>,
-        @Query() statusUser: StatusConta = StatusConta.DESATIVADA // Default para desativar
+        @Query() statusUser: StatusConta = StatusConta.DESATIVADA 
     ) {
         try {
             const result = await coordenacaoController.handleUpdateUserStatus(idUser, statusUser);

@@ -8,9 +8,12 @@ import { tr } from "zod/locales";
 import { all } from "axios";
 import { userInfo } from "node:os";
 
+import { MailService } from "@/utils/mailService.js";
 
 export class CoordenadorService{
-    constructor(private prisma: PrismaService){}
+    constructor(
+        private prisma: PrismaService,
+    ){}
 
     async createNewUser(newUser: NewUser){
         const userData = await this.prisma.usuario.create({
@@ -40,6 +43,11 @@ export class CoordenadorService{
         };
         // console.log(`\n\n\n user: \n ${user}\n\n`)
 
+        try {
+            await this.sendInvitation(user.email, user.tipoUser)
+        } catch (error) {
+            console.error(`Falha ao enviar convite para ${user.email}:`, error);
+        }
 
         return user
     }
@@ -218,6 +226,24 @@ export class CoordenadorService{
             include: { docente: true, ti: true, adm: true }
         });
     });
-}
+    }
+
+    
+
+
+    private async sendInvitation(email:string, userType: TipoUser){
+        const mailService = new MailService();
+        const user = await this.findUserByEmail(email)
+        try{
+            if(user?.statusUser === StatusConta.ATIVA){
+                const resMailSend = await mailService.sendInvitation(email, userType, user.userNome)
+                return resMailSend
+            }
+            const resMailSend = await mailService.sendInvitation(email,userType)
+            return resMailSend
+        }catch(error){
+            throw error
+        }
+    }
 
 }

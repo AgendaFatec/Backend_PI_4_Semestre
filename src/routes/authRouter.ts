@@ -76,7 +76,7 @@ export class AuthRouter extends Controller{
                 req.session.userId = result.user.userID;
                 req.session.nome = result.user.userNome;
                 req.session.fotoUrl = result.user.fotoUrl;
-                // console.log(`\n\n\n${result.token_jwt}\n\n`)
+                console.log(`\n\n\n${result.token_jwt}\n\n`)
                 
                 // console.log(`${req.session.nome}\n\n${req.session.userId}\n\nComeça aqui: ${req.session.fotoUrl} <-Termina Aqui`)
                 // return req.res.redirect(`/api-docs?token=${result.token_jwt}`);

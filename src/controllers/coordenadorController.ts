@@ -29,6 +29,7 @@ export class CoordenacaoController extends Controller{
                 statusConta: "CONVIDADA",
                 dataCriacao: new Date()
             };
+
             return await this.coordenacaoService.createNewUser(newUserData)
         }catch(Erro){
             return error
@@ -51,4 +52,16 @@ export class CoordenacaoController extends Controller{
 
         return await this.coordenacaoService.updateStatusConta(idUser, status, user.tipoUser);
     }
+
+
+
+    // private async handleSendInvitation(email:string, userType:TipoUser){
+    //     const user = await this.coordenacaoService.findUserByEmail(email)
+    //     if (!user) {
+    //         this.setStatus(404);
+    //         return new Error("Usuário não encontrado.");
+    //     }
+    //     return await this.coordenacaoService.sendInvitation(email, userType, user)
+        
+    // }
 }

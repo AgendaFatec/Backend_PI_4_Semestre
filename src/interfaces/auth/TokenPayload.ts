@@ -10,4 +10,8 @@ export interface TokenPayload {
     status: StatusConta;    
     iat?: number;      
     exp?: number;     
+    
+    
+    userName:string,
+    // fotoUrl:string
 }

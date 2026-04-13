@@ -84,7 +84,11 @@ export class AuthService{
             sub:user.userID,
             email:user.userEmail,
             role:user.tipoUser,
-            status:user.statusUser
+            status:user.statusUser,
+
+             userName:user.userNome ||"Usuário",
+            // fotoUrl:user.fotoUrl || "foto.jpg",
+
         }
         const token_jwt = Security.generateToken(payload)
         return {user, token_jwt}
@@ -102,7 +106,10 @@ export class AuthService{
             sub:user.userID,
             email:user.userEmail,
             role:user.tipoUser,
-            status:user.statusUser
+            status:user.statusUser,
+
+            userName:user.userNome ||"Usuário",
+            // fotoUrl:user.fotoUrl || "foto.jpg",
         }
         const token_jwt = Security.generateToken(payload)
         return {token_jwt}

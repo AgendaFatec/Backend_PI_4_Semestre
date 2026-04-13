@@ -67,5 +67,20 @@ export class CoordeandorRouter extends Controller{
             return errorRes(400, { msg: "Erro ao listar usuários" });
         }
     }
+    @Security("jwt", ["ADM"])
+    @Patch("desativa-user")
+    @SuccessResponse('200', "Sucesso ao alterar status do usuário")
+    public async handleDesativarUser(
+        @Query() idUser: number,
+        @Res() errorRes: TsoaResponse<400, { msg: string }>,
+        @Query() statusUser: StatusConta = StatusConta.DESATIVADA // Default para desativar
+    ) {
+        try {
+            const result = await coordenacaoController.handleUpdateUserStatus(idUser, statusUser);
+            return result;
+        } catch (err: any) {
+            return errorRes(400, { msg: err.message || "Erro ao processar alteração de status" });
+        }
+    }
 
 }

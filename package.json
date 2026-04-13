@@ -16,6 +16,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "prisma:dev": "npx prisma generate && npx prisma push db && npx prisma db seed",
     "prisma:init": "npx prisma generate && npx prisma migrate dev",
     "tsoa": "tsoa routes && tsoa spec",
     "dev": "npm run tsoa && tsx watch src/index.ts",

@@ -137,6 +137,19 @@ export class CoordenadorService{
         // }
 
     }
+    async findUserByEmail(email_user:string){
+        try{
+            const userValues = await this.prisma.usuario.findUnique({
+                where:{userEmail:email_user},
+                select:{userID:true, userEmail:true, userNome:true, tipoUser:true, statusUser:true}
+            })
+            return userValues
+        }catch(error){
+            console.log(error)
+            throw error
+        }
+    }
+
     async findUserById(id_user:number, statusConta?:StatusConta, tipoUser?:TipoUser){
         const filter: any = {};
         if (tipoUser) filter.tipoUser = tipoUser;
@@ -160,17 +173,51 @@ export class CoordenadorService{
         )
 
     }    
-    async updateStatusConta(id_user:number, statusConta:StatusConta, tipoUser?:TipoUser){
-        const filter:any ={}
-        if(tipoUser) filter.tipoUser = tipoUser
-        return await this.prisma.usuario.update({
-            where:{userID: id_user},
-            data:{
-                statusUser: statusConta,
-                tipoUser: tipoUser
-            }
-        })
+    // async updateStatusConta(id_user:number, statusConta:StatusConta, tipoUser?:TipoUser){
+    //     const filter:any ={}
+    //     if(tipoUser) filter.tipoUser = tipoUser
+    //     try{
+    //         return await this.prisma.usuario.update({
+    //         where:{userID: id_user},
+    //         data:{
+    //             statusUser: statusConta,
+    //             tipoUser: tipoUser
+    //         }
+    //     })
+    //     }catch(erro){
+    //         return erro
+    //     }
 
-    }
+    // }
+    async updateStatusConta(id_user: number, statusConta: StatusConta, novoTipoUser?: TipoUser) {
+    return await this.prisma.$transaction(async (tx) => {
+        const currentUser = await tx.usuario.findUnique({
+            where: { userID: id_user },
+            select: { tipoUser: true }
+        });
+        if (novoTipoUser && currentUser && currentUser.tipoUser !== novoTipoUser) {
+            const oldType = currentUser.tipoUser.toLowerCase();
+            // @ts-ignore
+            await tx[oldType].deleteMany({
+                where: { fk_userID: id_user }
+            });
+
+            const newType = novoTipoUser.toLowerCase();
+            // @ts-ignore
+            await tx[newType].create({
+                data: { fk_userID: id_user }
+            });
+        }
+
+        return await tx.usuario.update({
+            where: { userID: id_user },
+            data: {
+                statusUser: statusConta,
+                tipoUser: novoTipoUser || currentUser?.tipoUser
+            },
+            include: { docente: true, ti: true, adm: true }
+        });
+    });
+}
 
 }

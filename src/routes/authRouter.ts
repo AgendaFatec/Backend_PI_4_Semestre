@@ -1,4 +1,4 @@
-import { Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get,Request as TsoaRequest, Request, Response} from "tsoa";
+import { Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get,Request as TsoaRequest, Request, Response, Path} from "tsoa";
 
 import type { TsoaResponse } from "tsoa";
 import passport from "passport";
@@ -74,9 +74,11 @@ export class AuthRouter extends Controller{
                 const result =await authController.handleCallBack(profile);
                 
                 req.session.userId = result.user.userID;
-                console.log(`\n\n\n${result.token_jwt}\n\n`)
+                req.session.nome = result.user.userNome;
+                req.session.fotoUrl = result.user.fotoUrl;
+                // console.log(`\n\n\n${result.token_jwt}\n\n`)
                 
-                
+                // console.log(`${req.session.nome}\n\n${req.session.userId}\n\nComeça aqui: ${req.session.fotoUrl} <-Termina Aqui`)
                 // return req.res.redirect(`/api-docs?token=${result.token_jwt}`);
                 const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
                 return req.res.redirect(`${frontendUrl}/login?token=${result.token_jwt}`);
@@ -115,10 +117,30 @@ export class AuthRouter extends Controller{
         }
         try{
             const newToken = await authController.handleRefreshToken(userId);
-            console.log(newToken.token_jwt)
+            // console.log(newToken.token_jwt)
             return {accessToken: newToken.token_jwt}
         }catch(error:any){
             return unauthorizedRes(401, {error:"Não foi possivel renovar o token"})
         }
     }
+
+    @Get("user-photo/{userId}")
+    public async getUserPhoto(
+        @Path() userId: number,
+        @Res() notFoundRes: TsoaResponse<404, { msg: string }>
+    ): Promise<any> {
+        const user = await prismaService.usuario.findUnique({
+            where: { userID: userId },
+            select: { fotoUrl: true }
+        });
+
+        if (!user || !user.fotoUrl) {
+            return notFoundRes(404, { msg: "Foto não encontrada" });
+        }
+        const base64Data = user.fotoUrl.replace(/^data:image\/\w+;base64,/, "");
+        const imgBuffer = Buffer.from(base64Data, 'base64');
+        this.setHeader("Content-Type", "image/jpeg"); 
+        return imgBuffer;
+    }
+
 }

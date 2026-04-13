@@ -567,6 +567,90 @@
 		}
 	},
 	"paths": {
+		"/Usuarios/me": {
+			"get": {
+				"operationId": "GetMe",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Usuarios"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM",
+							"DOCENTE",
+							"TI"
+						]
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/Usuarios/foto/{userId}": {
+			"get": {
+				"operationId": "GetFoto",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Usuarios"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM",
+							"DOCENTE",
+							"TI"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/tecnologias": {
 			"post": {
 				"operationId": "CriarTecnologia",
@@ -1414,6 +1498,68 @@
 				]
 			}
 		},
+		"/Coordenacao/desativa-user": {
+			"patch": {
+				"operationId": "HandleDesativarUser",
+				"responses": {
+					"200": {
+						"description": "Sucesso ao alterar status do usuário",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"coordenador"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "idUser",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statusUser",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatusConta"
+						}
+					}
+				]
+			}
+		},
 		"/Auth/login": {
 			"get": {
 				"operationId": "Login",
@@ -1513,6 +1659,54 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/Auth/user-photo/{userId}": {
+			"get": {
+				"operationId": "GetUserPhoto",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/agendamentos": {

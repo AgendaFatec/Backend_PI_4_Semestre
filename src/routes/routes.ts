@@ -4,6 +4,8 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { UsuariosRouter } from './usuarioRouter.js';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TecnologiaRouter } from './tecnologiaRouter.js';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { InventarioRouter } from './inventarioRouter.js';
@@ -241,6 +243,69 @@ export function RegisterRoutes(app: Router) {
 
 
     
+        const argsUsuariosRouter_getMe: Record<string, TsoaRoute.ParameterSchema> = {
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
+        };
+        app.get('/Usuarios/me',
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE","TI"]}]),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter)),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter.prototype.getMe)),
+
+            async function UsuariosRouter_getMe(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUsuariosRouter_getMe, request, response });
+
+                const controller = new UsuariosRouter();
+
+              await templateService.apiHandler({
+                methodName: 'getMe',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsUsuariosRouter_getFoto: Record<string, TsoaRoute.ParameterSchema> = {
+                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                notFound: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},
+        };
+        app.get('/Usuarios/foto/:userId',
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE","TI"]}]),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter)),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter.prototype.getFoto)),
+
+            async function UsuariosRouter_getFoto(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUsuariosRouter_getFoto, request, response });
+
+                const controller = new UsuariosRouter();
+
+              await templateService.apiHandler({
+                methodName: 'getFoto',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsTecnologiaRouter_criarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
                 tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"CreateTecnologia"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
@@ -848,6 +913,39 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCoordeandorRouter_handleDesativarUser: Record<string, TsoaRoute.ParameterSchema> = {
+                idUser: {"in":"query","name":"idUser","required":true,"dataType":"double"},
+                errorRes: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},
+                statusUser: {"in":"query","name":"statusUser","ref":"StatusConta"},
+        };
+        app.patch('/Coordenacao/desativa-user',
+            authenticateMiddleware([{"jwt":["ADM"]}]),
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter)),
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter.prototype.handleDesativarUser)),
+
+            async function CoordeandorRouter_handleDesativarUser(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCoordeandorRouter_handleDesativarUser, request, response });
+
+                const controller = new CoordeandorRouter();
+
+              await templateService.apiHandler({
+                methodName: 'handleDesativarUser',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAuthRouter_login: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
         };
@@ -934,6 +1032,37 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAuthRouter_getUserPhoto: Record<string, TsoaRoute.ParameterSchema> = {
+                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                notFoundRes: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},
+        };
+        app.get('/Auth/user-photo/:userId',
+            ...(fetchMiddlewares<RequestHandler>(AuthRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AuthRouter.prototype.getUserPhoto)),
+
+            async function AuthRouter_getUserPhoto(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAuthRouter_getUserPhoto, request, response });
+
+                const controller = new AuthRouter();
+
+              await templateService.apiHandler({
+                methodName: 'getUserPhoto',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);

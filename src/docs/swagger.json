@@ -1498,6 +1498,76 @@
 				]
 			}
 		},
+		"/Coordenacao/find-by-id/{id_user}": {
+			"get": {
+				"operationId": "HandleFindUserById",
+				"responses": {
+					"200": {
+						"description": "Search Completed",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"msg": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"msg"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"coordenador"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id_user",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statusConta",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatusConta"
+						}
+					},
+					{
+						"in": "query",
+						"name": "tipoUser",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/TipoUser"
+						}
+					}
+				]
+			}
+		},
 		"/Coordenacao/desativa-user": {
 			"patch": {
 				"operationId": "HandleDesativarUser",

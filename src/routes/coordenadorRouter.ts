@@ -1,4 +1,4 @@
-import {Query, Delete, Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get, Patch, Request as TsoaRequest, Request, Response, Security} from "tsoa";
+import {Query, Delete, Route, Tags, Post, Body, Controller, SuccessResponse, Res, Get, Patch, Request as TsoaRequest, Request, Response, Security, Path} from "tsoa";
 
 import type { TsoaResponse } from "tsoa";
 import type { Request as ExRequest, Response as ExResponse  } from "express";
@@ -14,7 +14,7 @@ import type { CreateUser } from "../interfaces/coordenacao/Coordenacao.js";
 import type { FindUsers } from "../interfaces/coordenacao/Coordenacao.js";
 
 import { NewUserSchema} from "@/schemas/UserSchemas.js";
-import { any, jwt } from "zod";
+import { any, jwt, number } from "zod";
 import { error } from "node:console";
 import { StatusConta, TipoUser } from "@prisma/client";
 
@@ -67,6 +67,26 @@ export class CoordeandorRouter extends Controller{
             return errorRes(400, { msg: "Erro ao listar usuários" });
         }
     }
+
+    @Security("jwt", ["ADM"])
+    @Get("find-by-id/{id_user}")
+    @SuccessResponse("200", "Search Completed")
+    @Response("400", "Bad Request")
+    public async handleFindUserById(
+        @Path() id_user: number,
+        @Res() errorRes: TsoaResponse<400, { msg: string }>,
+        @Query() statusConta?: StatusConta,
+        @Query() tipoUser?: TipoUser,
+    ){
+
+        try {
+            return await coordenacaoController.handleFindUserById(id_user, statusConta,tipoUser);
+        } catch (error) {
+            return errorRes(400, { msg: "Erro ao buscar usuário" });
+        }
+    }
+
+
     @Security("jwt", ["ADM"])
     @Patch("desativa-user")
     @SuccessResponse('200', "Sucesso ao alterar status do usuário")

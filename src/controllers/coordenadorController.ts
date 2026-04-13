@@ -3,6 +3,7 @@ import { CoordenadorService } from "@/services/coordenador/coordenadorService.js
 import { NewUser, CreateUser } from "@/interfaces/coordenacao/Coordenacao.js";
 import { Prisma, StatusConta, TipoUser } from "@prisma/client";
 import { error } from "node:console";
+import { number } from "zod";
 
 
 export class CoordenacaoController extends Controller{
@@ -39,7 +40,9 @@ export class CoordenacaoController extends Controller{
         return await this.coordenacaoService.listUsers(tipoUser, statusConta)
     }
 
-
+    async handleFindUserById(id_user:number, statusConta?: StatusConta, tipoUser?:TipoUser){
+        return await this.coordenacaoService.findUserById(id_user, statusConta, tipoUser)
+    }
 
 
     async handleUpdateUserStatus(idUser: number, status: StatusConta) {

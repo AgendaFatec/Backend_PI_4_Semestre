@@ -913,6 +913,40 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCoordeandorRouter_handleFindUserById: Record<string, TsoaRoute.ParameterSchema> = {
+                id_user: {"in":"path","name":"id_user","required":true,"dataType":"double"},
+                errorRes: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},
+                statusConta: {"in":"query","name":"statusConta","ref":"StatusConta"},
+                tipoUser: {"in":"query","name":"tipoUser","ref":"TipoUser"},
+        };
+        app.get('/Coordenacao/find-by-id/:id_user',
+            authenticateMiddleware([{"jwt":["ADM"]}]),
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter)),
+            ...(fetchMiddlewares<RequestHandler>(CoordeandorRouter.prototype.handleFindUserById)),
+
+            async function CoordeandorRouter_handleFindUserById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCoordeandorRouter_handleFindUserById, request, response });
+
+                const controller = new CoordeandorRouter();
+
+              await templateService.apiHandler({
+                methodName: 'handleFindUserById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCoordeandorRouter_handleDesativarUser: Record<string, TsoaRoute.ParameterSchema> = {
                 idUser: {"in":"query","name":"idUser","required":true,"dataType":"double"},
                 errorRes: {"in":"res","name":"400","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"msg":{"dataType":"string","required":true}}},

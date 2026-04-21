@@ -62,6 +62,7 @@ const models: TsoaRoute.Models = {
             "idInventario": {"dataType":"double","required":true},
             "salaId": {"dataType":"double","required":true},
             "salaNome": {"dataType":"string"},
+            "capacidadeAlunos": {"dataType":"double"},
             "statusInventario": {"dataType":"string","required":true},
             "dispositivos": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"quantidade":{"dataType":"double","required":true},"tipoDispositivo":{"dataType":"string","required":true},"nomeDispositivo":{"dataType":"string","required":true},"idDispositivo":{"dataType":"double","required":true}}},"required":true},
             "tecnologias": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"descricao":{"dataType":"string"},"nomeTecnologia":{"dataType":"string","required":true},"idTecnologia":{"dataType":"double","required":true}}},"required":true},
@@ -89,9 +90,28 @@ const models: TsoaRoute.Models = {
             "nomeSala": {"dataType":"string","required":true},
             "tipoSala": {"dataType":"string","required":true},
             "capacidadeAlunos": {"dataType":"double"},
-            "fotoSala": {"dataType":"string"},
+            "fotoSala": {"dataType":"array","array":{"dataType":"string"}},
             "disponibilidadeSala": {"dataType":"boolean","required":true},
             "inventario": {"dataType":"nestedObjectLiteral","nestedProperties":{"tecnologias":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"nomeTecnologia":{"dataType":"string","required":true},"idTecnologia":{"dataType":"double","required":true}}},"required":true},"dispositivos":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"nomes":{"dataType":"array","array":{"dataType":"string"},"required":true},"quantidade":{"dataType":"double","required":true},"tipoDispositivo":{"dataType":"string","required":true}}},"required":true},"idInventario":{"dataType":"double","required":true}},"required":true},
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DispositivoUpdateDTO": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double"},
+            "nome": {"dataType":"string"},
+            "quantidade": {"dataType":"double","required":true},
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TecnologiaUpdateDTO": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double"},
+            "nome": {"dataType":"string"},
         },
         "additionalProperties": true,
     },
@@ -100,8 +120,10 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "statusInventario": {"dataType":"string"},
-            "dispositivoIds": {"dataType":"array","array":{"dataType":"double"}},
-            "tecnologiaIds": {"dataType":"array","array":{"dataType":"double"}},
+            "dispositivos": {"dataType":"array","array":{"dataType":"refObject","ref":"DispositivoUpdateDTO"}},
+            "tecnologias": {"dataType":"array","array":{"dataType":"refObject","ref":"TecnologiaUpdateDTO"}},
+            "capacidadeAlunos": {"dataType":"double"},
+            "fotoSala": {"dataType":"array","array":{"dataType":"string"}},
         },
         "additionalProperties": true,
     },

@@ -72,6 +72,10 @@
 					"salaNome": {
 						"type": "string"
 					},
+					"capacidadeAlunos": {
+						"type": "number",
+						"format": "double"
+					},
 					"statusInventario": {
 						"type": "string"
 					},
@@ -193,7 +197,10 @@
 						"format": "double"
 					},
 					"fotoSala": {
-						"type": "string"
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
 					"disponibilidadeSala": {
 						"type": "boolean"
@@ -268,22 +275,63 @@
 				"type": "object",
 				"additionalProperties": true
 			},
+			"DispositivoUpdateDTO": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"quantidade": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"quantidade"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"TecnologiaUpdateDTO": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": true
+			},
 			"UpdateInventario": {
 				"properties": {
 					"statusInventario": {
 						"type": "string"
 					},
-					"dispositivoIds": {
+					"dispositivos": {
 						"items": {
-							"type": "number",
-							"format": "double"
+							"$ref": "#/components/schemas/DispositivoUpdateDTO"
 						},
 						"type": "array"
 					},
-					"tecnologiaIds": {
+					"tecnologias": {
 						"items": {
-							"type": "number",
-							"format": "double"
+							"$ref": "#/components/schemas/TecnologiaUpdateDTO"
+						},
+						"type": "array"
+					},
+					"capacidadeAlunos": {
+						"type": "number",
+						"format": "double"
+					},
+					"fotoSala": {
+						"items": {
+							"type": "string"
 						},
 						"type": "array"
 					}

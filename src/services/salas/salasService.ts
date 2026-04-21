@@ -33,5 +33,16 @@ export class SalasService{
         return newSala
     }
 
+    async updateSala(id: number, dataValues: any) {
+        const salaAtualizada = await this.prisma.sala.update({
+            where: { idSala: id },
+            data: {
+                capacidadeAlunos: dataValues.capacidadeAlunos,
+                nomeSala: dataValues.nomeSala,
+            }
+        });
+        return salaAtualizada;
+    }
+
     //demais funçãoes
 }

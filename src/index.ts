@@ -9,6 +9,9 @@ import './config/passportConfig.js';
 import { IMicrosoftProfile } from './interfaces/microsoft/IMicrosoftProfile.js';
 // import { AuthController } from './controllers/authController.js';
 import { PrismaService } from './database/database.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 import cors from "cors"
 
@@ -52,6 +55,30 @@ app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) =
   } catch (err) {
     return res.status(500).send("O arquivo swagger.json ainda não foi gerado.");
   }
+});
+
+const uploadDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: function (req: any, file: any, cb: any) { cb(null, uploadDir); },
+    filename: function (req: any, file: any, cb: any) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
+
+app.use('/uploads', express.static(uploadDir));
+
+app.post('/upload', upload.single('file'), (req: any, res: any) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    }
+    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    res.json({ url: fileUrl });
 });
 
 

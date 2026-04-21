@@ -1,7 +1,20 @@
+export interface DispositivoUpdateDTO {
+  id?: number;
+  nome?: string;
+  quantidade: number;
+}
+
+export interface TecnologiaUpdateDTO {
+  id?: number;
+  nome?: string;
+}
+
 export interface Inventario {
   idInventario: number;
   salaId: number;
   salaNome?: string;
+  capacidadeAlunos?: number;
+  fotoSala?: string[];
   statusInventario: string;
   dispositivos: {
     idDispositivo: number;
@@ -27,21 +40,23 @@ export interface CreateInventario {
 
 export interface UpdateInventario {
   statusInventario?: string;
-  dispositivoIds?: number[];
-  tecnologiaIds?: number[];
+  dispositivos?: DispositivoUpdateDTO[]; 
+  tecnologias?: TecnologiaUpdateDTO[];
+  capacidadeAlunos?: number;
+  fotoSala?: string[];
 }
 
 export interface ListarInventarioQuery {
   pagina?: number;
   limite?: number;
   status?: string;
-  Search_Sala?: string; // busca por nome de sala
+  Search_Sala?: string; 
 }
 
 export interface ListarInventarioComBusca {
   pagina?: number;
   limite?: number;
-  busca?: string; // busca por palavra-chave (dispositivos ou tecnologias)
+  busca?: string; 
 }
 
 export interface SalasComInventario {
@@ -49,7 +64,7 @@ export interface SalasComInventario {
   nomeSala: string;
   tipoSala: string;
   capacidadeAlunos?: number;
-  fotoSala?: string;
+  fotoSala?: string[];
   disponibilidadeSala: boolean;
   inventario: {
     idInventario: number;

@@ -23,6 +23,7 @@ export class AgendamentoController {
   async solicitarReserva(reserva: SolicitarReserva): Promise<Agendamento> {
     return await this.agendamentoService.create({
       salaId: reserva.salaId,
+      usuarioId: reserva.usuarioId,
       dataAgendamento: reserva.dataAgendamento,
       horaInicio: reserva.horaInicio,
       horaFim: reserva.horaFim,

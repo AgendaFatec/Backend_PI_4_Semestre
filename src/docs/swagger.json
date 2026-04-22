@@ -76,6 +76,12 @@
 						"type": "number",
 						"format": "double"
 					},
+					"fotoSala": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
 					"statusInventario": {
 						"type": "string"
 					},
@@ -549,6 +555,10 @@
 						"type": "number",
 						"format": "double"
 					},
+					"usuarioId": {
+						"type": "number",
+						"format": "double"
+					},
 					"dataAgendamento": {
 						"type": "string",
 						"format": "date-time"
@@ -565,6 +575,7 @@
 				},
 				"required": [
 					"salaId",
+					"usuarioId",
 					"dataAgendamento",
 					"horaInicio",
 					"horaFim"

@@ -44,7 +44,7 @@ export class AgendamentoService {
       },
     });
 
-    return this.mapToDTO(agendamento);
+    return await this.mapToDTO(agendamento);
   }
 
   async findAll(
@@ -88,8 +88,10 @@ export class AgendamentoService {
       this.prisma.agendamento.count({ where }),
     ]);
 
+    const mappedData = await Promise.all(agendamentos.map((a: any) => this.mapToDTO(a)));
+
     return {
-      data: agendamentos.map((a: any) => this.mapToDTO(a)),
+      data: mappedData,
       total,
     };
   }
@@ -102,7 +104,7 @@ export class AgendamentoService {
       },
     });
 
-    return agendamento ? this.mapToDTO(agendamento) : null;
+    return agendamento ? await this.mapToDTO(agendamento) : null;
   }
 
   async findBySalaId(
@@ -136,7 +138,7 @@ export class AgendamentoService {
       orderBy: { dataAgendamento: "asc" },
     });
 
-    return agendamentos.map((a) => this.mapToDTO(a));
+    return await Promise.all(agendamentos.map((a) => this.mapToDTO(a)));
   }
 
   async update(id: number, data: UpdateAgendamento): Promise<Agendamento> {
@@ -179,7 +181,7 @@ export class AgendamentoService {
       },
     });
 
-    return this.mapToDTO(updated);
+    return await this.mapToDTO(updated);
   }
 
   async delete(id: number): Promise<void> {
@@ -197,7 +199,7 @@ export class AgendamentoService {
       },
     });
 
-    return this.mapToDTO(agendamento);
+    return await this.mapToDTO(agendamento);
   }
 
   async cancelarAgendamento(id: number): Promise<Agendamento> {
@@ -209,7 +211,7 @@ export class AgendamentoService {
       },
     });
 
-    return this.mapToDTO(agendamento);
+    return await this.mapToDTO(agendamento);
   }
 
   private async validarConflitosHorarios(
@@ -268,12 +270,34 @@ export class AgendamentoService {
     }
   }
 
-  private mapToDTO(agendamento: any): Agendamento {
+private async mapToDTO(agendamento: any): Promise<any> {
+    let docenteNome = "Professor não identificado";
+
+    const targetUserId = agendamento.usuarioId || agendamento.docenteId;
+
+    if (targetUserId) {
+      try {
+        const usuario = await this.prisma.usuario.findUnique({
+          where: { 
+            userID: targetUserId
+          },
+          select: { userNome: true, userEmail: true }
+        });
+
+        if (usuario) {
+          docenteNome = usuario.userNome || usuario.userEmail || "Professor sem nome";
+        }
+      } catch (err) {
+        console.error("Erro ao buscar nome do usuário no banco:", err);
+      }
+    }
+
     return {
       idAgendamento: agendamento.idAgendamento,
       salaId: agendamento.salaId,
       salaNome: agendamento.sala?.nomeSala,
-      usuarioId: agendamento.usuarioId,
+      usuarioId: targetUserId,
+      docenteNome: docenteNome, 
       dataAgendamento: agendamento.dataAgendamento,
       horaInicio: agendamento.horaInicio,
       horaFim: agendamento.horaFim,
@@ -281,6 +305,6 @@ export class AgendamentoService {
       statusAgendamento: agendamento.statusAgendamento,
       criadoEm: agendamento.criadoEm,
       atualizadoEm: agendamento.atualizadoEm,
-    };
+    } as any;
   }
 }

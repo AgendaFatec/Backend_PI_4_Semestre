@@ -40,6 +40,7 @@ export interface ListarAgendamentoQuery {
 
 export interface SolicitarReserva {
   salaId: number;
+  usuarioId: number;
   dataAgendamento: Date;
   horaInicio: string;
   horaFim: string;

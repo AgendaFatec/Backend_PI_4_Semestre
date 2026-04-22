@@ -63,6 +63,7 @@ const models: TsoaRoute.Models = {
             "salaId": {"dataType":"double","required":true},
             "salaNome": {"dataType":"string"},
             "capacidadeAlunos": {"dataType":"double"},
+            "fotoSala": {"dataType":"array","array":{"dataType":"string"}},
             "statusInventario": {"dataType":"string","required":true},
             "dispositivos": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"quantidade":{"dataType":"double","required":true},"tipoDispositivo":{"dataType":"string","required":true},"nomeDispositivo":{"dataType":"string","required":true},"idDispositivo":{"dataType":"double","required":true}}},"required":true},
             "tecnologias": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"descricao":{"dataType":"string"},"nomeTecnologia":{"dataType":"string","required":true},"idTecnologia":{"dataType":"double","required":true}}},"required":true},
@@ -228,6 +229,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "salaId": {"dataType":"double","required":true},
+            "usuarioId": {"dataType":"double","required":true},
             "dataAgendamento": {"dataType":"datetime","required":true},
             "horaInicio": {"dataType":"string","required":true},
             "horaFim": {"dataType":"string","required":true},

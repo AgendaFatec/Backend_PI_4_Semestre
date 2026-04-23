@@ -23,21 +23,21 @@ export class UsuariosRouter extends Controller {
     }
 
 
-    @Security("jwt",['ADM','DOCENTE','TI'])
+    @Security("jwt", ['ADM','DOCENTE','TI'])
     @Get("foto/{userId}")
     public async getFoto(
         @Path() userId: number,
         @Res() notFound: TsoaResponse<404, { msg: string }>
     ): Promise<any> {
         const foto = await this.usuariosController.handleGetPhoto(userId);
-        
+        // console.log(typeof(foto))
+
         if (!foto) {
             return notFound(404, { msg: "Usuário sem foto cadastrada." });
         }
 
         this.setHeader("Content-Type", "image/jpeg");
         this.setHeader("Cache-Control", "public, max-age=3600"); 
-        
         return foto;
     }
 }

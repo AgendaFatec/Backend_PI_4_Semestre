@@ -68,7 +68,6 @@ export class AuthRouter extends Controller{
             if (err || !profile) {
                 return reject(errorRes(500, { error: "Falha na autenticação Microsoft" }));
             }
-
             try {
 
                 const result =await authController.handleCallBack(profile);
@@ -76,11 +75,14 @@ export class AuthRouter extends Controller{
                 req.session.userId = result.user.userID;
                 req.session.nome = result.user.userNome;
                 req.session.fotoUrl = result.user.fotoUrl;
-                console.log(`\n\n\n${result.token_jwt}\n\n`)
-                
+                // console.log(`\n\n\n${result.token_jwt}\n\n`)
+                // console.log(req)
+
+
                 // console.log(`${req.session.nome}\n\n${req.session.userId}\n\nComeça aqui: ${req.session.fotoUrl} <-Termina Aqui`)
                 // return req.res.redirect(`/api-docs?token=${result.token_jwt}`);
                 const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+                // console.log(`\n\n ${req.res.redirect(`${frontendUrl}/login?token=${result.token_jwt}`)}\n\n`)
                 return req.res.redirect(`${frontendUrl}/login?token=${result.token_jwt}`);
 
             } catch (error: any) {

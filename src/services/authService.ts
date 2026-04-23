@@ -73,7 +73,7 @@ export class AuthService{
             })
         }
 
-
+        console.log(user)
         return user
 
     }

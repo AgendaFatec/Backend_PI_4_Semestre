@@ -40,23 +40,38 @@ export interface CreateInventario {
 
 export interface UpdateInventario {
   statusInventario?: string;
-  dispositivos?: DispositivoUpdateDTO[]; 
+  dispositivos?: DispositivoUpdateDTO[];
   tecnologias?: TecnologiaUpdateDTO[];
   capacidadeAlunos?: number;
   fotoSala?: string[];
+}
+
+export interface AtualizarInventarioPayload {
+  dispositivo: {
+    nomeDispositivo: string;
+    tipoDispositivo: string;
+    patrimonio?: string;
+    statusDispositivo?: string;
+  };
+  inventario: {
+    type: "create" | "update";
+    data:
+      | CreateInventario
+      | (UpdateInventario & { id?: number; salaId?: number });
+  };
 }
 
 export interface ListarInventarioQuery {
   pagina?: number;
   limite?: number;
   status?: string;
-  Search_Sala?: string; 
+  Search_Sala?: string;
 }
 
 export interface ListarInventarioComBusca {
   pagina?: number;
   limite?: number;
-  busca?: string; 
+  busca?: string;
 }
 
 export interface SalasComInventario {

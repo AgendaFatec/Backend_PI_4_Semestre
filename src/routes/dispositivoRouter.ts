@@ -19,6 +19,10 @@ import type {
   UpdateDispositivo,
   Dispositivo,
 } from "../interfaces/dispositivo/DispositivoDTO.js";
+import type {
+  Inventario,
+  AtualizarInventarioPayload,
+} from "../interfaces/inventario/InventarioDTO.js";
 
 @Tags("Dispositivos")
 @Route("dispositivos")
@@ -33,8 +37,8 @@ export class DispositivoRouter extends Controller {
   ): Promise<Dispositivo> {
     return this.controller.criarDispositivo(dispositivo);
   }
-  
-  @Get('list-devices')
+
+  @Get("list-devices")
   @Security("jwt", ["TI"])
   async listarDispositivos(
     @Query() pagina?: number,
@@ -75,5 +79,14 @@ export class DispositivoRouter extends Controller {
     @Request() request: express.Request,
   ): Promise<void> {
     return this.controller.deletarDispositivo(id);
+  }
+
+  @Post("atualizar-inventario")
+  @Security("jwt", ["TI"])
+  async atualizarInventarioCompleto(
+    @Body() payload: AtualizarInventarioPayload,
+    @Request() request: express.Request,
+  ): Promise<Inventario> {
+    return this.controller.atualizarInventarioCompleto(payload);
   }
 }

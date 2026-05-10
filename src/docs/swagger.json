@@ -92,6 +92,12 @@
 									"type": "number",
 									"format": "double"
 								},
+								"statusDispositivo": {
+									"type": "string"
+								},
+								"patrimonio": {
+									"type": "string"
+								},
 								"tipoDispositivo": {
 									"type": "string"
 								},
@@ -105,6 +111,7 @@
 							},
 							"required": [
 								"quantidade",
+								"statusDispositivo",
 								"tipoDispositivo",
 								"nomeDispositivo",
 								"idDispositivo"
@@ -235,6 +242,18 @@
 							"dispositivos": {
 								"items": {
 									"properties": {
+										"status": {
+											"items": {
+												"type": "string"
+											},
+											"type": "array"
+										},
+										"patrimonios": {
+											"items": {
+												"type": "string"
+											},
+											"type": "array"
+										},
 										"nomes": {
 											"items": {
 												"type": "string"
@@ -331,6 +350,13 @@
 						},
 						"type": "array"
 					},
+					"tecnologiaIds": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
 					"capacidadeAlunos": {
 						"type": "number",
 						"format": "double"
@@ -423,6 +449,80 @@
 				"type": "object",
 				"additionalProperties": true
 			},
+			"AtualizarInventarioPayload": {
+				"properties": {
+					"dispositivo": {
+						"properties": {
+							"statusDispositivo": {
+								"type": "string"
+							},
+							"patrimonio": {
+								"type": "string"
+							},
+							"tipoDispositivo": {
+								"type": "string"
+							},
+							"nomeDispositivo": {
+								"type": "string"
+							},
+							"idDispositivo": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"tipoDispositivo",
+							"nomeDispositivo"
+						],
+						"type": "object"
+					},
+					"inventario": {
+						"properties": {
+							"data": {
+								"properties": {
+									"tecnologiaIds": {
+										"items": {
+											"type": "number",
+											"format": "double"
+										},
+										"type": "array"
+									},
+									"salaId": {
+										"type": "number",
+										"format": "double"
+									},
+									"id": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"salaId"
+								],
+								"type": "object"
+							},
+							"type": {
+								"type": "string",
+								"enum": [
+									"create",
+									"update"
+								]
+							}
+						},
+						"required": [
+							"data",
+							"type"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"dispositivo",
+					"inventario"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
 			"_36_Enums.TipoUser": {
 				"type": "string",
 				"enum": [
@@ -460,6 +560,80 @@
 			},
 			"StatusConta": {
 				"$ref": "#/components/schemas/_36_Enums.StatusConta"
+			},
+			"_36_Enums.TipoProblema": {
+				"type": "string",
+				"enum": [
+					"Hardware",
+					"Software"
+				]
+			},
+			"TipoProblema": {
+				"$ref": "#/components/schemas/_36_Enums.TipoProblema"
+			},
+			"CreateChamadaRequest": {
+				"properties": {
+					"salaId": {
+						"type": "number",
+						"format": "double"
+					},
+					"usuarioId": {
+						"type": "number",
+						"format": "double"
+					},
+					"dispositivoId": {
+						"type": "number",
+						"format": "double"
+					},
+					"tipoProblema": {
+						"$ref": "#/components/schemas/TipoProblema"
+					},
+					"descricao": {
+						"type": "string"
+					},
+					"anexos": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"salaId",
+					"usuarioId",
+					"tipoProblema",
+					"descricao"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"_36_Enums.ChamadaStatus": {
+				"type": "string",
+				"enum": [
+					"ABERTO",
+					"EM_ATENDIMENTO",
+					"RESOLVIDO"
+				]
+			},
+			"ChamadaStatus": {
+				"$ref": "#/components/schemas/_36_Enums.ChamadaStatus"
+			},
+			"UpdateStatusRequest": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/ChamadaStatus"
+					},
+					"tecnicoId": {
+						"type": "number",
+						"format": "double"
+					},
+					"acoesRealizadas": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"tecnicoId"
+				],
+				"type": "object",
+				"additionalProperties": true
 			},
 			"Agendamento": {
 				"properties": {
@@ -1481,6 +1655,44 @@
 				]
 			}
 		},
+		"/dispositivos/atualizar-inventario": {
+			"post": {
+				"operationId": "AtualizarInventarioCompleto",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Inventario"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Dispositivos"
+				],
+				"security": [
+					{
+						"jwt": [
+							"TI"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AtualizarInventarioPayload"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/Coordenacao/Criar_Usuario": {
 			"post": {
 				"operationId": "HandleCreateUser",
@@ -1711,6 +1923,122 @@
 						}
 					}
 				]
+			}
+		},
+		"/chamados": {
+			"post": {
+				"operationId": "Criar",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Chamados"
+				],
+				"security": [
+					{
+						"jwt": [
+							"TI",
+							"DOCENTE"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateChamadaRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "Listar",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Chamados"
+				],
+				"security": [
+					{
+						"jwt": [
+							"TI"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "status",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/ChamadaStatus"
+						}
+					}
+				]
+			}
+		},
+		"/chamados/{id}/status": {
+			"put": {
+				"operationId": "AtualizarStatus",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Chamados"
+				],
+				"security": [
+					{
+						"jwt": [
+							"TI"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateStatusRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/Auth/login": {

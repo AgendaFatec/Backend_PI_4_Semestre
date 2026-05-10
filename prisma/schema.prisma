@@ -21,6 +21,10 @@ model Usuario {
   docente       Docente?
   ti            TI?
 
+
+  chamadasAbertas   ChamadaTecnica[] @relation("DocenteChamada")
+  chamadasAtendidas ChamadaTecnica[] @relation("TecnicoChamada")
+
   @@index([userID])
   @@index([userNome])
   @@index([tipoUser])
@@ -56,6 +60,8 @@ model Sala {
   agendamentos        Agendamento[]
   historicos          HistoricoInventario[]
 
+  chamadas            ChamadaTecnica[]
+
   @@index([tipoSala])
   @@index([idSala])
   @@index([disponibilidadeSala])
@@ -86,6 +92,8 @@ model Dispositivo {
   dataAtualizacao       DateTime                 @updatedAt
   inventarios           InventarioDispositivo[]
   historicos            DispositivoHistorico[]
+
+  chamadas              ChamadaTecnica[]
 
   @@index([tipoDispositivo])
   @@index([statusDispositivo])
@@ -174,6 +182,32 @@ model Agendamento {
   @@index([statusAgendamento])
 }
 
+
+
+model ChamadaTecnica {
+  idChamada         Int           @id @default(autoincrement())
+  dataChamada       DateTime      @default(now())
+  dataResposta      DateTime?
+  anexos            String?       @db.VarChar(255)
+  tipoProblema      TipoProblema
+  descricao         String        @db.VarChar(255)
+  status            ChamadaStatus @default(ABERTO)
+  acoesRealizadas   String?       @db.Text
+  salaId            Int
+  sala              Sala          @relation(fields: [salaId], references: [idSala])
+  usuarioId         Int
+  usuario           Usuario       @relation("DocenteChamada", fields: [usuarioId], references: [userID])
+  tecnicoId         Int?
+  tecnico           Usuario?      @relation("TecnicoChamada", fields: [tecnicoId], references: [userID])
+  dispositivoId     Int?
+  dispositivo       Dispositivo?  @relation(fields: [dispositivoId], references: [idDispositivo])
+
+  @@map("chamadas_tecnicas")
+}
+
+
+
+
 enum TipoSala {
   COMUN
   LAB
@@ -233,4 +267,9 @@ enum TipoAlteracao {
   ADICIONAR_TECNOLOGIA
   REMOVER_TECNOLOGIA
   ALTERACAO_STATUS
+}
+
+enum TipoProblema {
+  Hardware
+  Software
 }

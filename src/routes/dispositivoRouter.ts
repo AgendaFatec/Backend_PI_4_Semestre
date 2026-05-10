@@ -87,6 +87,6 @@ export class DispositivoRouter extends Controller {
     @Body() payload: AtualizarInventarioPayload,
     @Request() request: express.Request,
   ): Promise<Inventario> {
-    return this.controller.atualizarInventarioCompleto(payload);
+    return await this.controller.atualizarInventarioCompleto(payload);
   }
 }

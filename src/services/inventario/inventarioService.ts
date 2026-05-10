@@ -391,6 +391,8 @@ export class InventarioService {
         idDispositivo: d.dispositivo.idDispositivo,
         nomeDispositivo: d.dispositivo.nomeDispositivo,
         tipoDispositivo: d.dispositivo.tipoDispositivo,
+        patrimonio: d.dispositivo.patrimonio,       // <-- AGORA ENVIANDO PATRIMÔNIO
+        statusDispositivo: d.dispositivo.statusDispositivo, // <-- AGORA ENVIANDO STATUS
         quantidade: d.quantidade,
       })),
       tecnologias: inventario.tecnologias.map((t: any) => ({
@@ -402,159 +404,288 @@ export class InventarioService {
       atualizadoEm: inventario.atualizadoEm,
     };
   }
+  // private mapToDTO(inventario: any): Inventario {
+  //   return {
+  //     idInventario: inventario.idInventario,
+  //     salaId: inventario.salaId,
+  //     salaNome: inventario.sala?.nomeSala,
+  //     capacidadeAlunos: inventario.sala?.capacidadeAlunos,
+  //     fotoSala: inventario.sala?.fotoSala,
+  //     statusInventario: inventario.statusInventario,
+  //     dispositivos: inventario.dispositivos.map((d: any) => ({
+  //       idDispositivo: d.dispositivo.idDispositivo,
+  //       nomeDispositivo: d.dispositivo.nomeDispositivo,
+  //       tipoDispositivo: d.dispositivo.tipoDispositivo,
+  //       quantidade: d.quantidade,
+  //     })),
+  //     tecnologias: inventario.tecnologias.map((t: any) => ({
+  //       idTecnologia: t.tecnologia.idTecnologia,
+  //       nomeTecnologia: t.tecnologia.nomeTecnologia,
+  //       descricao: t.tecnologia.descricao,
+  //     })),
+  //     criadoEm: inventario.criadoEm,
+  //     atualizadoEm: inventario.atualizadoEm,
+  //   };
+  // }
+
+  // async atualizarInventarioCompleto(
+  //   payload: AtualizarInventarioPayload,
+  // ): Promise<Inventario> {
+  //   // Validações iniciais
+  //   console.log(payload)
+  //   if (!payload.inventario?.type) {
+  //     throw new Error(
+  //       "Tipo de operação de inventário obrigatório (create ou update)",
+  //     );
+  //   }
+
+  //   if (payload.inventario.type === "create") {
+  //     const createData = payload.inventario.data as CreateInventario;
+  //     if (!createData.salaId) {
+  //       throw new Error("salaId é obrigatório para criar um novo inventário");
+  //     }
+  //   } else if (payload.inventario.type === "update") {
+  //     const updateData = payload.inventario.data as any;
+  //     if (!updateData.id && !updateData.salaId) {
+  //       throw new Error(
+  //         "id ou salaId é obrigatório para atualizar um inventário",
+  //       );
+  //     }
+  //   }
+
+  //   return await this.prisma.$transaction(async (tx: any) => {
+  //     const novoDispositivo = await tx.dispositivo.create({
+  //       data: {
+  //         nomeDispositivo: payload.dispositivo.nomeDispositivo,
+  //         tipoDispositivo: payload.dispositivo.tipoDispositivo as any,
+  //         patrimonio: payload.dispositivo.patrimonio,
+  //         statusDispositivo:
+  //           (payload.dispositivo.statusDispositivo as any) || "ATIVO",
+  //       },
+  //     });
+
+  //     let inventarioId: number;
+
+  //     if (payload.inventario.type === "create") {
+  //       // CREATE: Criar novo inventário com o dispositivo
+  //       const createData = payload.inventario.data as CreateInventario;
+
+  //       const sala = await tx.sala.findUnique({
+  //         where: { idSala: createData.salaId },
+  //       });
+
+  //       if (!sala) {
+  //         throw new Error("Sala não encontrada");
+  //       }
+
+  //       const existingInventario = await tx.inventario.findUnique({
+  //         where: { salaId: createData.salaId },
+  //       });
+
+  //       if (existingInventario) {
+  //         throw new Error("Já existe um inventário para esta sala");
+  //       }
+
+  //       const inventario = await tx.inventario.create({
+  //         data: {
+  //           salaId: createData.salaId,
+  //           statusInventario: (createData.statusInventario as any) || "ATIVO",
+  //         },
+  //       });
+
+  //       inventarioId = inventario.idInventario;
+
+  //       // Associar dispositivo ao inventário
+  //       await tx.inventarioDispositivo.create({
+  //         data: {
+  //           inventarioId: inventarioId,
+  //           dispositivoId: novoDispositivo.idDispositivo,
+  //           quantidade: 1,
+  //         },
+  //       });
+
+  //       // Associar tecnologias se houver
+  //       if (createData.tecnologiaIds && createData.tecnologiaIds.length > 0) {
+  //         for (const tecnologiaId of createData.tecnologiaIds) {
+  //           await tx.inventarioTecnologia.create({
+  //             data: {
+  //               inventarioId: inventarioId,
+  //               tecnologiaId,
+  //             },
+  //           });
+  //         }
+  //       }
+
+  //       // Registrar no histórico
+  //       await tx.historicoInventario.create({
+  //         data: {
+  //           inventarioId: inventarioId,
+  //           salaId: createData.salaId,
+  //           tipoAlteracao: "CRIACAO" as any,
+  //           descricaoAlteracao: "Inventário criado com dispositivo",
+  //         },
+  //       });
+  //     } else {
+  //       // Buscar inventário existente e adicionar dispositivo
+  //       const updateData = payload.inventario.data as any;
+  //       let inventario;
+
+  //       if (updateData.id) {
+  //         inventario = await tx.inventario.findUnique({
+  //           where: { idInventario: updateData.id },
+  //           include: { dispositivos: true },
+  //         });
+  //       } else if (updateData.salaId) {
+  //         inventario = await tx.inventario.findUnique({
+  //           where: { salaId: updateData.salaId },
+  //           include: { dispositivos: true },
+  //         });
+  //       }
+
+  //       if (!inventario) {
+  //         throw new Error("Inventário não encontrado");
+  //       }
+
+  //       inventarioId = inventario.idInventario;
+
+  //       const dispositivoExiste = await tx.inventarioDispositivo.findFirst({
+  //         where: {
+  //           inventarioId: inventarioId,
+  //           dispositivoId: novoDispositivo.idDispositivo,
+  //         },
+  //       });
+
+  //       if (!dispositivoExiste) {
+  //         await tx.inventarioDispositivo.create({
+  //           data: {
+  //             inventarioId: inventarioId,
+  //             dispositivoId: novoDispositivo.idDispositivo,
+  //             quantidade: 1,
+  //           },
+  //         });
+
+  //         // Registrar no histórico
+  //         await tx.historicoInventario.create({
+  //           data: {
+  //             inventarioId: inventarioId,
+  //             salaId: inventario.salaId,
+  //             tipoAlteracao: "EDICAO" as any,
+  //             descricaoAlteracao: `Dispositivo ${novoDispositivo.nomeDispositivo} adicionado ao inventário`,
+  //           },
+  //         });
+  //       }
+  //     }
+
+  //     // Retornar inventário atualizado
+  //     const inventarioCompleto = await tx.inventario.findUnique({
+  //       where: { idInventario: inventarioId },
+  //       include: {
+  //         sala: true,
+  //         dispositivos: { include: { dispositivo: true } },
+  //         tecnologias: { include: { tecnologia: true } },
+  //       },
+  //     });
+
+  //     return this.mapToDTO(inventarioCompleto);
+  //   });
+  // }
 
   async atualizarInventarioCompleto(
     payload: AtualizarInventarioPayload,
   ): Promise<Inventario> {
-    // Validações iniciais
-    if (!payload.inventario?.type) {
-      throw new Error(
-        "Tipo de operação de inventário obrigatório (create ou update)",
-      );
-    }
-
-    if (payload.inventario.type === "create") {
-      const createData = payload.inventario.data as CreateInventario;
-      if (!createData.salaId) {
-        throw new Error("salaId é obrigatório para criar um novo inventário");
-      }
-    } else if (payload.inventario.type === "update") {
-      const updateData = payload.inventario.data as any;
-      if (!updateData.id && !updateData.salaId) {
-        throw new Error(
-          "id ou salaId é obrigatório para atualizar um inventário",
-        );
-      }
-    }
-
+    
     return await this.prisma.$transaction(async (tx: any) => {
-      // 1. Criar novo dispositivo
-      const novoDispositivo = await tx.dispositivo.create({
-        data: {
-          nomeDispositivo: payload.dispositivo.nomeDispositivo,
-          tipoDispositivo: payload.dispositivo.tipoDispositivo as any,
-          patrimonio: payload.dispositivo.patrimonio,
-          statusDispositivo:
-            (payload.dispositivo.statusDispositivo as any) || "ATIVO",
-        },
-      });
+      let dispositivoFinal;
 
-      let inventarioId: number;
-
-      if (payload.inventario.type === "create") {
-        // CREATE: Criar novo inventário com o dispositivo
-        const createData = payload.inventario.data as CreateInventario;
-
-        const sala = await tx.sala.findUnique({
-          where: { idSala: createData.salaId },
+      if (payload.dispositivo.idDispositivo) {
+        const atual = await tx.dispositivo.findUnique({
+          where: { idDispositivo: payload.dispositivo.idDispositivo }
         });
 
-        if (!sala) {
-          throw new Error("Sala não encontrada");
-        }
+        if (!atual) throw new Error("Dispositivo não encontrado");
 
-        const existingInventario = await tx.inventario.findUnique({
-          where: { salaId: createData.salaId },
-        });
-
-        if (existingInventario) {
-          throw new Error("Já existe um inventário para esta sala");
-        }
-
-        const inventario = await tx.inventario.create({
+        dispositivoFinal = await tx.dispositivo.update({
+          where: { idDispositivo: payload.dispositivo.idDispositivo },
           data: {
-            salaId: createData.salaId,
-            statusInventario: (createData.statusInventario as any) || "ATIVO",
-          },
-        });
-
-        inventarioId = inventario.idInventario;
-
-        // Associar dispositivo ao inventário
-        await tx.inventarioDispositivo.create({
-          data: {
-            inventarioId: inventarioId,
-            dispositivoId: novoDispositivo.idDispositivo,
-            quantidade: 1,
-          },
-        });
-
-        // Associar tecnologias se houver
-        if (createData.tecnologiaIds && createData.tecnologiaIds.length > 0) {
-          for (const tecnologiaId of createData.tecnologiaIds) {
-            await tx.inventarioTecnologia.create({
-              data: {
-                inventarioId: inventarioId,
-                tecnologiaId,
-              },
-            });
-          }
-        }
-
-        // Registrar no histórico
-        await tx.historicoInventario.create({
-          data: {
-            inventarioId: inventarioId,
-            salaId: createData.salaId,
-            tipoAlteracao: "CRIACAO" as any,
-            descricaoAlteracao: "Inventário criado com dispositivo",
+            nomeDispositivo: payload.dispositivo.nomeDispositivo?.trim() || atual.nomeDispositivo,
+            tipoDispositivo: (payload.dispositivo.tipoDispositivo as any) || atual.tipoDispositivo,
+            patrimonio: payload.dispositivo.patrimonio?.trim() || atual.patrimonio,
+            statusDispositivo: (payload.dispositivo.statusDispositivo as any) || atual.statusDispositivo,
           },
         });
       } else {
-        // Buscar inventário existente e adicionar dispositivo
-        const updateData = payload.inventario.data as any;
-        let inventario;
-
-        if (updateData.id) {
-          inventario = await tx.inventario.findUnique({
-            where: { idInventario: updateData.id },
-            include: { dispositivos: true },
-          });
-        } else if (updateData.salaId) {
-          inventario = await tx.inventario.findUnique({
-            where: { salaId: updateData.salaId },
-            include: { dispositivos: true },
-          });
-        }
-
-        if (!inventario) {
-          throw new Error("Inventário não encontrado");
-        }
-
-        inventarioId = inventario.idInventario;
-
-        // Verificar se o dispositivo já existe no inventário
-        const dispositivoExiste = await tx.inventarioDispositivo.findFirst({
-          where: {
-            inventarioId: inventarioId,
-            dispositivoId: novoDispositivo.idDispositivo,
+        dispositivoFinal = await tx.dispositivo.create({
+          data: {
+            nomeDispositivo: payload.dispositivo.nomeDispositivo,
+            tipoDispositivo: payload.dispositivo.tipoDispositivo as any,
+            patrimonio: payload.dispositivo.patrimonio,
+            statusDispositivo: (payload.dispositivo.statusDispositivo as any) || "ATIVO",
           },
         });
+      }
 
-        if (!dispositivoExiste) {
-          // Associar novo dispositivo ao inventário
-          await tx.inventarioDispositivo.create({
-            data: {
-              inventarioId: inventarioId,
-              dispositivoId: novoDispositivo.idDispositivo,
-              quantidade: 1,
-            },
+      let inventarioId: number;
+      const invData = payload.inventario.data as any;
+      const targetSalaId = invData.salaId;
+
+      if (payload.inventario.type === "create") {
+        const existing = await tx.inventario.findUnique({ where: { salaId: targetSalaId } });
+        if (existing) {
+          inventarioId = existing.idInventario;
+        } else {
+          const novoInv = await tx.inventario.create({
+            data: { salaId: targetSalaId, statusInventario: "ATIVO" },
           });
+          inventarioId = novoInv.idInventario;
+        }
+      } else {
+        const inventario = await tx.inventario.findFirst({
+          where: { OR: [{ idInventario: invData.id }, { salaId: targetSalaId }] }
+        });
+        if (!inventario) throw new Error("Inventário não encontrado.");
+        inventarioId = inventario.idInventario;
+      }
 
-          // Registrar no histórico
-          await tx.historicoInventario.create({
-            data: {
+      // --- VÍNCULO DISPOSITIVO <-> SALA ---
+      const relacaoDispExiste = await tx.inventarioDispositivo.findFirst({
+        where: { inventarioId, dispositivoId: dispositivoFinal.idDispositivo },
+      });
+
+      if (!relacaoDispExiste) {
+        await tx.inventarioDispositivo.create({
+          data: {
+            inventarioId: inventarioId,
+            dispositivoId: dispositivoFinal.idDispositivo,
+            quantidade: 1,
+          },
+        });
+      }
+
+      if (invData.tecnologiaIds) {
+        await tx.inventarioTecnologia.deleteMany({
+          where: { inventarioId: inventarioId }
+        });
+
+        if (invData.tecnologiaIds.length > 0) {
+          await tx.inventarioTecnologia.createMany({
+            data: invData.tecnologiaIds.map((tecId: number) => ({
               inventarioId: inventarioId,
-              salaId: inventario.salaId,
-              tipoAlteracao: "EDICAO" as any,
-              descricaoAlteracao: `Dispositivo ${novoDispositivo.nomeDispositivo} adicionado ao inventário`,
-            },
+              tecnologiaId: tecId
+            }))
           });
         }
       }
 
-      // Retornar inventário atualizado
-      const inventarioCompleto = await tx.inventario.findUnique({
+      await tx.historicoInventario.create({
+        data: {
+          inventarioId: inventarioId,
+          salaId: targetSalaId,
+          tipoAlteracao: "EDICAO" as any,
+          descricaoAlteracao: `Dispositivo ${dispositivoFinal.nomeDispositivo} e tecnologias atualizados via sistema central.`,
+        },
+      });
+
+      const finalInv = await tx.inventario.findUnique({
         where: { idInventario: inventarioId },
         include: {
           sala: true,
@@ -563,9 +694,10 @@ export class InventarioService {
         },
       });
 
-      return this.mapToDTO(inventarioCompleto);
+      return this.mapToDTO(finalInv);
     });
   }
+
 
   private formatarInventarioParaBusca(inventario: any) {
     const dispositivosPorTipo = new Map<string, any>();
@@ -578,11 +710,15 @@ export class InventarioService {
             tipoDispositivo: tipo,
             quantidade: 0,
             nomes: [],
+            patrimonios: [], 
+            status: [],      
           });
         }
         const entry = dispositivosPorTipo.get(tipo)!;
         entry.quantidade += d.quantidade;
         entry.nomes.push(d.dispositivo.nomeDispositivo);
+        if (d.dispositivo.patrimonio) entry.patrimonios.push(d.dispositivo.patrimonio);
+        entry.status.push(d.dispositivo.statusDispositivo);
       });
     }
 
@@ -597,3 +733,34 @@ export class InventarioService {
     };
   }
 }
+
+//   private formatarInventarioParaBusca(inventario: any) {
+//     const dispositivosPorTipo = new Map<string, any>();
+
+//     if (inventario?.dispositivos) {
+//       inventario.dispositivos.forEach((d: any) => {
+//         const tipo = d.dispositivo.tipoDispositivo;
+//         if (!dispositivosPorTipo.has(tipo)) {
+//           dispositivosPorTipo.set(tipo, {
+//             tipoDispositivo: tipo,
+//             quantidade: 0,
+//             nomes: [],
+//           });
+//         }
+//         const entry = dispositivosPorTipo.get(tipo)!;
+//         entry.quantidade += d.quantidade;
+//         entry.nomes.push(d.dispositivo.nomeDispositivo);
+//       });
+//     }
+
+//     return {
+//       idInventario: inventario?.idInventario,
+//       dispositivos: Array.from(dispositivosPorTipo.values()),
+//       tecnologias:
+//         inventario?.tecnologias.map((t: any) => ({
+//           idTecnologia: t.tecnologia.idTecnologia,
+//           nomeTecnologia: t.tecnologia.nomeTecnologia,
+//         })) || [],
+//     };
+//   }
+// }

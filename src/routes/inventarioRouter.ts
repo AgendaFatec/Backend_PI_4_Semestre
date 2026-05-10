@@ -42,6 +42,7 @@ export class InventarioRouter extends Controller {
     @Query() status?: string,
     @Query() Search_Sala?: string,
   ): Promise<{ data: Inventario[]; total: number }> {
+    // console.log('está batneodo aq')
     return this.controller.listarInventarios(
       pagina,
       limite,

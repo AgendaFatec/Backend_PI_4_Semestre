@@ -14,6 +14,8 @@ import { DispositivoRouter } from './dispositivoRouter.js';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CoordeandorRouter } from './coordenadorRouter.js';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ChamadaRouter } from './chamadaRouter.js';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { AuthRouter } from './authRouter.js';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { AgendamentoRouter } from './agendamentoRouter.js';
@@ -65,7 +67,7 @@ const models: TsoaRoute.Models = {
             "capacidadeAlunos": {"dataType":"double"},
             "fotoSala": {"dataType":"array","array":{"dataType":"string"}},
             "statusInventario": {"dataType":"string","required":true},
-            "dispositivos": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"quantidade":{"dataType":"double","required":true},"tipoDispositivo":{"dataType":"string","required":true},"nomeDispositivo":{"dataType":"string","required":true},"idDispositivo":{"dataType":"double","required":true}}},"required":true},
+            "dispositivos": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"quantidade":{"dataType":"double","required":true},"statusDispositivo":{"dataType":"string","required":true},"patrimonio":{"dataType":"string"},"tipoDispositivo":{"dataType":"string","required":true},"nomeDispositivo":{"dataType":"string","required":true},"idDispositivo":{"dataType":"double","required":true}}},"required":true},
             "tecnologias": {"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"descricao":{"dataType":"string"},"nomeTecnologia":{"dataType":"string","required":true},"idTecnologia":{"dataType":"double","required":true}}},"required":true},
             "criadoEm": {"dataType":"datetime","required":true},
             "atualizadoEm": {"dataType":"datetime","required":true},
@@ -93,7 +95,7 @@ const models: TsoaRoute.Models = {
             "capacidadeAlunos": {"dataType":"double"},
             "fotoSala": {"dataType":"array","array":{"dataType":"string"}},
             "disponibilidadeSala": {"dataType":"boolean","required":true},
-            "inventario": {"dataType":"nestedObjectLiteral","nestedProperties":{"tecnologias":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"nomeTecnologia":{"dataType":"string","required":true},"idTecnologia":{"dataType":"double","required":true}}},"required":true},"dispositivos":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"nomes":{"dataType":"array","array":{"dataType":"string"},"required":true},"quantidade":{"dataType":"double","required":true},"tipoDispositivo":{"dataType":"string","required":true}}},"required":true},"idInventario":{"dataType":"double","required":true}},"required":true},
+            "inventario": {"dataType":"nestedObjectLiteral","nestedProperties":{"tecnologias":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"nomeTecnologia":{"dataType":"string","required":true},"idTecnologia":{"dataType":"double","required":true}}},"required":true},"dispositivos":{"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"status":{"dataType":"array","array":{"dataType":"string"}},"patrimonios":{"dataType":"array","array":{"dataType":"string"}},"nomes":{"dataType":"array","array":{"dataType":"string"},"required":true},"quantidade":{"dataType":"double","required":true},"tipoDispositivo":{"dataType":"string","required":true}}},"required":true},"idInventario":{"dataType":"double","required":true}},"required":true},
         },
         "additionalProperties": true,
     },
@@ -123,6 +125,7 @@ const models: TsoaRoute.Models = {
             "statusInventario": {"dataType":"string"},
             "dispositivos": {"dataType":"array","array":{"dataType":"refObject","ref":"DispositivoUpdateDTO"}},
             "tecnologias": {"dataType":"array","array":{"dataType":"refObject","ref":"TecnologiaUpdateDTO"}},
+            "tecnologiaIds": {"dataType":"array","array":{"dataType":"double"}},
             "capacidadeAlunos": {"dataType":"double"},
             "fotoSala": {"dataType":"array","array":{"dataType":"string"}},
         },
@@ -165,6 +168,15 @@ const models: TsoaRoute.Models = {
         "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AtualizarInventarioPayload": {
+        "dataType": "refObject",
+        "properties": {
+            "dispositivo": {"dataType":"nestedObjectLiteral","nestedProperties":{"statusDispositivo":{"dataType":"string"},"patrimonio":{"dataType":"string"},"tipoDispositivo":{"dataType":"string","required":true},"nomeDispositivo":{"dataType":"string","required":true},"idDispositivo":{"dataType":"double"}},"required":true},
+            "inventario": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"nestedObjectLiteral","nestedProperties":{"tecnologiaIds":{"dataType":"array","array":{"dataType":"double"}},"salaId":{"dataType":"double","required":true},"id":{"dataType":"double"}},"required":true},"type":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["create"]},{"dataType":"enum","enums":["update"]}],"required":true}},"required":true},
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "_36_Enums.TipoUser": {
         "dataType": "refAlias",
         "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["DOCENTE"]},{"dataType":"enum","enums":["TI"]},{"dataType":"enum","enums":["ADM"]}],"validators":{}},
@@ -192,6 +204,49 @@ const models: TsoaRoute.Models = {
     "StatusConta": {
         "dataType": "refAlias",
         "type": {"ref":"_36_Enums.StatusConta","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "_36_Enums.TipoProblema": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["Hardware"]},{"dataType":"enum","enums":["Software"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TipoProblema": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.TipoProblema","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateChamadaRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "salaId": {"dataType":"double","required":true},
+            "usuarioId": {"dataType":"double","required":true},
+            "dispositivoId": {"dataType":"double"},
+            "tipoProblema": {"ref":"TipoProblema","required":true},
+            "descricao": {"dataType":"string","required":true},
+            "anexos": {"dataType":"string"},
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "_36_Enums.ChamadaStatus": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["ABERTO"]},{"dataType":"enum","enums":["EM_ATENDIMENTO"]},{"dataType":"enum","enums":["RESOLVIDO"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ChamadaStatus": {
+        "dataType": "refAlias",
+        "type": {"ref":"_36_Enums.ChamadaStatus","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateStatusRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "status": {"ref":"ChamadaStatus","required":true},
+            "tecnicoId": {"dataType":"double","required":true},
+            "acoesRealizadas": {"dataType":"string"},
+        },
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Agendamento": {
@@ -874,6 +929,38 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsDispositivoRouter_atualizarInventarioCompleto: Record<string, TsoaRoute.ParameterSchema> = {
+                payload: {"in":"body","name":"payload","required":true,"ref":"AtualizarInventarioPayload"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.post('/dispositivos/atualizar-inventario',
+            authenticateMiddleware([{"jwt":["TI"]}]),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(DispositivoRouter.prototype.atualizarInventarioCompleto)),
+
+            async function DispositivoRouter_atualizarInventarioCompleto(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsDispositivoRouter_atualizarInventarioCompleto, request, response });
+
+                const controller = new DispositivoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'atualizarInventarioCompleto',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCoordeandorRouter_handleCreateUser: Record<string, TsoaRoute.ParameterSchema> = {
                 valuesUser: {"in":"body","name":"valuesUser","required":true,"ref":"CreateUser"},
                 badRequest: {"in":"request","name":"badRequest","required":true,"dataType":"object"},
@@ -1000,6 +1087,100 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsChamadaRouter_criar: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"CreateChamadaRequest"},
+        };
+        app.post('/chamados',
+            authenticateMiddleware([{"jwt":["TI","DOCENTE"]}]),
+            ...(fetchMiddlewares<RequestHandler>(ChamadaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(ChamadaRouter.prototype.criar)),
+
+            async function ChamadaRouter_criar(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsChamadaRouter_criar, request, response });
+
+                const controller = new ChamadaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'criar',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsChamadaRouter_listar: Record<string, TsoaRoute.ParameterSchema> = {
+                status: {"in":"query","name":"status","ref":"ChamadaStatus"},
+        };
+        app.get('/chamados',
+            authenticateMiddleware([{"jwt":["TI"]}]),
+            ...(fetchMiddlewares<RequestHandler>(ChamadaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(ChamadaRouter.prototype.listar)),
+
+            async function ChamadaRouter_listar(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsChamadaRouter_listar, request, response });
+
+                const controller = new ChamadaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'listar',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsChamadaRouter_atualizarStatus: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                body: {"in":"body","name":"body","required":true,"ref":"UpdateStatusRequest"},
+        };
+        app.put('/chamados/:id/status',
+            authenticateMiddleware([{"jwt":["TI"]}]),
+            ...(fetchMiddlewares<RequestHandler>(ChamadaRouter)),
+            ...(fetchMiddlewares<RequestHandler>(ChamadaRouter.prototype.atualizarStatus)),
+
+            async function ChamadaRouter_atualizarStatus(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsChamadaRouter_atualizarStatus, request, response });
+
+                const controller = new ChamadaRouter();
+
+              await templateService.apiHandler({
+                methodName: 'atualizarStatus',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);

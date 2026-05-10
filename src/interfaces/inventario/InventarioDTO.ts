@@ -19,7 +19,9 @@ export interface Inventario {
   dispositivos: {
     idDispositivo: number;
     nomeDispositivo: string;
-    tipoDispositivo: string;
+    tipoDispositivo: string; 
+    patrimonio?: string; 
+    statusDispositivo: string;
     quantidade: number;
   }[];
   tecnologias: {
@@ -42,12 +44,14 @@ export interface UpdateInventario {
   statusInventario?: string;
   dispositivos?: DispositivoUpdateDTO[];
   tecnologias?: TecnologiaUpdateDTO[];
+  tecnologiaIds?: number[];
   capacidadeAlunos?: number;
   fotoSala?: string[];
 }
 
 export interface AtualizarInventarioPayload {
   dispositivo: {
+    idDispositivo?: number;
     nomeDispositivo: string;
     tipoDispositivo: string;
     patrimonio?: string;
@@ -55,9 +59,15 @@ export interface AtualizarInventarioPayload {
   };
   inventario: {
     type: "create" | "update";
-    data:
-      | CreateInventario
-      | (UpdateInventario & { id?: number; salaId?: number });
+    data: {
+      id?: number;
+      salaId: number;
+      tecnologiaIds?: number[]; 
+    };
+    // data:
+    //   | CreateInventario
+    //   | (UpdateInventario & { id?: number; salaId?: number }),
+    //   tecnologiaIds?: number[];
   };
 }
 
@@ -87,6 +97,8 @@ export interface SalasComInventario {
       tipoDispositivo: string;
       quantidade: number;
       nomes: string[];
+      patrimonios?: string[]; 
+      status?: string[];
     }[];
     tecnologias: {
       idTecnologia: number;

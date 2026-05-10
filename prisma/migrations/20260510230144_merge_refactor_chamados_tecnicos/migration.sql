@@ -1,4 +1,4 @@
--- CreateEnum
+git commit -m "chore: database reset and schema synchronization"-- CreateEnum
 CREATE TYPE "TipoProblema" AS ENUM ('Hardware', 'Software');
 
 -- CreateTable

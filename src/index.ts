@@ -23,6 +23,7 @@ import cors from "cors"
 const app = express();
 
 const allowedOrigins = [
+  '*',
   'http://localhost:5173'
 
 ]
@@ -87,12 +88,11 @@ app.post('/upload', upload.single('file'), (req: any, res: any) => {
 RegisterRoutes(app);
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(` Servidor de Catalogação FATEC ativo!`);
   console.log(` API: http://localhost:${PORT}`);
   console.log(` LOgin: http://localhost:${PORT}/Auth/login`);
-  console.log(` Documentação: http://localhost:${PORT}/api-docs`);
+  console.log(` Documentação: $http://localhost:${PORT}/api-docs`);
 });
 
 

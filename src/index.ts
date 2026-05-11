@@ -24,7 +24,8 @@ const app = express();
 
 const allowedOrigins = [
   '*',
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'https://front-end-pi-4-semestre-fq6w.vercel.app'
 
 ]
 app.use(cors({

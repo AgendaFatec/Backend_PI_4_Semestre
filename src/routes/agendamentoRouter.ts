@@ -27,7 +27,7 @@ export class AgendamentoRouter extends Controller {
   private controller = new AgendamentoController();
 
   @Post()
-  @Security("jwt")
+  @Security("jwt", ["ADM", "DOCENTE"])
   async criarAgendamento(
     @Body() agendamento: CreateAgendamento,
     @Request() request: express.Request,
@@ -36,7 +36,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Post("solicitar-reserva")
-  @Security("jwt")
+  @Security("jwt",["ADM", "DOCENTE"])
   async solicitarReserva(
     @Body() reserva: SolicitarReserva,
     @Request() request: express.Request,
@@ -45,6 +45,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Get()
+  @Security("jwt", ["ADM", "DOCENTE"])
   async listarAgendamentos(
     @Query() pagina?: number,
     @Query() limite?: number,
@@ -64,6 +65,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Get("sala/{salaId}")
+  @Security("jwt", ["ADM", "DOCENTE"])
   async listarAgendamentosPorSala(
     @Path() salaId: number,
     @Query() dataInicio?: string,
@@ -82,7 +84,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Put("{id}")
-  @Security("jwt")
+  @Security("jwt", ["ADM"])
   async atualizarAgendamento(
     @Path() id: number,
     @Body() agendamento: UpdateAgendamento,
@@ -92,7 +94,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Post("{id}/aprovar")
-  @Security("jwt")
+  @Security("jwt", ["ADM"])
   async aprovarAgendamento(
     @Path() id: number,
     @Request() request: express.Request,
@@ -101,7 +103,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Post("{id}/cancelar")
-  @Security("jwt")
+  @Security("jwt", ["ADM", "DOCENTE"])
   async cancelarAgendamento(
     @Path() id: number,
     @Request() request: express.Request,
@@ -110,7 +112,7 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Delete("{id}")
-  @Security("jwt")
+  @Security("jwt", ["ADM"])
   async deletarAgendamento(
     @Path() id: number,
     @Request() request: express.Request,

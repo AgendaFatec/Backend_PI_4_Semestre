@@ -1,9 +1,9 @@
 import { Controller, Request, Response } from "tsoa";
 import { CoordenadorService } from "@/services/coordenador/coordenadorService.js";
-import { NewUser, CreateUser } from "@/interfaces/coordenacao/Coordenacao.js";
-import { Prisma, StatusConta, TipoUser } from "@prisma/client";
+import { NewUser, CreateUser } from "../interfaces/coordenacao/Coordenacao.js";
+import {StatusConta, TipoUser } from "@prisma/client";
 import { error } from "node:console";
-import { number } from "zod";
+// import { number } from "zod";
 
 
 export class CoordenacaoController extends Controller{

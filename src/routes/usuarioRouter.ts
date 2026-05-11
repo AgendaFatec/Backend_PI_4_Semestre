@@ -1,4 +1,3 @@
-// src/routes/user/usuariosRouter.ts
 import { Route, Tags, Controller, Get, Request, Path, Res, Security } from "tsoa";
 import { UsuariosController } from "@/controllers/usuarioController.js";
 import { UsuariosService } from "@/services/user/usuariosService.js";

@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from './routes/routes.js'; 
 import './config/passportConfig.js'; 
-import { IMicrosoftProfile } from './interfaces/microsoft/IMicrosoftProfile.js';
+// import { IMicrosoftProfile } from './interfaces/microsoft/IMicrosoftProfile.js';
 // import { AuthController } from './controllers/authController.js';
 import { PrismaService } from './database/database.js';
 import multer from 'multer';
@@ -59,31 +59,11 @@ app.use("/api-docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) =
   }
 });
 
-const uploadDir = path.join(process.cwd(), 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-    destination: function (req: any, file: any, cb: any) { cb(null, uploadDir); },
-    filename: function (req: any, file: any, cb: any) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
+const storage = multer.memoryStorage();
+const upload = multer({ 
+  storage, 
+  limits: { fileSize: 5 * 1024 * 1024 } 
 });
-const upload = multer({ storage: storage });
-
-app.use('/uploads', express.static(uploadDir));
-
-app.post('/upload', upload.single('file'), (req: any, res: any) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-    }
-    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    res.json({ url: fileUrl });
-});
-
-
 
 
 RegisterRoutes(app);

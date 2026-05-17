@@ -8,13 +8,18 @@ import type {
   SalasComInventario,
 } from "../interfaces/inventario/InventarioDTO.js";
 import { PrismaService } from "../database/database.js";
+import { CloudinaryService } from "@/services/storage/cloudinaryService.js";
+
 
 export class InventarioController {
   private inventarioService: InventarioService;
 
+  private cloudinaryService: CloudinaryService;
+
   constructor() {
     const prismaService = new PrismaService();
     this.inventarioService = new InventarioService(prismaService);
+    this.cloudinaryService = new CloudinaryService()
   }
 
   async criarInventario(inventario: CreateInventario): Promise<Inventario> {
@@ -63,5 +68,12 @@ export class InventarioController {
 
   async deletarInventario(id: number): Promise<void> {
     return await this.inventarioService.delete(id);
+  }
+
+
+
+  async uploadFoto(file: Express.Multer.File): Promise<{ url: string }> {
+    const url = await this.cloudinaryService.uploadImage(file.buffer);
+    return { url };
   }
 }

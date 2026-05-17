@@ -22,6 +22,8 @@ import { AgendamentoRouter } from './agendamentoRouter.js';
 import { expressAuthentication } from './../auth/authentication.js';
 // @ts-ignore - no great way to install types from subpackage
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
+import multer from 'multer';
+
 
 const expressAuthenticationRecasted = expressAuthentication as (req: ExRequest, securityName: string, scopes?: string[], res?: ExResponse) => Promise<any>;
 
@@ -313,13 +315,14 @@ const templateService = new ExpressTemplateService(models, {"noImplicitAdditiona
 
 
 
-export function RegisterRoutes(app: Router) {
+export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof multer>}) {
 
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
 
+    const upload = opts?.multer ||  multer({"limits":{"fileSize":8388608}});
 
     
         const argsUsuariosRouter_getMe: Record<string, TsoaRoute.ParameterSchema> = {
@@ -755,6 +758,43 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'deletarInventario',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsInventarioRouter_uploadFoto: Record<string, TsoaRoute.ParameterSchema> = {
+                file: {"in":"formData","name":"file","required":true,"dataType":"file"},
+        };
+        app.post('/inventarios/upload',
+            authenticateMiddleware([{"jwt":[]}]),
+            upload.fields([
+                {
+                    name: "file",
+                    maxCount: 1
+                }
+            ]),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter)),
+            ...(fetchMiddlewares<RequestHandler>(InventarioRouter.prototype.uploadFoto)),
+
+            async function InventarioRouter_uploadFoto(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsInventarioRouter_uploadFoto, request, response });
+
+                const controller = new InventarioRouter();
+
+              await templateService.apiHandler({
+                methodName: 'uploadFoto',
                 controller,
                 response,
                 next,
@@ -1315,7 +1355,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.criarAgendamento)),
 
@@ -1347,7 +1387,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/solicitar-reserva',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.solicitarReserva)),
 
@@ -1383,6 +1423,7 @@ export function RegisterRoutes(app: Router) {
                 dataFim: {"in":"query","name":"dataFim","dataType":"string"},
         };
         app.get('/agendamentos',
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarAgendamentos)),
 
@@ -1415,6 +1456,7 @@ export function RegisterRoutes(app: Router) {
                 dataFim: {"in":"query","name":"dataFim","dataType":"string"},
         };
         app.get('/agendamentos/sala/:salaId',
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarAgendamentosPorSala)),
 
@@ -1477,7 +1519,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.put('/agendamentos/:id',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["ADM"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.atualizarAgendamento)),
 
@@ -1509,7 +1551,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/:id/aprovar',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["ADM"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.aprovarAgendamento)),
 
@@ -1541,7 +1583,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/:id/cancelar',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.cancelarAgendamento)),
 
@@ -1573,7 +1615,7 @@ export function RegisterRoutes(app: Router) {
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.delete('/agendamentos/:id',
-            authenticateMiddleware([{"jwt":[]}]),
+            authenticateMiddleware([{"jwt":["ADM"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.deletarAgendamento)),
 

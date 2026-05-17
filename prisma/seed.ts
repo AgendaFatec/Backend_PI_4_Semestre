@@ -1,10 +1,13 @@
 import { PrismaService } from "../src/database/database.js"
 import { TipoUser, StatusConta, TipoSala, DispositvoTipo } from '@prisma/client'
 import 'dotenv/config' 
+import {CloudinaryService} from "../src/services/storage/cloudinaryService.js"
+import { migrateLocalImages } from "../src/utils/migrateImages.js";
 
 const prisma = new PrismaService()
-
+const cloudinaryService = new CloudinaryService();
 async function main() {
+  const urlsCloudinary = await migrateLocalImages();
   const emailAdmin = process.env.EMAIL_ADM_SEED;
   const emailTi = process.env.EMAIL_TI_SEED;
   const emailDocente = process.env.EMAIL_DOCENTE_SEED;
@@ -71,10 +74,42 @@ async function main() {
   console.log(`✅ Seed finalizado! Ti configurado: ${ti.userEmail}`)
   console.log(`✅ Seed finalizado! Docente configurado: ${docente.userEmail}`)
 
+
+
   console.log("🛠️ Gerando dados da Sala 30 para testes de Frontend...");
 
+  // let sala30 = await prisma.sala.findFirst({ where: { nomeSala: 'Sala 30' } });
+  
+  // if (!sala30) {
+    
+  //   sala30 = await prisma.sala.create({
+  //     data: {
+  //       nomeSala: 'Sala 30',
+  //       tipoSala: TipoSala.COMUN,
+  //       disponibilidadeSala: true,
+  //       qtdeSala: 1,
+  //       capacidadeAlunos: 30,
+  //     }
+  //   });
+    
+  // }
+  const fotoParaSala30 = urlsCloudinary.length > 0 
+    ? urlsCloudinary[0] 
+    : cloudinaryService.getPlaceholderUrl('sample');
+
+  console.log("🛠️ Gerando dados da Sala 30...");
+
   let sala30 = await prisma.sala.findFirst({ where: { nomeSala: 'Sala 30' } });
-  if (!sala30) {
+
+  if (sala30) {
+    sala30 = await prisma.sala.update({
+      where: { idSala: sala30.idSala },
+      data: {
+        capacidadeAlunos: 30,
+        fotoSala: fotoParaSala30 // Agora usa a URL migrada
+      }
+    });
+  } else {
     sala30 = await prisma.sala.create({
       data: {
         nomeSala: 'Sala 30',
@@ -82,6 +117,7 @@ async function main() {
         disponibilidadeSala: true,
         qtdeSala: 1,
         capacidadeAlunos: 30,
+        fotoSala: fotoParaSala30
       }
     });
   }

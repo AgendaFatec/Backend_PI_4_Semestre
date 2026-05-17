@@ -11,6 +11,7 @@ import {
   Tags,
   Security,
   Request,
+  UploadedFile
 } from "tsoa";
 import * as express from "express";
 import { InventarioController } from "../controllers/inventarioController.js";
@@ -90,4 +91,16 @@ export class InventarioRouter extends Controller {
   ): Promise<void> {
     return this.controller.deletarInventario(id);
   }
+
+  @Security("jwt")
+  @Post("upload")
+  public async uploadFoto(
+    @UploadedFile() file: Express.Multer.File
+  ): Promise<{ url: string }> {
+    return this.controller.uploadFoto(file);
+  }
+
+ 
+
+
 }

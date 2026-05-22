@@ -25,6 +25,7 @@
     "start": "node -r tsconfig-paths/register dist/index.js"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.4",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
     "axios": "^1.14.0",

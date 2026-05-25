@@ -201,10 +201,20 @@ model ChamadaTecnica {
   tecnico           Usuario?      @relation("TecnicoChamada", fields: [tecnicoId], references: [userID])
   dispositivoId     Int?
   dispositivo       Dispositivo?  @relation(fields: [dispositivoId], references: [idDispositivo])
+  dispositivoNome   String?
+  patrimonio        String?
+  tecnologias       TecnologiaSolicitada[]
 
   @@map("chamadas_tecnicas")
 }
 
+model TecnologiaSolicitada {
+  idTecnologia Int           @id @default(autoincrement())
+  nome         String
+  versao       String
+  chamadoId    Int
+  chamado      ChamadaTecnica @relation(fields: [chamadoId], references: [idChamada])
+}
 
 
 

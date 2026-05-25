@@ -1,19 +1,47 @@
 import { PrismaService } from "@/database/database.js";
-import { CreateChamadaRequest, UpdateStatusRequest } from "@/interfaces/chamada/ChamadaDTO.js";
+import {
+  CreateChamadaRequest,
+  UpdateStatusRequest,
+} from "@/interfaces/chamada/ChamadaDTO.js";
 
 export class ChamadaService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateChamadaRequest) {
+    const {
+      salaId,
+      usuarioId,
+      dispositivoId,
+      dispositivo,
+      tipoProblema,
+      descricao = "",
+      anexos,
+      tecnologias,
+      patrimonio,
+    } = data;
+
+    const createData: any = {
+      salaId,
+      usuarioId,
+      dispositivoId,
+      tipoProblema,
+      descricao,
+      anexos,
+      dispositivoNome: dispositivo ?? null,
+      patrimonio: patrimonio ?? null,
+    };
+
+    if (tipoProblema === "Software" && tecnologias?.length) {
+      createData.tecnologias = {
+        create: tecnologias.map((tecnologia) => ({
+          nome: tecnologia.nome,
+          versao: tecnologia.versao,
+        })),
+      };
+    }
+
     return await this.prisma.chamadaTecnica.create({
-      data: {
-        salaId: data.salaId,
-        usuarioId: data.usuarioId,
-        dispositivoId: data.dispositivoId,
-        tipoProblema: data.tipoProblema,
-        descricao: data.descricao,
-        anexos: data.anexos,
-      }
+      data: createData,
     });
   }
 
@@ -23,9 +51,22 @@ export class ChamadaService {
       include: {
         sala: true,
         usuario: true,
-        dispositivo: true
+        dispositivo: true,
       },
-      orderBy: { dataChamada: 'desc' }
+      orderBy: { dataChamada: "desc" },
+    });
+  }
+
+  async listByUsuario(usuarioId: number, status?: any) {
+    return await this.prisma.chamadaTecnica.findMany({
+      where: Object.assign({ usuarioId }, status ? { status } : {}),
+      include: {
+        sala: true,
+        usuario: true,
+        dispositivo: true,
+        tecnologias: true,
+      },
+      orderBy: { dataChamada: "desc" },
     });
   }
 
@@ -36,8 +77,8 @@ export class ChamadaService {
         status: data.status,
         tecnicoId: data.tecnicoId,
         acoesRealizadas: data.acoesRealizadas,
-        dataResposta: data.status === 'RESOLVIDO' ? new Date() : null
-      }
+        dataResposta: data.status === "RESOLVIDO" ? new Date() : null,
+      },
     });
   }
 }

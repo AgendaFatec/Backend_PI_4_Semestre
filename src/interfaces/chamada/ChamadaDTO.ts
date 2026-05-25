@@ -1,12 +1,20 @@
-import { ChamadaStatus, TipoProblema } from "@prisma/client";
+import { ChamadaStatus } from "@prisma/client";
+
+export interface TecnologiaSolicitadaPayload {
+  nome: string;
+  versao: string;
+}
 
 export interface CreateChamadaRequest {
   salaId: number;
   usuarioId: number;
   dispositivoId?: number;
-  tipoProblema: TipoProblema;
-  descricao: string;
+  dispositivo?: string;
+  patrimonio?: string;
+  tipoProblema: "Hardware" | "Software";
+  descricao?: string;
   anexos?: string;
+  tecnologias?: TecnologiaSolicitadaPayload[];
 }
 
 export interface UpdateStatusRequest {
@@ -19,9 +27,11 @@ export interface ChamadaResponse {
   idChamada: number;
   dataChamada: Date;
   status: ChamadaStatus;
-  tipoProblema: TipoProblema;
+  tipoProblema: "Hardware" | "Software";
   descricao: string;
   salaNome: string;
   usuarioNome: string;
   dispositivoNome?: string;
+  dispositivo?: string;
+  patrimonio?: string;
 }

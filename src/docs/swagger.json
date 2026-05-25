@@ -561,15 +561,21 @@
 			"StatusConta": {
 				"$ref": "#/components/schemas/_36_Enums.StatusConta"
 			},
-			"_36_Enums.TipoProblema": {
-				"type": "string",
-				"enum": [
-					"Hardware",
-					"Software"
-				]
-			},
-			"TipoProblema": {
-				"$ref": "#/components/schemas/_36_Enums.TipoProblema"
+			"TecnologiaSolicitadaPayload": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"versao": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"versao"
+				],
+				"type": "object",
+				"additionalProperties": true
 			},
 			"CreateChamadaRequest": {
 				"properties": {
@@ -585,21 +591,36 @@
 						"type": "number",
 						"format": "double"
 					},
+					"dispositivo": {
+						"type": "string"
+					},
+					"patrimonio": {
+						"type": "string"
+					},
 					"tipoProblema": {
-						"$ref": "#/components/schemas/TipoProblema"
+						"type": "string",
+						"enum": [
+							"Hardware",
+							"Software"
+						]
 					},
 					"descricao": {
 						"type": "string"
 					},
 					"anexos": {
 						"type": "string"
+					},
+					"tecnologias": {
+						"items": {
+							"$ref": "#/components/schemas/TecnologiaSolicitadaPayload"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
 					"salaId",
 					"usuarioId",
-					"tipoProblema",
-					"descricao"
+					"tipoProblema"
 				],
 				"type": "object",
 				"additionalProperties": true
@@ -2032,6 +2053,42 @@
 				"security": [
 					{
 						"jwt": [
+							"TI"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "status",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/ChamadaStatus"
+						}
+					}
+				]
+			}
+		},
+		"/chamados/meus-chamados": {
+			"get": {
+				"operationId": "ListarChamadosDoUsuario",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Chamados"
+				],
+				"security": [
+					{
+						"jwt": [
+							"DOCENTE",
 							"TI"
 						]
 					}

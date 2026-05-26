@@ -70,13 +70,23 @@ export class ChamadaService {
     });
   }
 
-  async updateStatus(id: number, data: UpdateStatusRequest) {
+  async updateStatus(id: number, data: UpdateStatusRequest,usuarioLogadoId: number) {
+
+    const perfilTI = await this.prisma.tI.findFirst({
+      where: { fk_userID: usuarioLogadoId } 
+    });
+
+    if (!perfilTI) {
+      throw new Error("Acesso negado: O usuário fornecido não possui perfil técnico (TI).");
+    }
+
     return await this.prisma.chamadaTecnica.update({
       where: { idChamada: id },
       data: {
         status: data.status,
-        tecnicoId: data.tecnicoId,
         acoesRealizadas: data.acoesRealizadas,
+        // tecnicoId: data.tecnicoId,
+        tecnicoId: usuarioLogadoId,
         dataResposta: data.status === "RESOLVIDO" ? new Date() : null,
       },
     });

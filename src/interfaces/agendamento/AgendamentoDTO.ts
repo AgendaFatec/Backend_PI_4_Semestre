@@ -22,6 +22,7 @@ export interface CreateAgendamento {
 }
 
 export interface UpdateAgendamento {
+  salaId?:number
   dataAgendamento?: Date;
   horaInicio?: string;
   horaFim?: string;

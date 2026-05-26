@@ -70,7 +70,9 @@ export class AgendamentoController {
   ): Promise<Agendamento> {
     return await this.agendamentoService.update(id, agendamento);
   }
-
+  async solicitarAlteracao(id: number, agendamento: UpdateAgendamento): Promise<Agendamento> {
+    return await this.agendamentoService.solicitarAlteracao(id, agendamento);
+  }
   async aprovarAgendamento(id: number): Promise<Agendamento> {
     return await this.agendamentoService.aprovarAgendamento(id);
   }

@@ -44,15 +44,17 @@ export class ChamadaRouter extends Controller {
     @Request() req: any,
     @Query() status?: ChamadaStatus,
   ) {
+    console.log(`${req.user.sub}`)
     return await this.controller.listarChamadosDoUsuario(req.user.sub, status);
   }
 
   @Put("{id}/status")
   @Security("jwt", ["TI"])
   public async atualizarStatus(
+    @Request() req: any,
     @Path() id: number,
     @Body() body: UpdateStatusRequest,
   ) {
-    return await this.controller.atualizar(id, body);
+    return await this.controller.atualizar(id, body, req.user.sub);
   }
 }

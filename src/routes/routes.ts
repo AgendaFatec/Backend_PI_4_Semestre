@@ -300,6 +300,7 @@ const models: TsoaRoute.Models = {
     "UpdateAgendamento": {
         "dataType": "refObject",
         "properties": {
+            "salaId": {"dataType":"double"},
             "dataAgendamento": {"dataType":"datetime"},
             "horaInicio": {"dataType":"string"},
             "horaFim": {"dataType":"string"},
@@ -1230,6 +1231,7 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsChamadaRouter_atualizarStatus: Record<string, TsoaRoute.ParameterSchema> = {
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateStatusRequest"},
         };
@@ -1569,6 +1571,38 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
 
               await templateService.apiHandler({
                 methodName: 'atualizarAgendamento',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAgendamentoRouter_solicitarAlteracao: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                alteracao: {"in":"body","name":"alteracao","required":true,"ref":"UpdateAgendamento"},
+        };
+        app.post('/agendamentos/:id/solicitar-alteracao',
+            authenticateMiddleware([{"jwt":["DOCENTE"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.solicitarAlteracao)),
+
+            async function AgendamentoRouter_solicitarAlteracao(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_solicitarAlteracao, request, response });
+
+                const controller = new AgendamentoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'solicitarAlteracao',
                 controller,
                 response,
                 next,

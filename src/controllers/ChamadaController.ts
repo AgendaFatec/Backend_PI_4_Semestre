@@ -44,7 +44,7 @@ export class ChamadaController {
     return await this.service.listByUsuario(usuarioId, status);
   }
 
-  async atualizar(id: number, body: UpdateStatusRequest) {
-    return await this.service.updateStatus(id, body);
+  async atualizar(id: number, body: UpdateStatusRequest, usuarioLogadoId: number) {
+    return await this.service.updateStatus(id, body, usuarioLogadoId);
   }
 }

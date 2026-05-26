@@ -190,6 +190,40 @@ export class AgendamentoService {
     });
   }
 
+  async solicitarAlteracao(id: number, data: UpdateAgendamento): Promise<Agendamento> {
+    const agendamento = await this.prisma.agendamento.findUnique({
+      where: { idAgendamento: id },
+    });
+
+    if (!agendamento) throw new Error("Agendamento não encontrado");
+
+    if (data.dataAgendamento || data.horaInicio || data.horaFim) {
+      await this.validarConflitosHorarios(
+        data.salaId || agendamento.salaId,
+        data.dataAgendamento || agendamento.dataAgendamento,
+        data.horaInicio || agendamento.horaInicio,
+        data.horaFim || agendamento.horaFim,
+        id 
+      );
+    }
+
+    const updated = await this.prisma.agendamento.update({
+      where: { idAgendamento: id },
+      data: {
+        salaId: data.salaId || agendamento.salaId,
+        dataAgendamento: data.dataAgendamento ? new Date(data.dataAgendamento) : agendamento.dataAgendamento,
+        horaInicio: data.horaInicio || agendamento.horaInicio,
+        horaFim: data.horaFim || agendamento.horaFim,
+        descricao: data.descricao || agendamento.descricao,
+        statusAgendamento: "EM_ESPERA" 
+      },
+      include: { sala: true }
+    });
+
+    return await this.mapToDTO(updated);
+  }
+
+
   async aprovarAgendamento(id: number): Promise<Agendamento> {
     const agendamento = await this.prisma.agendamento.update({
       where: { idAgendamento: id },

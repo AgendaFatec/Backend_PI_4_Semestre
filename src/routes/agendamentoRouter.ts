@@ -92,6 +92,15 @@ export class AgendamentoRouter extends Controller {
   ): Promise<Agendamento> {
     return this.controller.atualizarAgendamento(id, agendamento);
   }
+  
+  @Post("{id}/solicitar-alteracao")
+  @Security("jwt", ["DOCENTE"])
+  async solicitarAlteracao(
+    @Path() id: number,
+    @Body() alteracao: UpdateAgendamento,
+  ): Promise<Agendamento> {
+    return this.controller.solicitarAlteracao(id, alteracao);
+  }
 
   @Post("{id}/aprovar")
   @Security("jwt", ["ADM"])

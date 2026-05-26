@@ -248,6 +248,26 @@ export class AgendamentoService {
     return await this.mapToDTO(agendamento);
   }
 
+
+  async cancelarAgendamentoDocente(id: number, usuarioId: number): Promise<Agendamento> {
+    const agendamento = await this.prisma.agendamento.findUnique({
+      where: { idAgendamento: id }
+    });
+    if (!agendamento) throw new Error("Agendamento não encontrado");
+    
+    if (agendamento.usuarioId !== usuarioId) {
+      throw new Error("Acesso negado: Você não pode cancelar uma reserva que não é sua.");
+    }
+
+    const atualizado = await this.prisma.agendamento.update({
+      where: { idAgendamento: id },
+      data: { statusAgendamento: "CANCELADO" },
+      include: { sala: true }
+    });
+
+    return await this.mapToDTO(atualizado);
+  }
+
   private async validarConflitosHorarios(
     salaId: number,
     data: Date,

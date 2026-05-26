@@ -1681,7 +1681,7 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.post('/agendamentos/:id/cancelar',
-            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
+            authenticateMiddleware([{"jwt":["ADM"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.cancelarAgendamento)),
 
@@ -1697,6 +1697,38 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
 
               await templateService.apiHandler({
                 methodName: 'cancelarAgendamento',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAgendamentoRouter_cancelarAgendamentoDocente: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.post('/agendamentos/:id/cancelar-docente',
+            authenticateMiddleware([{"jwt":["DOCENTE"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.cancelarAgendamentoDocente)),
+
+            async function AgendamentoRouter_cancelarAgendamentoDocente(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_cancelarAgendamentoDocente, request, response });
+
+                const controller = new AgendamentoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'cancelarAgendamentoDocente',
                 controller,
                 response,
                 next,

@@ -112,12 +112,23 @@ export class AgendamentoRouter extends Controller {
   }
 
   @Post("{id}/cancelar")
-  @Security("jwt", ["ADM", "DOCENTE"])
+  @Security("jwt", ["ADM"])
   async cancelarAgendamento(
     @Path() id: number,
     @Request() request: express.Request,
   ): Promise<Agendamento> {
     return this.controller.cancelarAgendamento(id);
+  }
+
+  @Post("{id}/cancelar-docente")
+  @Security("jwt", ["DOCENTE"])
+  async cancelarAgendamentoDocente(
+    @Path() id: number,
+    @Request() request: express.Request
+  ): Promise<Agendamento> {
+    // Passamos o ID do usuário logado (via token) para garantir segurança
+    const usuarioId = (request as any).user.sub;
+    return this.controller.cancelarAgendamentoDocente(id, usuarioId);
   }
 
   @Delete("{id}")

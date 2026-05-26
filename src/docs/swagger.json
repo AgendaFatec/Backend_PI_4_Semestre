@@ -2784,7 +2784,44 @@
 				"security": [
 					{
 						"jwt": [
-							"ADM",
+							"ADM"
+						]
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/agendamentos/{id}/cancelar-docente": {
+			"post": {
+				"operationId": "CancelarAgendamentoDocente",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Agendamento"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Agendamentos"
+				],
+				"security": [
+					{
+						"jwt": [
 							"DOCENTE"
 						]
 					}

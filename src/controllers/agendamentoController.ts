@@ -80,6 +80,9 @@ export class AgendamentoController {
   async cancelarAgendamento(id: number): Promise<Agendamento> {
     return await this.agendamentoService.cancelarAgendamento(id);
   }
+  async cancelarAgendamentoDocente(id: number, usuarioId: number): Promise<Agendamento> {
+    return await this.agendamentoService.cancelarAgendamentoDocente(id, usuarioId);
+  }
 
   async deletarAgendamento(id: number): Promise<void> {
     return await this.agendamentoService.delete(id);

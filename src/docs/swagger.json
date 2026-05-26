@@ -2304,6 +2304,36 @@
 				]
 			}
 		},
+		"/Auth/logout": {
+			"get": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"autenticacao"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/agendamentos": {
 			"post": {
 				"operationId": "CriarAgendamento",

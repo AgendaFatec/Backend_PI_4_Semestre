@@ -1386,6 +1386,36 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAuthRouter_logout: Record<string, TsoaRoute.ParameterSchema> = {
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
+        };
+        app.get('/Auth/logout',
+            ...(fetchMiddlewares<RequestHandler>(AuthRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AuthRouter.prototype.logout)),
+
+            async function AuthRouter_logout(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAuthRouter_logout, request, response });
+
+                const controller = new AuthRouter();
+
+              await templateService.apiHandler({
+                methodName: 'logout',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_criarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 agendamento: {"in":"body","name":"agendamento","required":true,"ref":"CreateAgendamento"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},

@@ -33,25 +33,15 @@ export class AuthRouter extends Controller{
         // @Res() res:TsoaResponse<201, {msg: string}>
     ):Promise<void>{
         return new Promise((resolve, reject)=>{
-            passport.authenticate('azuread-openidconnect')(req, req.res, (err:any)=>{
+            passport.authenticate('azuread-openidconnect', {prompt:'select_account'})(req, req.res, (err:any)=>{
             if (err) {
                 console.log(err)
                 return reject(err);
                 // return res(201, {msg: err.msg})
             }
             resolve()
-            // return res(201, {msg: "sucesso ao acessar valores"})
         });
         })
-        
-        // passport.authenticate('azuread-openidconnect')(req, res, (err:any)=>{
-        //     if (err) {
-        //         console.log(err)
-        //         return res(201, {msg: err.msg})
-        //     }
-            
-        //     return res(201, {msg: "sucesso ao acessar valores"})
-        // });
     }
 
 
@@ -146,4 +136,12 @@ export class AuthRouter extends Controller{
         return imgBuffer;
     }
 
+    @Get("logout")
+        public async logout(@Request() req: any) {
+        req.session.destroy((err: any) => {
+            if (err) console.error("Erro ao destruir sessão:", err);
+        });
+        req.res.clearCookie("connect.sid"); 
+        return { message: "Logout realizado com sucesso" };
+    }
 }

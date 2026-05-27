@@ -1,4 +1,3 @@
-// src/controllers/usuarioController.ts
 import { UsuariosService } from "@/services/user/usuariosService.js";
 
 export class UsuariosController {
@@ -12,5 +11,12 @@ export class UsuariosController {
 
     async handleGetPhoto(userId: number) {
         return await this.usuariosService.getUserPhoto(userId);
+    }
+    async handleListAll() {
+        return await this.usuariosService.listAll();
+    }
+
+    async handleDelete(userId: number) {
+        return await this.usuariosService.deleteUser(userId);
     }
 }

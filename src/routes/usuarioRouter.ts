@@ -1,4 +1,4 @@
-import { Route, Tags, Controller, Get, Request, Path, Res, Security } from "tsoa";
+import { Route, Tags, Controller, Get, Request, Path, Res, Security,Delete } from "tsoa";
 import { UsuariosController } from "@/controllers/usuarioController.js";
 import { UsuariosService } from "@/services/user/usuariosService.js";
 import { PrismaService } from "@/database/database.js";
@@ -38,5 +38,19 @@ export class UsuariosRouter extends Controller {
         this.setHeader("Content-Type", "image/jpeg");
         this.setHeader("Cache-Control", "public, max-age=3600"); 
         return foto;
+    }
+
+
+    @Security("jwt", ['ADM'])
+    @Get("list-users")
+    public async listAll() {
+        // return {msg: "Teste"}
+        return await this.usuariosController.handleListAll();
+    }
+
+    @Security("jwt", ['ADM'])
+    @Delete("delete-user/{userId}")
+    public async deleteUser(@Path() userId: number) {
+        return await this.usuariosController.handleDelete(userId);
     }
 }

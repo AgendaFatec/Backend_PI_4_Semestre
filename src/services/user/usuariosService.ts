@@ -62,5 +62,12 @@ export class UsuariosService {
       }
     });
   }
+  async deleteUser(userId: number) {
+    await this.prisma.docente.deleteMany({ where: { fk_userID: userId } });
+    await this.prisma.tI.deleteMany({ where: { fk_userID: userId } });
+    await this.prisma.aDM.deleteMany({ where: { fk_userID: userId } });
+    
+  return await this.prisma.usuario.delete({ where: { userID: userId } });
+}
 
 }

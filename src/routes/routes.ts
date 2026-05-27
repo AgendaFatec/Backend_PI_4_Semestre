@@ -391,6 +391,67 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsUsuariosRouter_listAll: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/Usuarios/list-users',
+            authenticateMiddleware([{"jwt":["ADM"]}]),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter)),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter.prototype.listAll)),
+
+            async function UsuariosRouter_listAll(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUsuariosRouter_listAll, request, response });
+
+                const controller = new UsuariosRouter();
+
+              await templateService.apiHandler({
+                methodName: 'listAll',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsUsuariosRouter_deleteUser: Record<string, TsoaRoute.ParameterSchema> = {
+                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+        };
+        app.delete('/Usuarios/delete-user/:userId',
+            authenticateMiddleware([{"jwt":["ADM"]}]),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter)),
+            ...(fetchMiddlewares<RequestHandler>(UsuariosRouter.prototype.deleteUser)),
+
+            async function UsuariosRouter_deleteUser(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsUsuariosRouter_deleteUser, request, response });
+
+                const controller = new UsuariosRouter();
+
+              await templateService.apiHandler({
+                methodName: 'deleteUser',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsTecnologiaRouter_criarTecnologia: Record<string, TsoaRoute.ParameterSchema> = {
                 tecnologia: {"in":"body","name":"tecnologia","required":true,"ref":"CreateTecnologia"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},

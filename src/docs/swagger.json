@@ -2334,6 +2334,50 @@
 				"parameters": []
 			}
 		},
+		"/agendamentos/frequencia": {
+			"get": {
+				"operationId": "GetFrequencia",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"properties": {
+											"total": {
+												"type": "number",
+												"format": "double"
+											},
+											"salaNome": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"total",
+											"salaNome"
+										],
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Agendamentos"
+				],
+				"security": [
+					{
+						"jwt": [
+							"ADM"
+						]
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/agendamentos": {
 			"post": {
 				"operationId": "CriarAgendamento",
@@ -2408,8 +2452,7 @@
 				"security": [
 					{
 						"jwt": [
-							"ADM",
-							"DOCENTE"
+							"ADM"
 						]
 					}
 				],
@@ -2505,6 +2548,37 @@
 						}
 					}
 				}
+			}
+		},
+		"/agendamentos/meus-agendamentos": {
+			"get": {
+				"operationId": "ListarMinhasReservas",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Agendamento"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Agendamentos"
+				],
+				"security": [
+					{
+						"jwt": [
+							"DOCENTE"
+						]
+					}
+				],
+				"parameters": []
 			}
 		},
 		"/agendamentos/sala/{salaId}": {

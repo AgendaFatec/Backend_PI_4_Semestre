@@ -106,6 +106,19 @@ export class AgendamentoService {
 
     return agendamento ? await this.mapToDTO(agendamento) : null;
   }
+  async findByUsuarioId(usuarioId: number): Promise<Agendamento[]> {
+    const agendamentos = await this.prisma.agendamento.findMany({
+      where: { 
+        usuarioId: usuarioId 
+      },
+      include: { 
+        sala: true 
+      },
+      orderBy: { dataAgendamento: "asc" },
+    });
+
+    return await Promise.all(agendamentos.map((a) => this.mapToDTO(a)));
+  }
 
   async findBySalaId(
     salaId: number,
@@ -268,6 +281,28 @@ export class AgendamentoService {
     return await this.mapToDTO(atualizado);
   }
 
+  async getFrequenciaSalas(): Promise<{ salaNome: string, total: number }[]> {
+  const contagem = await this.prisma.agendamento.groupBy({
+    by: ['salaId'],
+    _count: {
+      idAgendamento: true, 
+    },
+    where: {
+      statusAgendamento: 'AGENDADO' 
+    }
+  });
+
+  const resultado = await Promise.all(contagem.map(async (c) => {
+    const sala = await this.prisma.sala.findUnique({ where: { idSala: c.salaId } });
+    return {
+      salaNome: sala?.nomeSala || "Sala Desconhecida",
+      total: c._count.idAgendamento
+    };
+  }));
+
+  return resultado;
+}
+
   private async validarConflitosHorarios(
     salaId: number,
     data: Date,
@@ -361,4 +396,7 @@ private async mapToDTO(agendamento: any): Promise<any> {
       atualizadoEm: agendamento.atualizadoEm,
     } as any;
   }
+
+
+
 }

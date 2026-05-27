@@ -24,8 +24,15 @@ import type {
 @Tags("Agendamentos")
 @Route("agendamentos")
 export class AgendamentoRouter extends Controller {
-  private controller = new AgendamentoController();
 
+  private controller = new AgendamentoController();
+  @Get("frequencia")
+  @Security("jwt", ["ADM"])
+  async getFrequencia(): Promise<{ salaNome: string, total: number }[]> {
+    return this.controller.getFrequencia();
+  }
+  
+  
   @Post()
   @Security("jwt", ["ADM", "DOCENTE"])
   async criarAgendamento(
@@ -44,8 +51,16 @@ export class AgendamentoRouter extends Controller {
     return this.controller.solicitarReserva(reserva);
   }
 
+  @Get("meus-agendamentos")
+  @Security("jwt", ["DOCENTE"])
+  async listarMinhasReservas(@Request() request: express.Request): Promise<Agendamento[]> {
+    const usuarioId = (request as any).user.sub;
+    return this.controller.listarMinhasReservas(usuarioId);
+  }
+
+
   @Get()
-  @Security("jwt", ["ADM", "DOCENTE"])
+  @Security("jwt", ["ADM"])
   async listarAgendamentos(
     @Query() pagina?: number,
     @Query() limite?: number,
@@ -139,4 +154,6 @@ export class AgendamentoRouter extends Controller {
   ): Promise<void> {
     return this.controller.deletarAgendamento(id);
   }
+
+ 
 }

@@ -1416,6 +1416,36 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAgendamentoRouter_getFrequencia: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/agendamentos/frequencia',
+            authenticateMiddleware([{"jwt":["ADM"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.getFrequencia)),
+
+            async function AgendamentoRouter_getFrequencia(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_getFrequencia, request, response });
+
+                const controller = new AgendamentoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'getFrequencia',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_criarAgendamento: Record<string, TsoaRoute.ParameterSchema> = {
                 agendamento: {"in":"body","name":"agendamento","required":true,"ref":"CreateAgendamento"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
@@ -1480,6 +1510,37 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAgendamentoRouter_listarMinhasReservas: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.get('/agendamentos/meus-agendamentos',
+            authenticateMiddleware([{"jwt":["DOCENTE"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
+            ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarMinhasReservas)),
+
+            async function AgendamentoRouter_listarMinhasReservas(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAgendamentoRouter_listarMinhasReservas, request, response });
+
+                const controller = new AgendamentoRouter();
+
+              await templateService.apiHandler({
+                methodName: 'listarMinhasReservas',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsAgendamentoRouter_listarAgendamentos: Record<string, TsoaRoute.ParameterSchema> = {
                 pagina: {"in":"query","name":"pagina","dataType":"double"},
                 limite: {"in":"query","name":"limite","dataType":"double"},
@@ -1489,7 +1550,7 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
                 dataFim: {"in":"query","name":"dataFim","dataType":"string"},
         };
         app.get('/agendamentos',
-            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
+            authenticateMiddleware([{"jwt":["ADM"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarAgendamentos)),
 

@@ -20,8 +20,12 @@ export class AgendamentoController {
     return await this.agendamentoService.create(agendamento);
   }
 
+  async listarMinhasReservas(usuarioId: number): Promise<Agendamento[]> {
+    return await this.agendamentoService.findByUsuarioId(usuarioId);
+  }
   async solicitarReserva(reserva: SolicitarReserva): Promise<Agendamento> {
-    return await this.agendamentoService.create({
+    try{
+      return await this.agendamentoService.create({
       salaId: reserva.salaId,
       usuarioId: reserva.usuarioId,
       dataAgendamento: reserva.dataAgendamento,
@@ -29,6 +33,12 @@ export class AgendamentoController {
       horaFim: reserva.horaFim,
       descricao: reserva.descricao,
     });
+    } catch (error: any) {
+      if (error.message.includes("Conflito de horário")) {
+        throw { status: 400, message: error.message }; 
+      }
+      throw error;
+    }
   }
 
   async listarAgendamentos(
@@ -87,4 +97,7 @@ export class AgendamentoController {
   async deletarAgendamento(id: number): Promise<void> {
     return await this.agendamentoService.delete(id);
   }
+  async getFrequencia(): Promise<{ salaNome: string, total: number }[]> {
+  return await this.agendamentoService.getFrequenciaSalas();
+}
 }

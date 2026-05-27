@@ -1,5 +1,6 @@
-// src/services/user/usuariosService.ts
 import { PrismaService } from "@/database/database.js";
+import type { TipoUser } from "@prisma/client";
+
 
 export class UsuariosService {
     constructor(private prisma: PrismaService) {}
@@ -29,4 +30,37 @@ export class UsuariosService {
         const base64Data = user.fotoUrl.replace(/^data:image\/\w+;base64,/, "");
         return Buffer.from(base64Data, 'base64');
     }
+
+    async listAll() {
+    return await this.prisma.usuario.findMany({
+      select: {
+        userID: true,
+        userNome: true,
+        userEmail: true,
+        tipoUser: true,
+        statusUser: true,
+      },
+      orderBy: { userNome: 'asc' }
+    });
+  }
+
+  async findById(id: number) {
+    return await this.prisma.usuario.findUnique({
+      where: { userID: id },
+      include: {
+        docente: true,
+        ti: true,
+        adm: true
+      }
+    });
+  }
+
+  async findByName(nome: string) {
+    return await this.prisma.usuario.findMany({
+      where: {
+        userNome: { contains: nome, mode: 'insensitive' }
+      }
+    });
+  }
+
 }

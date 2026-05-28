@@ -60,7 +60,7 @@ export class AgendamentoRouter extends Controller {
 
 
   @Get()
-  @Security("jwt", ["ADM"])
+  @Security("jwt", ["ADM", "DOCENTE"])
   async listarAgendamentos(
     @Query() pagina?: number,
     @Query() limite?: number,

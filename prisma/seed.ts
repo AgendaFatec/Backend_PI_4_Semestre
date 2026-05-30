@@ -3,6 +3,7 @@ import { TipoUser, StatusConta, TipoSala, DispositvoTipo } from '@prisma/client'
 import 'dotenv/config' 
 import {CloudinaryService} from "../src/services/storage/cloudinaryService.js"
 import { migrateLocalImages } from "../src/utils/migrateImages.js";
+// import { string } from "zod";
 
 const prisma = new PrismaService()
 const cloudinaryService = new CloudinaryService();
@@ -78,112 +79,74 @@ async function main() {
 
   console.log("🛠️ Gerando dados da Sala 30 para testes de Frontend...");
 
-  // let sala30 = await prisma.sala.findFirst({ where: { nomeSala: 'Sala 30' } });
-  
-  // if (!sala30) {
-    
-  //   sala30 = await prisma.sala.create({
-  //     data: {
-  //       nomeSala: 'Sala 30',
-  //       tipoSala: TipoSala.COMUN,
-  //       disponibilidadeSala: true,
-  //       qtdeSala: 1,
-  //       capacidadeAlunos: 30,
-  //     }
-  //   });
-    
-  // }
-  const fotoParaSala30 = urlsCloudinary.length > 0 
-    ? urlsCloudinary[0] 
-    : cloudinaryService.getPlaceholderUrl('sample');
 
-  console.log("🛠️ Gerando dados da Sala 30...");
+  const urlsMap = await migrateLocalImages(); 
 
-  let sala30 = await prisma.sala.findFirst({ where: { nomeSala: 'Sala 30' } });
+  const salasData = [
+    { nome: "Sala 11", cap: 30, tipo: TipoSala.COMUN, folder: "sala11", pcQtd: 30, tech: "Excel" },
+    { nome: "Sala 19", cap: 30, tipo: TipoSala.COMUN, folder: "sala19", pcQtd: 30, tech: "VS Code" },
+    { nome: "Sala 33", cap: 30, tipo: TipoSala.COMUN, folder: "sala33", pcQtd: 30, tech: "Office" },
+    { nome: "Sala 38", cap: 30, tipo: TipoSala.COMUN, folder: "sala38", pcQtd: 30, tech: "AutoCAD" },
+    { nome: "Cad I", cap: 40, tipo: TipoSala.LAB, folder: "cad1", pcQtd: 40, tech: "VS Code" },
+  ];
 
-  if (sala30) {
-    sala30 = await prisma.sala.update({
-      where: { idSala: sala30.idSala },
-      data: {
-        capacidadeAlunos: 30,
-        fotoSala: fotoParaSala30 // Agora usa a URL migrada
-      }
-    });
-  } else {
-    sala30 = await prisma.sala.create({
-      data: {
-        nomeSala: 'Sala 30',
-        tipoSala: TipoSala.COMUN,
+  for (const s of salasData) {
+    const foto = urlsMap[s.folder] || cloudinaryService.getPlaceholderUrl('sala_exemplo');
+
+    const sala = await prisma.sala.upsert({
+      where: { nomeSala: s.nome },
+      update: { fotoSala: foto },
+      create: {
+        nomeSala: s.nome,
+        tipoSala: s.tipo,
         disponibilidadeSala: true,
         qtdeSala: 1,
-        capacidadeAlunos: 30,
-        fotoSala: fotoParaSala30
+        capacidadeAlunos: s.cap,
+        fotoSala: foto
       }
     });
-  }
 
-  let inventario = await prisma.inventario.findUnique({ where: { salaId: sala30.idSala } });
-  if (!inventario) {
-    inventario = await prisma.inventario.create({
-      data: { salaId: sala30.idSala }
+    const inventario = await prisma.inventario.upsert({
+      where: { salaId: sala.idSala },
+      update: {},
+      create: { salaId: sala.idSala }
     });
-  }
 
-  const excel = await prisma.tecnologia.upsert({
-    where: { nomeTecnologia: 'Excel' },
-    update: {},
-    create: { nomeTecnologia: 'Excel', descricao: 'Microsoft Excel' }
-  });
-
-  let pc = await prisma.dispositivo.findFirst({ where: { nomeDispositivo: 'Computador Positivo' } });
-  if (!pc) {
-    pc = await prisma.dispositivo.create({
-      data: {
-        nomeDispositivo: 'Computador Positivo',
-        tipoDispositivo: DispositvoTipo.DESKTOP,
-        patrimonio: 'PC001', 
-      }
+    const tech = await prisma.tecnologia.upsert({
+      where: { nomeTecnologia: s.tech },
+      update: {},
+      create: { nomeTecnologia: s.tech, descricao: `Software ${s.tech}` }
     });
-  }
 
-  await prisma.inventarioTecnologia.upsert({
-    where: {
-      inventarioId_tecnologiaId: {
-        inventarioId: inventario.idInventario,
-        tecnologiaId: excel.idTecnologia
-      }
-    },
-    update: {},
-    create: {
-      inventarioId: inventario.idInventario,
-      tecnologiaId: excel.idTecnologia
+    await prisma.inventarioTecnologia.upsert({
+      where: { inventarioId_tecnologiaId: { inventarioId: inventario.idInventario, tecnologiaId: tech.idTecnologia } },
+      update: {},
+      create: { inventarioId: inventario.idInventario, tecnologiaId: tech.idTecnologia }
+    });
+
+    let pc = await prisma.dispositivo.findFirst({ where: { nomeDispositivo: 'Computador Positivo' } });
+    if (!pc) {
+      pc = await prisma.dispositivo.create({
+        data: { nomeDispositivo: 'Computador Positivo', tipoDispositivo: DispositvoTipo.DESKTOP }
+      });
     }
-  });
 
-  await prisma.inventarioDispositivo.upsert({
-    where: {
-      inventarioId_dispositivoId: {
-        inventarioId: inventario.idInventario,
-        dispositivoId: pc.idDispositivo
-      }
-    },
-    update: { quantidade: 30 },
-    create: {
-      inventarioId: inventario.idInventario,
-      dispositivoId: pc.idDispositivo,
-      quantidade: 30
-    }
-  });
+    await prisma.inventarioDispositivo.upsert({
+      where: { inventarioId_dispositivoId: { inventarioId: inventario.idInventario, dispositivoId: pc.idDispositivo } },
+      update: { quantidade: s.pcQtd },
+      create: { inventarioId: inventario.idInventario, dispositivoId: pc.idDispositivo, quantidade: s.pcQtd }
+    });
 
-  console.log("✅ Sala 30, máquinas e tecnologias vinculadas e salvas com sucesso!");
+    console.log(`\n\n\ ${s.nome} configurada e vinculada com sucesso!`);
+  }
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1) 
-  })
+.then(async () => {
+  await prisma.$disconnect();
+})
+.catch(async (e) => {
+  console.error(e);
+  await prisma.$disconnect();
+  process.exit(1);
+});

@@ -8,6 +8,8 @@ import {
   SalasComInventario,
   AtualizarInventarioPayload,
 } from "@/interfaces/inventario/InventarioDTO.js";
+import { CloudinaryService } from "../storage/cloudinaryService.js";
+
 
 export class InventarioService {
   constructor(private prisma: PrismaService) {}
@@ -140,11 +142,28 @@ export class InventarioService {
   async update(id: number, data: UpdateInventario): Promise<Inventario> {
     const inventario = await this.prisma.inventario.findUnique({
       where: { idInventario: id },
+      include: { sala: true }
     });
 
     if (!inventario) {
       throw new Error("Inventário não encontrado");
     }
+    if (data.fotoSala !== undefined && inventario.sala.fotoSala) {
+    const fotosAntigas = inventario.sala.fotoSala.split(",");
+    const fotosNovas = data.fotoSala; 
+
+    const fotosParaDeletar = fotosAntigas.filter(f => !fotosNovas.includes(f));
+    const cloudinaryService = new CloudinaryService()
+    for (const url of fotosParaDeletar) {
+      try {
+        
+        await cloudinaryService.deletePhoto(url); 
+      } catch (err) {
+        console.error("Erro ao deletar imagem órfã no Cloudinary:", err);
+      }
+    }
+  }
+    
 
     if (data.capacidadeAlunos !== undefined || data.fotoSala !== undefined) {
       const updateData: any = {};

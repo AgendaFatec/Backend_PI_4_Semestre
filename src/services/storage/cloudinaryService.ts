@@ -36,4 +36,13 @@ export class CloudinaryService {
       fetch_format: "auto"
     });
   }
+
+  public async deletePhoto(imageUrl: string): Promise<void> {
+  const match = imageUrl.match(/\/v\d+\/(.+)\.[a-z]+$/);
+    if (match && match[1]) {
+      const publicId = match[1];
+      await cloudinary.uploader.destroy(publicId);
+    }
+  }
+
 }

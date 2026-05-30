@@ -50,7 +50,7 @@ model ADM {
 
 model Sala {
   idSala              Int                  @id @default(autoincrement())
-  nomeSala            String               @db.VarChar(255)
+  nomeSala            String               @unique @db.VarChar(255)
   tipoSala            TipoSala             @default(COMUN)
   disponibilidadeSala Boolean
   fotoSala            String?              @db.VarChar(255)

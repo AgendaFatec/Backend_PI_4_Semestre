@@ -1611,7 +1611,7 @@ export function RegisterRoutes(app: Router,opts?:{multer?:ReturnType<typeof mult
                 dataFim: {"in":"query","name":"dataFim","dataType":"string"},
         };
         app.get('/agendamentos',
-            authenticateMiddleware([{"jwt":["ADM"]}]),
+            authenticateMiddleware([{"jwt":["ADM","DOCENTE"]}]),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter)),
             ...(fetchMiddlewares<RequestHandler>(AgendamentoRouter.prototype.listarAgendamentos)),
 
